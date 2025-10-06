@@ -239,6 +239,7 @@ export const EventGrantReceivedColumns=[
       </a>
     ),
   },
+  
   { name: "Grand Amount", selector: row => row.grantAmount },
   { name: "Faculty Coordinator", selector: row => row.facultyCoordinator },
   { name: "Purpose", selector: row => row.purpose, wrap: true },
