@@ -11,7 +11,7 @@ const columns = [
   { name: 'title Of Paper', selector: row => row.titleOfPaper },
   { name: 'Publication Date', selector: row => row.publicationDate },
   { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName },
-  { name: 'cCo Authors', selector: row => row.coAuthors },
+  { name: 'Co-Authors', selector: row => row.coAuthors },
   { name: 'indexing', selector: row => row.indexing },
    {
     name: 'Certificate PDF',

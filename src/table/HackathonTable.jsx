@@ -24,7 +24,18 @@ const columns = [
   { name: 'Mentor Name', selector: row => row.mentorName },
   { name: 'Venue', selector: row => row.venue },
   { name: 'Problem Statement', selector: row => row.problemStatement, wrap: true },
-  { name: 'Technology Used', selector: row => row.technologyUsed },
+  {
+    name: 'Technolgy used', selector: row =>
+    (row.technologyUsed.map(
+      (item, index) =>
+      (<div
+        key={index}>
+        <p>{item.memberName}</p>
+        <p>{item.role}</p>
+      </div>)
+    )
+    ), wrap: true
+  },
   { name: 'Prize Money', selector: row => row.prizeMoney },
   { name: 'Position Secured', selector: row => row.positionSecured },
   {

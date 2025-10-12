@@ -26,6 +26,8 @@ function AddCapstoneProjects() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
+    console.log(data)
+
     const formData = new FormData();
     const fileInput = document.querySelector("input[type='file']");
     if (fileInput?.files[0]) {

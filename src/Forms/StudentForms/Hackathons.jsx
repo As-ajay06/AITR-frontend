@@ -28,7 +28,7 @@ const StudentHackathonForm = ({ onSubmit }) => {
             <InputBox label="Organiser" name="organizer" register={methods.register} />
 
             {/* 👇 Subform for team details */}
-            <DynamicUserFields label="Team Details" name="teamDetails" />
+            <DynamicUserFields label="Team Details" fieldName={"Member Name"} role={"role"} name="teamDetails" />
 
             <InputBox label="Result" name="result" register={methods.register} />
             <CalenderBox label="Event Date" name="eventDate" register={methods.register} />
@@ -37,7 +37,7 @@ const StudentHackathonForm = ({ onSubmit }) => {
             <InputBox label="Mentor Name" name="mentorName" register={methods.register} />
             <InputBox label="Venue" name="venue" register={methods.register} />
             <InputBox label="Problem Statement" name="problemStatement" register={methods.register} />
-            <InputBox label="Technology Used" name="technologyUsed" register={methods.register} />
+            <DynamicUserFields label="Technology Used" name="technologyUsed" fieldName={"Technologies"} register={methods.register} />
             <InputBox label="Prize Money" name="prizeMoney" register={methods.register} />
             <InputBox label="Position Secured" name="positionSecured" register={methods.register} />
           </div>

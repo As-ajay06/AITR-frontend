@@ -1,7 +1,7 @@
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-const DynamicUserFields = ({ label, name }) => {
+const DynamicUserFields = ({ label, name, fieldName, role }) => {
   const { control, register } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name });
 
@@ -17,7 +17,7 @@ const DynamicUserFields = ({ label, name }) => {
           >
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-700 mb-1">
-                Member Name
+                {fieldName}
               </label>
               <input
                 {...register(`${name}.${index}.memberName`)}
@@ -26,13 +26,20 @@ const DynamicUserFields = ({ label, name }) => {
             </div>
 
             <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                Role
-              </label>
-              <input
-                {...register(`${name}.${index}.role`)}
-                className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
+              {name === "technologyUsed" ? <div>
+                
+              </div>
+                :
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    {role}
+                  </label>
+                  <input
+                    {...register(`${name}.${index}.role`)}
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              }
             </div>
 
             <div className="flex md:col-span-2">
@@ -49,13 +56,26 @@ const DynamicUserFields = ({ label, name }) => {
       </div>
 
       <div className="mt-4">
-        <button
-          type="button"
-          onClick={() => append({ memberName: "", role: "" })}
-          className="px-4 py-2 bg-green-600 text-white font-medium text-sm rounded-lg shadow hover:bg-green-700 transition"
-        >
-          + Add Member
-        </button>
+        {name === "technolgyUsed" ? <div>
+          <button
+            type="button"
+            onClick={() => append({ memberName: "", role: "" })}
+            className="px-4 py-2 bg-green-600 text-white font-medium text-sm rounded-lg shadow hover:bg-green-700 transition"
+          >
+            + Add More
+          </button>
+        </div>
+          :
+          <div>
+            <button
+              type="button"
+              onClick={() => append({ memberName: "", role: "N/A" })}
+              className="px-4 py-2 bg-green-600 text-white font-medium text-sm rounded-lg shadow hover:bg-green-700 transition"
+            >
+              + Add More
+            </button>
+          </div>}
+
       </div>
     </div>
   );
