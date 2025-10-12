@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import InputBox from '../../components/InputBox';
 import CalenderBox from '../../components/CalenderBox';
 import FileBox from '../../components/FileBox';
 import DataTable from 'react-data-table-component';
 import axios from 'axios';
+import DynamicUserFields from '../../components/DynamicFieldsForm';
 
 const EventOrganized = () => {
 
@@ -31,6 +32,12 @@ const EventOrganized = () => {
     fetchData()
     console.log(data)
   }, [loading])
+
+    const methods = useForm({
+      defaultValues: {
+        numberOfParticipants: [{ memberName: "", role: "" }], // 👈 default subform array
+      },
+    });
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -76,14 +83,14 @@ const EventOrganized = () => {
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
         Event Organized Form
       </h2>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputBox label="Event Name" name="eventName" register={register} required />
           <InputBox label="Type of the Event" name="typeOfTheEvent" register={register} required />
           <InputBox label="Agency Name" name="agencyName" register={register} required />
           <InputBox label="Category" name="category" register={register} required />
-          <InputBox label="Number of Participants" name="numberOfParticipants" register={register} required />
+          <DynamicUserFields label="Participants" name="numberOfParticipants" register={register} required />
           <CalenderBox label="Date" name="date" register={register} required type="date" />
           <InputBox label="Duration" name="duration" register={register} required />
           <InputBox label="Description" name="description" register={register} required />
@@ -98,6 +105,7 @@ const EventOrganized = () => {
           </button>
         </div>
       </form>
+      </FormProvider>
       <DataTable columns={eventOrganisedColumns} data={data} />
     </div>
   );
