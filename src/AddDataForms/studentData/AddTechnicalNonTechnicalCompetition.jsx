@@ -92,7 +92,7 @@ function AddTechnicalNonTechnicalCompetition() {
         handleSubmit={handleSubmit}
         reset={reset}
       />
-      <DataTable data={data} columns={TechnicalNonTechnicalCompetitionColumn} />
+      <DataTable data={data} columns={TechnicalNonTechnicalCompetitionColumn}/>
     </div>
   );
 }
@@ -106,13 +106,18 @@ export const TechnicalNonTechnicalCompetitionColumn = [
     sortable: true,
   },
   {
-    name: "Student name",
-    selector: row => row.studentName,
+    name: "Student Name",
+    selector: row => row.studentName, 
+    sortable: true
+  },
+  {
+    name: "Acheivement",
+    selector: row => row.achievement,
     sortable: true,
   },
   {
-    name: "Enrollment Number",
-    selector: row => row.enrollmentNumber,
+    name: "Batch",
+    selector: row => row.batch,
     wrap: true,
   },
   {
@@ -121,19 +126,19 @@ export const TechnicalNonTechnicalCompetitionColumn = [
     sortable: true,
   },
   {
-    name: "Batch",
-    selector: row => row.batch,
+    name: "certificate",
+    selector: row => row.certificatePdf,
     sortable: true,
 
   }, {
-    name: "year",
-    selector: row => row.year,
+    name: "Competition Id",
+    selector: row => row.competitionId,
     sortable: true,
 
   },
   {
     name: "Competiontion Name",
-    selector: row => row.competiontionName,
+    selector: row => row.competitionName,
     sortable: true,
 
   },
@@ -144,20 +149,14 @@ export const TechnicalNonTechnicalCompetitionColumn = [
 
   },
   {
-    name: "Team Name",
-    selector: row => row.teamName,
+    name: "Enrollment Number",
+    selector: row => row.enrollmentNumber,
     sortable: true,
 
   },
   {
-    name: "Team Size",
-    selector: row => row.teamSize,
-    sortable: true,
-
-  },
-  {
-    name: "Mentor Name",
-    selector: row => row.mentorName,
+    name: "Event mode",
+    selector: row => row.eventMode,
     sortable: true,
 
   },
@@ -168,26 +167,20 @@ export const TechnicalNonTechnicalCompetitionColumn = [
 
   },
   {
+    name: "Mentor name",
+    selector: row => row.mentorName,
+    sortable: true,
+
+  },
+  {
     name: "Organizer",
     selector: row => row.organizer,
     sortable: true,
 
   },
   {
-    name: "Vanue",
-    selector: row => row.vanue,
-    sortable: true,
-
-  },
-  {
-    name: "Problem Statement",
-    selector: row => row.problemStatement,
-    sortable: true,
-
-  },
-  {
-    name: "Technology Used",
-    selector: row => row.technologyUsed,
+    name: "Position secured",
+    selector: row => row.positionSecured,
     sortable: true,
 
   },
@@ -197,14 +190,16 @@ export const TechnicalNonTechnicalCompetitionColumn = [
     sortable: true,
   },
   {
-    name: "Sponsoring Agency",
-    selector: row => row.sponsoringAgency,
+    name: "Problem Statement",
+    selector: row => row.problemStatement,
     sortable: true,
+    
   },
   {
-    name: "Position Secured",
-    selector: row => row.positionSecured,
+    name: "Project Description",
+    selector: row => row.projectDescription,
     sortable: true,
+    wrap: true, // enables multi-line text
   },
   {
     name: "Project GitHub Link",
@@ -217,10 +212,21 @@ export const TechnicalNonTechnicalCompetitionColumn = [
     sortable: false,
   },
   {
-    name: "Project Description",
-    selector: row => row.projectDescription,
+    name: "Sponsoring Agency",
+    selector: row => row.sponsoringAgency,
     sortable: true,
-    wrap: true, // enables multi-line text
+  },
+  {
+    name: "Team Name",
+    selector: row => row.teamName,
+    sortable: true,
+
+  },
+  {
+    name: "Team Size",
+    selector: row => row.teamSize,
+    sortable: true,
+
   },
   {
     name: "Certificate PDF",
@@ -239,16 +245,6 @@ export const TechnicalNonTechnicalCompetitionColumn = [
         "N/A"
       ),
     sortable: false,
-  },
-  {
-    name: "Event Mode",
-    selector: row => row.eventMode,
-    sortable: true,
-  },
-  {
-    name: "Achievement (Participation/Winner/Rank)",
-    selector: row => row.achievement,
-    sortable: true,
   },
   {
     name: 'Actions',

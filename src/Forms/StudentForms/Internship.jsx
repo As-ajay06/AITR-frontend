@@ -45,7 +45,6 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
             <SelectBox label="Stipend" name="stipend" options={stipends} register={methods.register} />
             <CalenderBox label="Start Date" name="startDate" register={methods.register} />
             <CalenderBox label="End Date" name="endDate" register={methods.register} />
-            <DynamicUserFields label="Technology Used" name="technologyUsed" fieldName={"Technologies"} register={methods.register} />
             <InputBox label="Project Name" name="projectName" register={methods.register} />
             <InputBox label="Project Description" name="projectDescription" register={methods.register} />
             <SelectBox label="Company Location" name="companyLocation" options={companyLocations} register={methods.register} />

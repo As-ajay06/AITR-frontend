@@ -57,12 +57,12 @@ function AddHackathonsData() {
     console.log(data)
 
     setLoading((p) => !p)
+    reset();
   }
 
 
   return (
     <div>
-      <UploadForm />
       <StudentHackathonForm
         onSubmit={onSubmit}
         register={register}

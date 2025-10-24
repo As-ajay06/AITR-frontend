@@ -1,5 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
+
 
 
 const columns = [
@@ -68,32 +71,6 @@ const columns = [
 export const HackathonTable = ({ data }) => {
 
 
-  function convertArrayOfObjectsToCSV(array) {
-    let result;
-
-    const columnDelimiter = ',';
-    const lineDelimiter = '\n';
-    const keys = Object.keys(data[0]);
-
-    result = '';
-    result += keys.join(columnDelimiter);
-    result += lineDelimiter;
-
-    array.forEach(item => {
-      let ctr = 0;
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter;
-
-        result += item[key];
-
-        ctr++;
-      });
-      result += lineDelimiter;
-    });
-
-    return result;
-  }
-
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
@@ -110,7 +87,7 @@ export const HackathonTable = ({ data }) => {
     link.click();
   }
 
-  const Export = ({ onExport }) => <button onClick={e => onExport(e.target.value)}>Export</button>;
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export</button>;
 
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
   return (

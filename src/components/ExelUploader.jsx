@@ -1,38 +1,40 @@
 import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
 import axios from 'axios';
 
 const ExcelUploader = () => {
-  const [excelData, setExcelData] = useState([]);
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-    reader.readAsArrayBuffer(file);
-    reader.onload = async (evt) => {
-      const data = new Uint8Array(evt.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const json = XLSX.utils.sheet_to_json(worksheet);
+  const handleUpload = async () => {
+    if (!file) {
+      setMessage('Please select a file first');
+      return;
+    }
 
-      setExcelData(json);
+    const formData = new FormData();
+    formData.append('file', file);
 
-      // Send to backend to save in MongoDB
-      try {
-        await axios.post('http://localhost:3000/api/upload-excel', { data: json });
-        alert('Data uploaded and saved to MongoDB!');
-      } catch (error) {
-        console.error('Error saving data:', error);
-        alert('Upload failed.');
-      }
-    };
+    try {
+      const res = await axios.post('http://localhost:3000/upload-excel', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setMessage(res.data.message);
+    } catch (error) {
+      console.error(error);
+      setMessage('Upload failed');
+    }
   };
 
   return (
     <div>
-      <input type="file" accept=".xlsx,.xls" onChange={handleFileUpload} />
+      <h2>Upload Hackathon Excel File</h2>
+      <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+      {message && <p>{message}</p>}
     </div>
   );
 };
