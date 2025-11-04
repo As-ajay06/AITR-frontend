@@ -1,41 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
-const UploadForm = () => {
+export default function UploadForm({ url }) {
   const [file, setFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click(); // open file dialog
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file) {
+      alert("Please select a file first!");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const res = await axios.post("http://localhost:3000/upload/hackathon", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+      setIsUploading(true);
+      const res = await axios.post(`http://localhost:3000/upload/${url}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Inserted:", res.data);
-      alert(`Inserted ${res.data.insertedCount} records!`);
+      alert(`Inserted ${res.data.insertedCount} records successfully!`);
     } catch (err) {
       console.error(err);
       alert("Upload failed!");
+    } finally {
+      setIsUploading(false);
+      setFile(null);
+      fileInputRef.current.value = ""; // reset file input
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-white rounded shadow-md">
+    <form
+      onSubmit={handleSubmit}
+    >
       <input
         type="file"
         accept=".xlsx,.xls,.csv"
-        onChange={(e) => setFile(e.target.files[0])}
-        className="mb-4"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
       />
-      <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
-        Upload
+
+      <button
+        type="button"
+        onClick={handleButtonClick}
+        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 shadow"
+        disabled={isUploading}
+      >
+        {file ? `Selected: ${file.name}` : "Upload file"}
       </button>
+
+      {file && (
+        <button
+          type="submit"
+          className={`px-6 py-2 rounded-lg text-white font-semibold transition duration-200 ${
+            isUploading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }`}
+          disabled={isUploading}
+        >
+          {isUploading ? "Uploading..." : "Upload Data"}
+        </button>
+      )}
     </form>
   );
-};
-
-export default UploadForm;
+}

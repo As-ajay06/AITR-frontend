@@ -55,6 +55,23 @@ function AddHigherStudies() {
     setLoading((p) => !p)
   }
 
+    function downloadCSV(array) {
+      const link = document.createElement('a');
+      let csv = convertArrayOfObjectsToCSV(array);
+  
+      if (csv == null) return;
+      const filename = 'export.csv';
+      if (!csv.match(/^data:text\/csv/i)) {
+        csv = `data:text/csv;charset=utf-8,${csv}`;
+      }
+      link.setAttribute('href', encodeURI(csv));
+      link.setAttribute('download', filename);
+      link.click();
+    }
+    const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export Data</button>;
+    const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+  
+
   return (
     <div>
       <HigherStudiesForm
@@ -69,38 +86,3 @@ function AddHigherStudies() {
 }
 
 export default AddHigherStudies;
-
-// export const HigherStudiesColumn = [
-//   {
-//     name: "Course Name",
-//     selector: row => row.courseName,
-//     sortable: true,
-//   },
-//   {
-//     name: "Scholarship",
-//     selector: row => row.scholarship || "None",
-//     wrap: true,
-//   },
-//   {
-//     name: "Institute Name",
-//     selector: row => row.instituteName,
-//     sortable: true,
-//   },
-//   {
-//     name: "City",
-//     selector: row => row.city,
-//   },
-//   {
-//     name: "Country",
-//     selector: row => row.country,
-//   },
-//   {
-//     name: "Duration",
-//     selector: row => row.duration,
-//   },
-//   {
-//     name: "Admission Year",
-//     selector: row => row.admissionYear,
-//     sortable: true,
-//   },
-// ];

@@ -40,29 +40,29 @@ function AddSportsData() {
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
 
-        const url = "http://localhost:3000/api/v1/students/sports"
-        const response = await axios.post(url
-          , {
-            sportsEventId: data.sportsEventId,
-            studentName: data.studentName,
-            enrollmentNumber: data.enrollmentNumber,
-            batch: data.batch,
-            branch: data.branch,
-            year: data.year,
-            sportsName: data.sportsName,
-            eventDate: data.eventDate,
-            eventName: data.eventName,
-            eventLevel: data.eventLevel,
-            eventLocation: data.eventLocation,
-            position: data.position,
-            coachName: data.coachName,
-            organizer: data.organizer,
+      const url = "http://localhost:3000/api/v1/students/sports"
+      const response = await axios.post(url
+        , {
+          sportsEventId: data.sportsEventId,
+          studentName: data.studentName,
+          enrollmentNumber: data.enrollmentNumber,
+          batch: data.batch,
+          branch: data.branch,
+          year: data.year,
+          sportsName: data.sportsName,
+          eventDate: data.eventDate,
+          eventName: data.eventName,
+          eventLevel: data.eventLevel,
+          eventLocation: data.eventLocation,
+          position: data.position,
+          coachName: data.coachName,
+          organizer: data.organizer,
 
-            fileId: res.data.fileId,
-          }
-        )
-        console.log(response.data)
-      }
+          fileId: res.data.fileId,
+        }
+      )
+      console.log(response.data)
+    }
     catch (error) {
       console.error("Error occurred:", error.message);
     }
@@ -70,6 +70,23 @@ function AddSportsData() {
 
     setLoading((p) => !p)
   }
+
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export Data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div>
       <SportForm
@@ -78,7 +95,11 @@ function AddSportsData() {
         handleSubmit={handleSubmit}
         reset={reset}
       />
-      <DataTable columns={studentSportsEventColumns} data={data} />
+      <DataTable
+        columns={studentSportsEventColumns}
+        data={data}
+        actions={actionsMemo}
+      />
     </div>
   );
 }

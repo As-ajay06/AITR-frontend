@@ -53,6 +53,23 @@ function AddStartups() {
     setLoading((p) => !p)
   }
 
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export Data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
+
 
 
   return (
@@ -63,7 +80,12 @@ function AddStartups() {
         handleSubmit={handleSubmit}
         reset={reset}
       />
-      <DataTable data={data} columns={startupColumns} />
+      <DataTable
+        title={"Startups"}
+        data={data}
+        columns={startupColumns}
+        actions={actionsMemo}
+      />
     </div>
   );
 }

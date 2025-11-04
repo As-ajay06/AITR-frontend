@@ -17,6 +17,7 @@ const StudentCertificateForm = ({handleSubmit, onSubmit, register, reset}) => {
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
         Student Certificate Submission
       </h2>
+      {/* add upload button */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

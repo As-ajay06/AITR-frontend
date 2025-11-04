@@ -9,7 +9,6 @@ function AddStudentResearchData() {
   const { register, handleSubmit, reset } = useForm()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [submit, setSubmit] = useState(false)
 
 
   const fetchData = async () => {

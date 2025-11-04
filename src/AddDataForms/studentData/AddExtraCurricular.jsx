@@ -62,26 +62,48 @@ function AddExtraCurricular() {
         }
       )
       console.log(response.data)
-    } 
+    }
     catch (error) {
-    console.error("Error occurred:", error.message);
+      console.error("Error occurred:", error.message);
+    }
+    console.log(data)
+
+    setLoading((p) => !p)
   }
-  console.log(data)
 
-  setLoading((p) => !p)
-}
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
 
-return (
-  <div>
-    <ExtraCurricularForm
-      onSubmit={onSubmit}
-      register={register}
-      handleSubmit={handleSubmit}
-      reset={reset}
-    />
-    <DataTable columns={studentExtraCurricularColumns} data={data} />
-  </div>
-);
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export Data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
+
+  return (
+    <div>
+      <ExtraCurricularForm
+        onSubmit={onSubmit}
+        register={register}
+        handleSubmit={handleSubmit}
+        reset={reset}
+      />
+      <DataTable
+        title={"Extra curricular activities"}
+        columns={studentExtraCurricularColumns}
+        data={data}
+        actions={actionsMemo}
+      />
+    </div>
+  );
 }
 
 export default AddExtraCurricular;

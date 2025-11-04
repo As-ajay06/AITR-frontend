@@ -4,6 +4,8 @@ import SelectBox from "../../components/SelectBox";
 import CalenderBox from "../../components/CalenderBox";
 import FileBox from "../../components/FileBox";
 import DynamicSelectBox from "../../components/DynamicSelectBox";
+import UploadForm from "../../components/UploadForm";
+import Button from "../../components/Button";
 
 const genderOptions = ["Male", "Female", "Other"];
 const categoryOptions = ["General", "OBC", "SC", "ST", "Other"];
@@ -11,11 +13,15 @@ const statusOptions = ["Pursuing", "Graduated"];
 const courseOptions = ["B.Tech", "M.Tech", "B.Sc", "M.Sc", "MBA"]; // Add more as needed
 
 const StudentForm = ({ onSubmit, register, handleSubmit, reset }) => {
+
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Student Profile Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Student Profile Form
+        </h2>
+        <UploadForm url={"addHackathon"} />
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}

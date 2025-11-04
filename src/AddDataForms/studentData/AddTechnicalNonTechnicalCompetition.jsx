@@ -39,48 +39,64 @@ function AddTechnicalNonTechnicalCompetition() {
     try {
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
-        // todo: correct the url
-        const url = "http://localhost:3000/api/v1/students/technicalNontechnical"
-        const response = await axios.post(url
-          , {
-            competitionId: data.competitionId,
-            studentName: data.studentName,
-            enrollmentNumber: data.enrollmentNumber,
-            currentStatus: data.currentStatus,
-            wesiteLink: data.wesiteLink,
-            branch: data.branch,
-            batch: data.batch,
-            year: data.year,
-            competitionName: data.competitionName,
-            date: data.date,
-            teamName: data.teamName,
-            teamSize: data.teamSize,
-            mentorName: data.mentorName,
-            level: data.level,
-            organizer: data.organizer,
-            vanue: data.vanue,
-            problemStatement: data.problemStatement,
-            datahnologyUsed: data.datahnologyUsed,
-            prizeMoney: data.prizeMoney,
-            sponsoringAgency: data.sponsoringAgency,
-            positionSecured: data.positionSecured,
-            projectGithubLink: data.projectGithubLink,
-            projectDescription: data.projectDescription,
-            certificatePdf: data.certificatePdf,
-            eventMode: data.eventMode,
-            achievement: data.achievement,
-            fileId: res.data.fileId,
-          }
-        )
-        console.log(response.data)
-      }
-      catch (error) {
+      // todo: correct the url
+      const url = "http://localhost:3000/api/v1/students/technicalNontechnical"
+      const response = await axios.post(url
+        , {
+          competitionId: data.competitionId,
+          studentName: data.studentName,
+          enrollmentNumber: data.enrollmentNumber,
+          currentStatus: data.currentStatus,
+          wesiteLink: data.wesiteLink,
+          branch: data.branch,
+          batch: data.batch,
+          year: data.year,
+          competitionName: data.competitionName,
+          date: data.date,
+          teamName: data.teamName,
+          teamSize: data.teamSize,
+          mentorName: data.mentorName,
+          level: data.level,
+          organizer: data.organizer,
+          vanue: data.vanue,
+          problemStatement: data.problemStatement,
+          datahnologyUsed: data.datahnologyUsed,
+          prizeMoney: data.prizeMoney,
+          sponsoringAgency: data.sponsoringAgency,
+          positionSecured: data.positionSecured,
+          projectGithubLink: data.projectGithubLink,
+          projectDescription: data.projectDescription,
+          certificatePdf: data.certificatePdf,
+          eventMode: data.eventMode,
+          achievement: data.achievement,
+          fileId: res.data.fileId,
+        }
+      )
+      console.log(response.data)
+    }
+    catch (error) {
       console.error("Error occurred:", error.message);
     }
     console.log(data)
 
     setLoading((p) => !p)
   }
+
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export Data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
 
 
 
@@ -92,7 +108,12 @@ function AddTechnicalNonTechnicalCompetition() {
         handleSubmit={handleSubmit}
         reset={reset}
       />
-      <DataTable data={data} columns={TechnicalNonTechnicalCompetitionColumn}/>
+      <DataTable 
+      title={"Technical/Nontechnical"}
+      data={data} 
+      columns={TechnicalNonTechnicalCompetitionColumn}
+      actions={actionsMemo} />
+
     </div>
   );
 }
@@ -107,7 +128,7 @@ export const TechnicalNonTechnicalCompetitionColumn = [
   },
   {
     name: "Student Name",
-    selector: row => row.studentName, 
+    selector: row => row.studentName,
     sortable: true
   },
   {
@@ -193,7 +214,7 @@ export const TechnicalNonTechnicalCompetitionColumn = [
     name: "Problem Statement",
     selector: row => row.problemStatement,
     sortable: true,
-    
+
   },
   {
     name: "Project Description",
