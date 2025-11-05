@@ -56,55 +56,24 @@ const columns = [
 ];
 
 // Data
-const data = [
-  {
-    Id: 1,
-    Faculty_Name: 'Dr. Ajay Sahani',
-    Conference_Name: 'ICAI 2024',
-    Paper_Title: 'AI-Powered Learning Models for Rural Education',
-    Presentation_Date: '2024-08-10',
-    Conference_Type: 'International',
-    Conference_Location: 'New Delhi',
-    Conference_Mode: 'Offline',
-    Publication_Status: 'Published',
-    Journal_Name: 'International Journal of AI Research',
-    Issn_Number: '2394-5678',
-    Indexing: 'Scopus',
-    Certificate_Link: 'https://example.com/certificates/ajay-conf.pdf',
-  },
-  {
-    Id: 2,
-    Faculty_Name: 'Prof. Riya Sharma',
-    Conference_Name: 'ETCT 2023',
-    Paper_Title: 'Trends in Cybersecurity for Higher Education',
-    Presentation_Date: '2023-09-25',
-    Conference_Type: 'National',
-    Conference_Location: 'Mumbai',
-    Conference_Mode: 'Online',
-    Publication_Status: 'Under Review',
-    Journal_Name: 'CyberTech Review',
-    Issn_Number: '2231-1234',
-    Indexing: 'UGC Care',
-    Certificate_Link: 'https://example.com/certificates/riya-conf.pdf',
-  },
-  {
-    Id: 3,
-    Faculty_Name: 'Dr. Vikram Patel',
-    Conference_Name: 'MLCon 2024',
-    Paper_Title: 'Applying Deep Learning for Disease Prediction',
-    Presentation_Date: '2024-03-12',
-    Conference_Type: 'International',
-    Conference_Location: 'Singapore',
-    Conference_Mode: 'Hybrid',
-    Publication_Status: 'Accepted',
-    Journal_Name: 'Journal of Medical AI',
-    Issn_Number: '1875-9987',
-    Indexing: 'Scopus',
-    Certificate_Link: 'https://example.com/certificates/vikram-conf.pdf',
-  },
-];
 
-const ConferenceTable = () => {
+const ConferenceTable = ({data}) => {
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div className="p-4">
       <DataTable
@@ -115,6 +84,7 @@ const ConferenceTable = () => {
         striped
         highlightOnHover
         responsive
+        actions={actionsMemo}
       />
     </div>
   );

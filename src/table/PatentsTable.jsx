@@ -35,7 +35,7 @@ const columns = [
   { name: 'Abstract', selector: row => row.abstract },
 
 
-   {
+  {
     name: 'Actions',
     cell: row => (
       <div className="flex flex-col items-center justify-center gap-0.5">
@@ -60,59 +60,25 @@ const columns = [
   },
 ];
 
-// Sample Data
-// const data = [
-//   {
-//     Id: 1,
-//     Faculty_Name: 'Dr. Ajay Sahani',
-//     Patent_Title: 'Smart Irrigation Control System Using AI',
-//     Patent_Number: 'IN2024112345',
-//     Application_Date: '2024-01-15',
-//     Status: 'Granted',
-//     Inventor_Names: 'Ajay Sahani, Riya Sharma',
-//     Patent_Type: 'Utility',
-//     Patent_Office: 'Indian Patent Office',
-//     Grant_Date: '2024-05-10',
-//     Expiry_Date: '2044-01-15',
-//     Country: 'India',
-//     Patent_Category: 'Agriculture Technology',
-//     Certificate_Link: 'https://example.com/patents/ajay-cert.pdf',
-//   },
-//   {
-//     Id: 2,
-//     Faculty_Name: 'Prof. Riya Sharma',
-//     Patent_Title: 'Low-Power Blockchain Voting Protocol',
-//     Patent_Number: 'IN2023998765',
-//     Application_Date: '2023-06-10',
-//     Status: 'Published',
-//     Inventor_Names: 'Riya Sharma, Vikram Patel',
-//     Patent_Type: 'Provisional',
-//     Patent_Office: 'Indian Patent Office',
-//     Grant_Date: '-',
-//     Expiry_Date: '2043-06-10',
-//     Country: 'India',
-//     Patent_Category: 'Blockchain Security',
-//     Certificate_Link: 'https://example.com/patents/riya-cert.pdf',
-//   },
-//   {
-//     Id: 3,
-//     Faculty_Name: 'Dr. Vikram Patel',
-//     Patent_Title: 'AI-Powered Diagnostic Imaging Device',
-//     Patent_Number: 'IN2023123456',
-//     Application_Date: '2023-09-25',
-//     Status: 'Granted',
-//     Inventor_Names: 'Vikram Patel',
-//     Patent_Type: 'Design',
-//     Patent_Office: 'Indian Patent Office',
-//     Grant_Date: '2024-03-05',
-//     Expiry_Date: '2033-09-25',
-//     Country: 'India',
-//     Patent_Category: 'Healthcare AI',
-//     Certificate_Link: 'https://example.com/patents/vikram-cert.pdf',
-//   },
-// ];
 
-const PatentTable = ({data}) => {
+const PatentTable = ({ data }) => {
+
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div className="p-4">
       <DataTable
@@ -123,6 +89,7 @@ const PatentTable = ({data}) => {
         striped
         highlightOnHover
         responsive
+        actions={actionsMemo}
       />
     </div>
   );

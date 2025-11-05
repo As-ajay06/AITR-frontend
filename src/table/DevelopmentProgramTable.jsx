@@ -56,17 +56,35 @@ const columns = [
 ];
 
 
-const DevelopmentProgramTable = ({data}) => {
+const DevelopmentProgramTable = ({ data }) => {
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   console.log(data)
   return (
     <div className="p-4">
       <DataTable
+        title={"Devlopment Program"}
         columns={columns}
         data={data}
         pagination
         striped
         highlightOnHover
         responsive
+        actions={actionsMemo}
       />
     </div>
   );

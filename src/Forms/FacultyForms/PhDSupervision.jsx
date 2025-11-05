@@ -59,6 +59,22 @@ function PhDSupervision() {
 
     setLoading((p) => !p)
   }
+
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
@@ -105,7 +121,12 @@ function PhDSupervision() {
           </button>
         </form>
       </div>
-      <DataTable columns={phdSupervisionColumns} data={data} />
+      <DataTable
+        title={"Faculty PhdSupervision Data"}
+        columns={phdSupervisionColumns}
+        data={data}
+        actions={actionsMemo}
+      />
     </div>
   )
 }

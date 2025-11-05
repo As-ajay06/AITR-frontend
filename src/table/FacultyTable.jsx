@@ -1,56 +1,14 @@
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 
-const facultyData = [
-  {
-    name: "Dr. Aditi Sharma",
-    email: "aditi.sharma@university.edu",
-    department: "Computer Science",
-    mobile_no: "9876543210",
-    years_Of_Experience: 12,
-    designation: "Associate Professor"
-  },
-  {
-    name: "Prof. Rajesh Kumar",
-    email: "rajesh.kumar@university.edu",
-    department: "Mechanical Engineering",
-    mobile_no: "9123456780",
-    years_Of_Experience: 18,
-    designation: "Professor"
-  },
-  {
-    name: "Ms. Neha Verma",
-    email: "neha.verma@university.edu",
-    department: "Electrical Engineering",
-    mobile_no: "9988776655",
-    years_Of_Experience: 7,
-    designation: "Assistant Professor"
-  },
-  {
-    name: "Dr. Vikram Singh",
-    email: "vikram.singh@university.edu",
-    department: "Civil Engineering",
-    mobile_no: "9765432109",
-    years_Of_Experience: 15,
-    designation: "Professor"
-  },
-  {
-    name: "Mr. Alok Das",
-    email: "alok.das@university.edu",
-    department: "Mathematics",
-    mobile_no: "9090909090",
-    years_Of_Experience: 5,
-    designation: "Lecturer",
-    fileId: "345346534653465392"
-  }
-];
+
 
 
 // const responce = await axios.get("http://localhost:3000/facultydata")
 // console.log(responce.data.response)
 
 // Define faculty columns
-const index =   1
+const index = 1
 
 const columns = [
   {
@@ -58,7 +16,7 @@ const columns = [
     selector: row => row.id,
     sortable: true,
     width: '80px',
-    cell: (row ,index) => index + 1 
+    cell: (row, index) => index + 1
   },
   {
     name: 'Name',
@@ -117,11 +75,33 @@ const columns = [
 ];
 
 
-function FacultyTable({data}) {
+function FacultyTable({ data }) {
   console.log(data)
-	return (
-		<DataTable columns={columns} data={facultyData} />
-	);
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
+  return (
+    <DataTable
+      title={"Faculty Data"}
+      columns={columns}
+      data={facultyData}
+      actions={actionsMemo}
+    />
+
+  );
 };
 
 export default FacultyTable;

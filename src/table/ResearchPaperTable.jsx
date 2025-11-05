@@ -4,8 +4,30 @@ import axios from 'axios';
 
 function ResearchPaperTable() {
 
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
+
   return (
-    <DataTable columns={researchPaperColumns} data={data} />
+    <DataTable
+      title={"Faculty Reseach paper"}
+      columns={researchPaperColumns}
+      data={data}
+      actions={actionsMemo}
+    />
   )
 }
 
@@ -21,7 +43,7 @@ export const researchPaperColumns = [
   {
     name: 'Publication Date',
     selector: row => row.publicationDate,
-    sortable : true,
+    sortable: true,
     center: true
   },
   {
@@ -117,7 +139,7 @@ export const ResearchPaperPublication = [
   { name: 'indexing', selector: row => row.indexing },
   { name: 'Certificate PDF', selector: row => row.fileId },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
-   {
+  {
     name: 'Actions',
     cell: row => (
       <div className="flex flex-col items-center justify-center gap-0.5">

@@ -72,16 +72,32 @@ function InvitedTalks() {
     setLoading((p) => !p)
   }
 
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
 
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-         <div className="flex justify-between">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
-          Invited Talks Form
-        </h2>
-        <UploadForm url={"addInvitedFormData"} />
-      </div>
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+            Invited Talks Form
+          </h2>
+          <UploadForm url={"addInvitedFormData"} />
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -144,7 +160,12 @@ function InvitedTalks() {
           </button>
         </form>
       </div>
-      <DataTable columns={facultyTalkColumns} data={data} />
+      <DataTable
+        title={"Invited Talks"}
+        columns={facultyTalkColumns}
+        data={data}
+        actions={actionsMemo}
+      />
     </div>
   )
 }
