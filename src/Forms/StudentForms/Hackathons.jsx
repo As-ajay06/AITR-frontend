@@ -1,10 +1,8 @@
-import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import SelectBox from "../../components/SelectBox";
 import CalenderBox from "../../components/CalenderBox";
-import FileBox from "../../components/FileBox";
 import InputBox from "../../components/InputBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
+import UploadForm from "../../components/UploadForm";
 
 const StudentHackathonForm = ({ onSubmit }) => {
   const methods = useForm({
@@ -17,9 +15,12 @@ const StudentHackathonForm = ({ onSubmit }) => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Student Hackathon Participation Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Student Hackathons Form
+        </h2>
+        <UploadForm url={"addHackathonData"} />
+      </div>
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>

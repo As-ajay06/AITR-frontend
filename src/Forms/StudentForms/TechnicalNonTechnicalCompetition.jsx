@@ -3,6 +3,7 @@ import InputBox from "../../components/InputBox";
 import SelectBox from "../../components/SelectBox";
 import CalenderBox from "../../components/CalenderBox";
 import FileBox from "../../components/FileBox";
+import UploadForm from '../../components/UploadForm';
 
 const genderOptions = ["Male", "Female", "Other"];
 const categoryOptions = ["General", "OBC", "SC", "ST", "Other"];
@@ -12,9 +13,12 @@ const courseOptions = ["B.Tech", "M.Tech", "B.Sc", "M.Sc", "MBA"]; // Add more a
 const TechnicalNonTechnicalCompetition = ({ register, handleSubmit, onSubmit, reset }) => {
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Technical/Non-Technical Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Studnet Technical/NonTechnial Form
+        </h2>
+        <UploadForm url={"addTechnicalNontechnicalData"} />
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -41,7 +45,7 @@ const TechnicalNonTechnicalCompetition = ({ register, handleSubmit, onSubmit, re
           <InputBox label="position Acquired" name="positionAcquired" register={register} />
           <InputBox label="project github link" name="projectGithubLink" register={register} />
           <SelectBox label="Event mode" name="eventMode" options={['Online', 'Offline', 'Hybrid']} register={register} />
-          <SelectBox label="Achievement" name="achievement" options={["Participation", "Winner" , "Rank"]} register={register} />
+          <SelectBox label="Achievement" name="achievement" options={["Participation", "Winner", "Rank"]} register={register} />
           <FileBox register={register} name="file" label="Certificate" />
         </div>
 

@@ -4,22 +4,26 @@ import InputBox from "../../components/InputBox";
 import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
+import UploadForm from "../../components/UploadForm";
 
 const outcomes = ["Prototype", "Patent", "Paper"];
 
 const CapstoneProjectForm = ({ onSubmit, register, handleSubmit, reset }) => {
 
-    const methods = useForm({
-      defaultValues: {
-        teamDetails: [{ memberName: "", role: "" }], // 👈 default subform array
-      },
-    });
+  const methods = useForm({
+    defaultValues: {
+      teamDetails: [{ memberName: "", role: "" }], // 👈 default subform array
+    },
+  });
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Capstone Project Submission Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Student Capstone Form
+        </h2>
+        <UploadForm url={"addCaptsoneData"} />
+      </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

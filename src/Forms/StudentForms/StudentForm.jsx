@@ -20,7 +20,7 @@ const StudentForm = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Profile Form
         </h2>
-        <UploadForm url={"addHackathon"} />
+        <UploadForm url={"addStudentData"} />
       </div>
 
       <form

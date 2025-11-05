@@ -6,6 +6,7 @@ import InputBox from "../../components/InputBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
 import { FormProvider } from "react-hook-form";
 import { useForm } from "react-hook-form";
+import UploadForm from "../../components/UploadForm";
 
 const internshipModes = ["Online", "Offline", "Hybrid"];
 const stipends = ["Unpaid", "₹5,000", "₹10,000", "₹20,000"];
@@ -27,9 +28,12 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Student Internship Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Student Intership Form
+        </h2>
+        <UploadForm url={"addInternshipData"} />
+      </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
