@@ -23,6 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+startups.jsx
+
 node_modules
 .env
 

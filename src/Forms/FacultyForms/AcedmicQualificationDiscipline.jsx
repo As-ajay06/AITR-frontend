@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import DataTable from 'react-data-table-component'
+import UploadForm from '../../components/UploadForm'
 
 function AcedmicQualificationDiscipline() {
 
@@ -40,7 +41,7 @@ function AcedmicQualificationDiscipline() {
       formData.append("file", fileInput.files[0]);
     }
     try {
-  
+
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
 
@@ -71,9 +72,12 @@ function AcedmicQualificationDiscipline() {
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Acadmic Qualification
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+            Faculty Academic Qualification Discipline Form
+          </h2>
+          <UploadForm url={"addAcedmicQualificationDisciplineData"} />
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6" >
             <InputBox label={"faculty_name"} name="facultyName" register={register} required />

@@ -4,6 +4,7 @@ import FileBox from '../../components/FileBox'
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component'
 import SelectBox from '../../components/SelectBox'
+import UploadForm from '../../components/UploadForm'
 
 import { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -73,9 +74,12 @@ function ProfessionalCertificationsEarned() {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Professional Certificate Earned
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Faculty Proffesional Certifications Form
+        </h2>
+        <UploadForm url={"addProffesionalCertificationData"} />
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6" >
           <InputBox label="faculty_Name" name="facultyName" register={register} required />

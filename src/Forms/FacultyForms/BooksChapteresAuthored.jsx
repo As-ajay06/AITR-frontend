@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
+import UploadForm from '../../components/UploadForm';
 
 function BooksChapteresAuthored() {
 
@@ -60,9 +61,12 @@ function BooksChapteresAuthored() {
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Books and Chapters
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+            Books and Chapter Authored
+          </h2>
+          <UploadForm url={"addBooksAndChapterAuthoredData"} />
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
