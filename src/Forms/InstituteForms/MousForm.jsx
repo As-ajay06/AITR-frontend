@@ -8,71 +8,90 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const MouForm = () => {
-  
-  const {register, handleSubmit, reset} = useForm()
+
+  const { register, handleSubmit, reset } = useForm()
   const [data, setData] = useState([])
-  const [loading , setLoading ] = useState(true)
-  const [submit, setSubmit ] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [submit, setSubmit] = useState(false)
 
 
 
 
   const fetchData = async () => {
-    if(loading == true ){
+    if (loading == true) {
       const data = await axios.get("http://localhost:3000/api/v1/institute/mous")
       console.log(data.data)
       setData(data.data.mous)
     }
- 
+
   }
 
   useEffect(() => {
     console.log("fetching data")
     fetchData()
     console.log(data)
-  },[loading])
+  }, [loading])
 
   const onSubmit = async (data) => {
- 
-    try{
+
+    try {
       const formData = new FormData();
-      formData.append("file" , file);
+      formData.append("file", file);
 
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
 
       console.log(data)
       const url = "http://localhost:3000/api/v1/institute/mou"
-      const response = await axios.post( url 
+      const response = await axios.post(url
         , {
-        agencyName: data.agencyName,
-        date: data.date,
-        duration: data.duration,
-        description: data.description,
-        fundind: data.fundind,
+          agencyName: data.agencyName,
+          date: data.date,
+          duration: data.duration,
+          description: data.description,
+          fundind: data.fundind,
 
-        // using fileId without middleware 
-        // TODO : create middleware and send the fileId with using middleware
-        fileId : res.data.fileId
-      }
-    )
+          // using fileId without middleware 
+          // TODO : create middleware and send the fileId with using middleware
+          fileId: res.data.fileId
+        }
+      )
 
       console.log(response)
-      
-      }catch(err){
-        console.log("Error:", err )
-      }
-      console.log(data)
+
+    } catch (err) {
+      console.log("Error:", err)
+    }
+    console.log(data)
 
     setLoading((p) => !p)
   }
 
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Memorandum of Understanding (MoU) Submission Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Memorandum of Understanding (MoU) Submission Form
+        </h2>
+        <UploadForm url={"addInstituteMouData"} />
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -122,7 +141,7 @@ const MouForm = () => {
             accept=".pdf"
             className="md:col-span-2"
           />
-          
+
           <button
             type="submit"
             className="col-span-2 mt-6 px-6 py-3 bg-blue-600 text-white font-semibold text-base rounded-md shadow hover:bg-blue-700 transition"
@@ -133,7 +152,7 @@ const MouForm = () => {
 
       </form>
       <div>
-        <DataTable columns={MouFormColumn} data={data} />
+        <DataTable title={"Mous data"} columns={MouFormColumn} data={data} actions={actionsMemo} />
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import CalenderBox from '../../components/CalenderBox';
 import FileBox from '../../components/FileBox';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
+import UploadForm from '../../components/UploadForm';
 
 
 function InstituteEventGrant() {
@@ -44,29 +45,49 @@ function InstituteEventGrant() {
       const res = await axios.post("http://localhost:3000/file", formData);
       console.log(res.data);
 
-        const url = "http://localhost:3000/api/v1/institute/event-grant";
-        const response = await axios.post(url, {
-          eventName: data.eventName,
-          eventType: data.eventType,
-          agencyName: data.agencyName,
-          date: data.date,
-          duration: data.duration,
-          description: data.description,
-          funding: data.funding,
-          fileId: res.data.fileId,
-        });
-        console.log(response.data);
+      const url = "http://localhost:3000/api/v1/institute/event-grant";
+      const response = await axios.post(url, {
+        eventName: data.eventName,
+        eventType: data.eventType,
+        agencyName: data.agencyName,
+        date: data.date,
+        duration: data.duration,
+        description: data.description,
+        funding: data.funding,
+        fileId: res.data.fileId,
+      });
+      console.log(response.data);
     } catch (err) {
       console.log("Error:", err);
     }
 
     setLoading((p) => !p);
   };
+
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Institute Event Grant Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Institute Event Grant form
+        </h2>
+        <UploadForm url={"addEventGrantData"} />
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -88,7 +109,7 @@ function InstituteEventGrant() {
           </button>
         </div>
       </form>
-      <DataTable columns={eventGrantColumns} data={data} />
+      <DataTable title={"Event Grant data"} columns={eventGrantColumns} data={data} actions={actionsMemo} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import FileBox from '../../components/FileBox';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { Rss } from 'lucide-react';
+import UploadForm from '../../components/UploadForm';
 
 function InstituteRDForms() {
 
@@ -39,7 +40,7 @@ function InstituteRDForms() {
     try {
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
-      if(res.data.status == 200 && res?.data.fileId){
+      if (res.data.status == 200 && res?.data.fileId) {
 
         console.log(data)
         const url = "http://localhost:3000/api/v1/institute/rnd"
@@ -51,12 +52,12 @@ function InstituteRDForms() {
             eventName: data.eventName,
             description: data.description,
             funding: data.funding,
-            
+
             // using fileId without middleware 
             // TODO : create middleware and send the fileId with using middleware
             fileId: res.data.fileId
           }
-        ) 
+        )
         console.log(response)
       }
 
@@ -68,11 +69,30 @@ function InstituteRDForms() {
     setLoading((p) => !p)
   }
 
+  function downloadCSV(array) {
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(array);
+
+    if (csv == null) return;
+    const filename = 'export.csv';
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }
+  const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        Institute R&D Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          Institute Rnd Form
+        </h2>
+        <UploadForm url={"addInstituteRndFormData"} />
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -92,7 +112,7 @@ function InstituteRDForms() {
           </button>
         </div>
       </form>
-      <DataTable columns={InstituteRDColumns} data={data} />
+      <DataTable title={"R&D data"} columns={InstituteRDColumns} data={data} actions={actionsMemo} />
     </div>
   );
 }
