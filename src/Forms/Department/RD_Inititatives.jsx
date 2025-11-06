@@ -7,6 +7,7 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import DynamicUserFields from '../../components/DynamicFieldsForm';
 import { FormProvider } from 'react-hook-form';
+import UploadForm from '../../components/UploadForm';
 
 const RDInitiatives = () => {
 
@@ -76,12 +77,14 @@ const RDInitiatives = () => {
 
     setLoading((p) => !p)
   };
-
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        R&D Initiatives Submission Form
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+          RnD initiative submission form
+        </h2>
+        <UploadForm url={"addRndInitiativeData"} />
+      </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
