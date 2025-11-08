@@ -6,6 +6,9 @@ import FileBox from '../../components/FileBox';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import UploadForm from '../../components/UploadForm';
+import { DataFilterComponent } from '../../components/DataFilterComponent';
+import { useFilter } from '../../hooks/useFilter';
+import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
 
 function Mous() {
 
@@ -13,6 +16,23 @@ function Mous() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
+
+
 
   const fetchData = async () => {
     if (loading == true) {
@@ -28,6 +48,8 @@ function Mous() {
     fetchData()
     console.log(data)
   }, [loading])
+
+
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
@@ -121,7 +143,16 @@ function Mous() {
           </button>
         </div>
       </form>
-      <DataTable title={"Mous data"} columns={mouColumns} data={data} actions={actionsMemo}/>
+      <DataTable
+        title={"Mous data"}
+        columns={mouColumns}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 }

@@ -7,6 +7,9 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { Rss } from 'lucide-react';
 import UploadForm from '../../components/UploadForm';
+import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { useFilter } from '../../hooks/useFilter';
+import { DataFilterComponent } from '../../components/DataFilterComponent';
 
 const EventGrantReceived = () => {
 
@@ -15,6 +18,8 @@ const EventGrantReceived = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
 
   const fetchData = async () => {
     if (loading == true) {
@@ -32,6 +37,21 @@ const EventGrantReceived = () => {
     fetchData()
     console.log(data)
   }, [loading])
+
+  // this is subheader component memo
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
@@ -132,7 +152,16 @@ const EventGrantReceived = () => {
           </div>
         </form>
       </div>
-      <DataTable title={"Event grant data"} columns={eventGrantColumns} data={data} actions={actionsMemo} />
+      <DataTable
+        title={"Event grant data"}
+        columns={eventGrantColumns}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 };

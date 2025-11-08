@@ -8,6 +8,9 @@ import DataTable from 'react-data-table-component';
 import DynamicUserFields from '../../components/DynamicFieldsForm';
 import { FormProvider } from 'react-hook-form';
 import UploadForm from '../../components/UploadForm';
+import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { useFilter } from '../../hooks/useFilter';
+import { DataFilterComponent } from '../../components/DataFilterComponent';
 
 const RDInitiatives = () => {
 
@@ -16,6 +19,21 @@ const RDInitiatives = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
 
   const fetchData = async () => {
     if (loading == true) {
@@ -129,7 +147,16 @@ const RDInitiatives = () => {
           </div>
         </form>
       </FormProvider>
-      <DataTable title={"RDInitiatives data"} columns={rdInitiativesColumns} data={data} actions={actionsMemo} />
+      <DataTable
+        title={"RDInitiatives data"}
+        columns={rdInitiativesColumns}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 };

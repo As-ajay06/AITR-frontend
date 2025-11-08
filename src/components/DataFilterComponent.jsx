@@ -2,7 +2,7 @@ export const DataFilterComponent = ({
 	filterText,
 	onFilter,
 	onClear,
-	placeholder = 'Filter By Name',
+	placeholder,
 }) => (
 	<div className="flex justify-end gap-2 w-full mx-auto">
 		<div className="relative flex-grow max-w-sm">

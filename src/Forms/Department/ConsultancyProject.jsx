@@ -6,6 +6,13 @@ import FileBox from '../../components/FileBox';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import UploadForm from '../../components/UploadForm';
+import { useFilter } from '../../hooks/useFilter';
+import { useMemo } from 'react';
+import { DataFilterComponent } from '../../components/DataFilterComponent';
+import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+
+
+
 
 const ConsultancyProject = () => {
 
@@ -14,6 +21,8 @@ const ConsultancyProject = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
+  const { filterText, setFilterText, resetPaginationToggle,setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
 
   const fetchData = async () => {
     if (loading == true) {
@@ -30,6 +39,22 @@ const ConsultancyProject = () => {
     fetchData()
     console.log(data)
   }, [loading])
+
+
+  // this is subheader component memo
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by department name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
 
   const onSubmit = async (data, e) => {
@@ -90,6 +115,8 @@ const ConsultancyProject = () => {
   const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export data</button>;
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
 
+  console.log(" this is filtered data" , filteredData)
+
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
@@ -125,7 +152,17 @@ const ConsultancyProject = () => {
 
         </form>
       </div>
-      <DataTable title={"Consultancy data"} columns={consultancyColumns} data={data} actions={actionsMemo} />
+      <DataTable
+        title={"Consultancy data"}
+        columns={consultancyColumns}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+
+      />
     </div>
   );
 };
