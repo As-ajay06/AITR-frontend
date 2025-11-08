@@ -3,6 +3,8 @@ import DataTable from 'react-data-table-component';
 import '../components/scroll.css' // we'll define custom styles here
 import axios from 'axios';
 import React from 'react';
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 const columns = [
   { name: 'ID', selector: row => row.certificateId, sortable: true, width: '100px' },
@@ -66,6 +68,23 @@ const columns = [
 
 const StudentCertificatesTable = ({ data }) => {
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
@@ -87,14 +106,12 @@ const StudentCertificatesTable = ({ data }) => {
       <DataTable
         title="Student Certificates"
         columns={columns}
-        data={data}
-        pagination
-        highlightOnHover
-        striped
-        responsive
-        fixedHeader
-        fixedHeaderScrollHeight="600px"
         actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
       />
     </div>
   );

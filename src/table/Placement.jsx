@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 
 const columns = [
@@ -58,6 +60,23 @@ const columns = [
 
 const PlacementTable = ({ data }) => {
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
 
   function downloadCSV(array) {
     const link = document.createElement('a');
@@ -80,13 +99,11 @@ const PlacementTable = ({ data }) => {
       <DataTable
         title="Student Placement Records"
         columns={columns}
-        data={data}
+        data={filteredData}
         pagination
-        highlightOnHover
-        striped
-        responsive
-        fixedHeader
-        fixedHeaderScrollHeight="600px"
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
         actions={actionsMemo}
       />
     </div>

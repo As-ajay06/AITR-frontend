@@ -15,7 +15,20 @@ function InstituteRDForms() {
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
 
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
 
   const fetchData = async () => {
@@ -112,7 +125,15 @@ function InstituteRDForms() {
           </button>
         </div>
       </form>
-      <DataTable title={"R&D data"} columns={InstituteRDColumns} data={data} actions={actionsMemo} />
+      <DataTable
+        title={"R&D data"}
+        columns={InstituteRDColumns}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 }

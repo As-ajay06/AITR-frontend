@@ -10,6 +10,9 @@ import UploadForm from '../../components/UploadForm'
 import axios from 'axios'
 import DynamicUserFields from '../../components/DynamicFieldsForm'
 
+import { useFilter } from '../../hooks/useFilter'
+import { DataFilterComponent } from '../../components/DataFilterComponent'
+
 function PatentGrantedForm() {
 
   const { register, handleSubmit, reset } = useForm()
@@ -17,6 +20,20 @@ function PatentGrantedForm() {
   const [loading, setLoading] = useState(true)
   const [file, setFile] = useState(null)
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
   const fetchData = async () => {
     if (loading == true) {
@@ -81,12 +98,12 @@ function PatentGrantedForm() {
   return (
     <div>
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-         <div className="flex justify-between">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
-          Patent Granted Form
-        </h2>
-        <UploadForm url={"addPatentGrantedData"} />
-      </div>
+        <div className="flex justify-between">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
+            Patent Granted Form
+          </h2>
+          <UploadForm url={"addPatentGrantedData"} />
+        </div>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -103,7 +120,16 @@ function PatentGrantedForm() {
           </form>
         </FormProvider>
       </div>
-      <DataTable columns={patentColumn} data={data} />
+      <DataTable
+        title={"Patnet Granted Data"}
+        columns={patentColumn}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   )
 }

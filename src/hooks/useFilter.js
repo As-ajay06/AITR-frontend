@@ -1,7 +1,7 @@
 // hooks/useFilter.js
 import { useState, useMemo } from 'react';
 
-export const useFilter = (data, filterBy = ['departmentName', 'eventTitle']) => {   // add more filtering fields here
+export const useFilter = (data, filterBy = ['departmentName', 'eventTitle', 'department']) => {   // add more filtering fields here
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 

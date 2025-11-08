@@ -1,6 +1,8 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import axios from 'axios';
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 // Column Definitions
 const columns = [
@@ -63,6 +65,24 @@ const columns = [
 
 const PatentTable = ({ data }) => {
 
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
@@ -84,11 +104,11 @@ const PatentTable = ({ data }) => {
       <DataTable
         title="Faculty Patents"
         columns={columns}
-        data={data}
+        data={filteredData}
         pagination
-        striped
-        highlightOnHover
-        responsive
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
         actions={actionsMemo}
       />
     </div>

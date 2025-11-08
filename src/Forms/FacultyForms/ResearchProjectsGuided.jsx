@@ -6,15 +6,28 @@ import DataTable from 'react-data-table-component'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import UploadForm from '../../components/UploadForm'
+import { useFilter } from '../../hooks/useFilter'
+import { DataFilterComponent } from '../../components/DataFilterComponent'
 
 function ResearchProjectsGuided() {
-
-
     const { register, handleSubmit, reset } = useForm()
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [file, setFile] = useState(null)
 
+    const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+    const subHeaderComponentMemo = React.useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText('');
+            }
+        };
+
+        return (
+            <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+        );
+    }, [filterText, resetPaginationToggle, handleClear]);
 
     const fetchData = async () => {
         if (loading == true) {
@@ -144,8 +157,12 @@ function ResearchProjectsGuided() {
             <DataTable
                 title={"Reseach Project Guided"}
                 columns={projectColumns}
-                data={data}
                 actions={actionsMemo}
+                data={filteredData}
+                pagination
+                paginationResetDefaultPage={resetPaginationToggle}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
             />
         </div>
     )

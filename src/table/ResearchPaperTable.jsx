@@ -1,8 +1,27 @@
 import React from 'react'
 import DataTable from 'react-data-table-component';
 import axios from 'axios';
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 function ResearchPaperTable() {
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
   function downloadCSV(array) {
     const link = document.createElement('a');
@@ -25,7 +44,11 @@ function ResearchPaperTable() {
     <DataTable
       title={"Faculty Reseach paper"}
       columns={researchPaperColumns}
-      data={data}
+      data={filteredData}
+      pagination
+      paginationResetDefaultPage={resetPaginationToggle}
+      subHeader
+      subHeaderComponent={subHeaderComponentMemo}
       actions={actionsMemo}
     />
   )

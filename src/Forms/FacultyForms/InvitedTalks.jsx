@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import UploadForm from '../../components/UploadForm'
 import DataTable from 'react-data-table-component'
+import { useFilter } from '../../hooks/useFilter'
+import { DataFilterComponent } from '../../components/DataFilterComponent'
 
 function InvitedTalks() {
 
@@ -17,6 +19,23 @@ function InvitedTalks() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [file, setFile] = useState(null)
+
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
 
 
   const fetchData = async () => {
@@ -163,8 +182,12 @@ function InvitedTalks() {
       <DataTable
         title={"Invited Talks"}
         columns={facultyTalkColumns}
-        data={data}
         actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
       />
     </div>
   )

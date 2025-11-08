@@ -100,7 +100,9 @@ function AcedmicQualificationDiscipline() {
           </div>
         </form>
       </div>
-      <DataTable columns={academicQualificationColumns} data={data} />
+      <DataTable 
+      columns={academicQualificationColumns} 
+      data={data} />
     </div>
   )
 }

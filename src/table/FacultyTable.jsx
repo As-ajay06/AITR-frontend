@@ -1,14 +1,10 @@
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
-
-
-
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 // const responce = await axios.get("http://localhost:3000/facultydata")
 // console.log(responce.data.response)
-
-// Define faculty columns
-const index = 1
 
 const columns = [
   {
@@ -76,7 +72,25 @@ const columns = [
 
 
 function FacultyTable({ data }) {
-  console.log(data)
+
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
@@ -95,9 +109,13 @@ function FacultyTable({ data }) {
 
   return (
     <DataTable
-      title={"Faculty Data"}
       columns={columns}
-      data={facultyData}
+      title={"Faculty Data"}
+      data={filteredData}
+      pagination
+      paginationResetDefaultPage={resetPaginationToggle}
+      subHeader
+      subHeaderComponent={subHeaderComponentMemo}
       actions={actionsMemo}
     />
 

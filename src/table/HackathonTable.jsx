@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
+import { DataFilterComponent } from '../components/DataFilterComponent';
+import { useFilter } from '../hooks/useFilter';
 
 
 
@@ -71,38 +73,50 @@ const columns = [
 export const HackathonTable = ({ data }) => {
 
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
+
     if (csv == null) return;
-
     const filename = 'export.csv';
-
     if (!csv.match(/^data:text\/csv/i)) {
       csv = `data:text/csv;charset=utf-8,${csv}`;
     }
-
     link.setAttribute('href', encodeURI(csv));
     link.setAttribute('download', filename);
     link.click();
   }
-
   const Export = ({ onExport }) => <button className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' onClick={e => onExport(e.target.value)}>Export</button>;
-
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, []);
+
   return (
     <div className="p-4 overflow-x-auto">
 
       <DataTable
         title="Student Hackathon Participation"
         columns={columns}
-        data={data}
+        data={filteredData}
         pagination
-        highlightOnHover
-        striped
-        responsive
-        fixedHeader
-        fixedHeaderScrollHeight="600px"
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
         actions={actionsMemo}
       />
     </div>

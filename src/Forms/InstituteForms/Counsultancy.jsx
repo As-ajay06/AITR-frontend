@@ -8,6 +8,9 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import UploadForm from "../../components/UploadForm";
 
+import { useFilter } from "../../hooks/useFilter";
+import { DataFilterComponent } from "../../components/DataFilterComponent";
+
 const ConsultancyForm = () => {
   const { register, handleSubmit, reset } = useForm()
   const [data, setData] = useState([])
@@ -15,6 +18,21 @@ const ConsultancyForm = () => {
   const [submit, setSubmit] = useState(false)
 
 
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
 
   const fetchData = async () => {
@@ -149,7 +167,16 @@ const ConsultancyForm = () => {
           </button>
         </div>
       </form>
-      <DataTable title={"Consultancy data"} data={data} columns={ConsultancyColumns} actions={actionsMemo} />
+      <DataTable
+        title={"Consultancy data"}
+        columns={ConsultancyColumns}
+        actions={actionsMemo}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 };

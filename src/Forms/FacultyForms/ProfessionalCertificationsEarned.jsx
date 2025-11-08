@@ -9,6 +9,9 @@ import UploadForm from '../../components/UploadForm'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import { useFilter } from '../../hooks/useFilter'
+import { DataFilterComponent } from '../../components/DataFilterComponent'
+
 
 
 function ProfessionalCertificationsEarned() {
@@ -17,6 +20,22 @@ function ProfessionalCertificationsEarned() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [file, setFile] = useState(null)
+
+
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
 
   const fetchData = async () => {
@@ -111,8 +130,12 @@ function ProfessionalCertificationsEarned() {
         <DataTable
           title={"Proffessional Certificate Earned Data"}
           columns={certificationColumns}
-          data={data}
           actions={actionsMemo}
+          data={filteredData}
+          pagination
+          paginationResetDefaultPage={resetPaginationToggle}
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
         />
 
       </form>

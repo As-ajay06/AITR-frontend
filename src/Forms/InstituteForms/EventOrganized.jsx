@@ -8,6 +8,9 @@ import axios from 'axios';
 import DynamicUserFields from '../../components/DynamicFieldsForm';
 import UploadForm from '../../components/UploadForm';
 
+import { useFilter } from '../../hooks/useFilter';
+import { DataFilterComponent } from '../../components/DataFilterComponent';
+
 const EventOrganized = () => {
 
 
@@ -16,7 +19,20 @@ const EventOrganized = () => {
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
 
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
 
   const fetchData = async () => {
@@ -127,7 +143,15 @@ const EventOrganized = () => {
           </div>
         </form>
       </FormProvider>
-      <DataTable title={"Event Organised data"} columns={eventOrganisedColumns} data={data} actions={actionsMemo} />
+      <DataTable
+        title={"Event Organised data"}
+        columns={eventOrganisedColumns}
+        data={filteredData}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+      />
     </div>
   );
 };

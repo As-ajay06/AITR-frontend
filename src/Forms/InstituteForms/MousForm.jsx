@@ -7,6 +7,9 @@ import DataTable from "react-data-table-component";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { useFilter } from "../../hooks/useFilter";
+import { DataFilterComponent } from "../../components/DataFilterComponent";
+
 const MouForm = () => {
 
   const { register, handleSubmit, reset } = useForm()
@@ -15,7 +18,20 @@ const MouForm = () => {
   const [submit, setSubmit] = useState(false)
 
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
 
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
 
   const fetchData = async () => {
     if (loading == true) {
@@ -152,7 +168,15 @@ const MouForm = () => {
 
       </form>
       <div>
-        <DataTable title={"Mous data"} columns={MouFormColumn} data={data} actions={actionsMemo} />
+        <DataTable
+          title={"Mous data"}
+          columns={MouFormColumn}
+          data={filteredData}
+          pagination
+          paginationResetDefaultPage={resetPaginationToggle}
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import DataTable from 'react-data-table-component';
-
+import { useFilter } from '../hooks/useFilter';
+import { DataFilterComponent } from '../components/DataFilterComponent';
 
 const columns = [
   { name: 'ID', selector: row => row.Id, sortable: true, width: '60px' },
@@ -150,6 +151,23 @@ const data = [
 
 export const InternshipTable = () => {
 
+  const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
+
+
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText('');
+      }
+    };
+
+    return (
+      <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+    );
+  }, [filterText, resetPaginationToggle, handleClear]);
+
   function downloadCSV(array) {
     const link = document.createElement('a');
     let csv = convertArrayOfObjectsToCSV(array);
@@ -171,13 +189,11 @@ export const InternshipTable = () => {
       <DataTable
         title="Student Internship Records"
         columns={columns}
-        data={data}
+        data={filteredData}
         pagination
-        highlightOnHover
-        striped
-        responsive
-        fixedHeader
-        fixedHeaderScrollHeight="600px"
+        paginationResetDefaultPage={resetPaginationToggle}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
         actions={actionsMemo}
       />
     </div>
