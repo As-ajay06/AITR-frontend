@@ -1,14 +1,142 @@
 import React from 'react';
 import SearchBar from '../components/SearchBar';
-
-
-
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import DataTable from 'react-data-table-component';
+import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
 
+// Define exportable columns for each tab
+const exportableColumnsByTab = {
+  'Profile': [
+    { key: 'facultyId', label: 'Faculty ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'qualification', label: 'Qualification' },
+    { key: 'department', label: 'Department' },
+    { key: 'mobileNumber', label: 'Mobile Number' },
+    { key: 'category', label: 'Category' },
+    { key: 'teachingExperience', label: 'Teaching Experience' },
+    { key: 'designation', label: 'Designation' },
+  ],
+  'Research paper publication': [
+    { key: 'facultyId', label: 'Faculty ID' },
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'titleOfPaper', label: 'Title of Paper' },
+    { key: 'publicationDate', label: 'Publication Date' },
+    { key: 'journalOrConferenceName', label: 'Journal/Conference Name' },
+    { key: 'coAuthors', label: 'Co-Authors' },
+    { key: 'indexing', label: 'Indexing' },
+    { key: 'issnNumber', label: 'ISSN Number' },
+    { key: 'doiLink', label: 'DOI Link' },
+    { key: 'authors', label: 'Authors' },
+    { key: 'issnOrIsbn', label: 'ISSN/ISBN' },
+    { key: 'department', label: 'Department' },
+  ],
+  'Faculty Awards and Recognitions': [
+    { key: 'recipientId', label: 'Recipient ID' },
+    { key: 'recipientName', label: 'Recipient Name' },
+    { key: 'department', label: 'Department' },
+    { key: 'awardName', label: 'Award Name' },
+    { key: 'issuingOrganization', label: 'Issuing Organization' },
+    { key: 'date', label: 'Date' },
+    { key: 'category', label: 'Category' },
+    { key: 'eventName', label: 'Event Name' },
+    { key: 'description', label: 'Description/Purpose' },
+    { key: 'titleOfAward', label: 'Title of Award' },
+    { key: 'level', label: 'Level' },
+  ],
+  'Faculty Devlopment Program(FDPs Attended)': [
+    { key: 'facultyId', label: 'Faculty ID' },
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'department', label: 'Department' },
+    { key: 'fdpTitle', label: 'FDP Title' },
+    { key: 'organizingInstitute', label: 'Organizing Institute' },
+    { key: 'startDate', label: 'Start Date' },
+    { key: 'endDate', label: 'End Date' },
+    { key: 'programType', label: 'Program Type' },
+    { key: 'mode', label: 'Mode' },
+    { key: 'location', label: 'Location' },
+    { key: 'numberOfDays', label: 'Number of Days' },
+  ],
+  'Patent Published': [
+    { key: 'facultyId', label: 'Faculty ID' },
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'department', label: 'Department' },
+    { key: 'title', label: 'Title' },
+    { key: 'applicant', label: 'Applicant' },
+    { key: 'applicationNumber', label: 'Application Number' },
+    { key: 'applicationDate', label: 'Application Date' },
+    { key: 'status', label: 'Status' },
+    { key: 'coInventors', label: 'Co-Inventors' },
+    { key: 'country', label: 'Country' },
+    { key: 'category', label: 'Category' },
+    { key: 'patentTitle', label: 'Patent Title' },
+    { key: 'inventors', label: 'Inventors' },
+    { key: 'publicationDate', label: 'Publication Date' },
+    { key: 'abstract', label: 'Abstract' },
+  ],
+  'Patents Granted': [
+    { key: 'patentTitle', label: 'Patent Title' },
+    { key: 'inventors', label: 'Inventors' },
+    { key: 'grantNumber', label: 'Grant Number' },
+    { key: 'dateOfGrant', label: 'Date of Grant' },
+    { key: 'countryOfGrant', label: 'Country of Grant' },
+    { key: 'applicationNumber', label: 'Application Number' },
+  ],
+  'Membership in Professional Bodies': [
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'organizationName', label: 'Organization Name' },
+    { key: 'membershipType', label: 'Membership Type' },
+    { key: 'membershipId', label: 'Membership ID' },
+    { key: 'dateOfJoining', label: 'Date of Joining' },
+    { key: 'currentStatus', label: 'Current Status' },
+  ],
+  'Academic Qualifications Discipline': [
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'highestDegree', label: 'Highest Degree' },
+    { key: 'universityOrInstitute', label: 'University/Institute' },
+    { key: 'specialization', label: 'Specialization' },
+    { key: 'yearOfCompletion', label: 'Year of Completion' },
+  ],
+  'PhD Supervision / Guidances': [
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'phdScholarName', label: 'PhD Scholar Name' },
+    { key: 'universityAffiliation', label: 'University Affiliation' },
+    { key: 'status', label: 'Status' },
+    { key: 'researchTopic', label: 'Research Topic' },
+    { key: 'registrationDate', label: 'Registration Date' },
+    { key: 'completionDate', label: 'Completion Date' },
+  ],
+  'Research Projects Guided': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'branch', label: 'Branch' },
+    { key: 'batch', label: 'Batch' },
+    { key: 'doiOrIsbn', label: 'DOI/ISBN' },
+    { key: 'titleOfPaper', label: 'Title of Paper' },
+    { key: 'publicationDate', label: 'Publication Date' },
+    { key: 'journalOrConferenceName', label: 'Journal/Conference Name' },
+    { key: 'coAuthors', label: 'Co-Authors' },
+    { key: 'indexing', label: 'Indexing' },
+    { key: 'facultyGuide', label: 'Faculty Guide' },
+  ],
+  'Invited Talks / Resource Person': [
+    { key: 'facultyName', label: 'Faculty Name' },
+    { key: 'titleOfTalk', label: 'Title of Talk/Session' },
+    { key: 'eventName', label: 'Event Name' },
+    { key: 'organizingBody', label: 'Organizing Body' },
+    { key: 'date', label: 'Date' },
+    { key: 'natureOfEngagement', label: 'Nature of Engagement' },
+  ],
+  'Books / Chapters Authored': [
+    { key: 'title', label: 'Title of Book/Chapter' },
+    { key: 'publisher', label: 'Publisher' },
+    { key: 'isbn', label: 'ISBN' },
+    { key: 'yearOfPublication', label: 'Year of Publication' },
+    { key: 'coAuthors', label: 'Co-authors' },
+    { key: 'facultyName', label: 'Faculty Name' },
+  ],
+};
 
 const Faculty = () => {
   const [filterText, setFiltertext] = useState("");
@@ -16,6 +144,12 @@ const Faculty = () => {
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
+  
+  // State for selected rows and columns
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [showColumnSelector, setShowColumnSelector] = React.useState(false);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [exportableColumns, setExportableColumns] = React.useState([]);
 
   const tabs = [
     { label: 'Profile' },
@@ -77,7 +211,6 @@ const Faculty = () => {
           console.log(response.data)
           setData(response.data.patents);
           setColumn(patentGrantedColumns);
-          // we dont have reaserach paper column here
           break;
 
         case 'Membership in Professional Bodies':
@@ -89,9 +222,13 @@ const Faculty = () => {
 
         case 'Academic Qualifications Discipline':
           response = await axios.get("http://localhost:3000/api/v1/faculty/academic-qualifications");
-          console.log(response.data)
-          setData(response.data.qualifications);
+          console.log('Academic Qualifications Response:', response.data);
+          console.log('Qualifications Data:', response.data.qualifications);
+          const qualificationsData = response.data.qualifications || [];
+          console.log('Setting data with', qualificationsData.length, 'items');
+          setData(qualificationsData);
           setColumn(academicQualificationColumns);
+          console.log('Columns set:', academicQualificationColumns);
           break;
 
         case 'PhD Supervision / Guidances':
@@ -106,8 +243,6 @@ const Faculty = () => {
           console.log(response.data)
           setData(response.data.talks);
           setColumn(invitedTalksColumn);
-
-          // invited columns not defined
           break;
 
         case 'Invited Talks / Resource Person':
@@ -130,6 +265,11 @@ const Faculty = () => {
           setColumn([]);
           break;
       }
+      
+      // Set exportable columns for the selected tab
+      const tabColumns = exportableColumnsByTab[selectedTab] || [];
+      setExportableColumns(tabColumns);
+      setSelectedColumns(tabColumns.map(col => col.key));
     } catch (error) {
       console.error(`Error fetching ${selectedTab} data:`, error);
     }
@@ -145,6 +285,93 @@ const Faculty = () => {
     console.log(filterText)
   }, [tab]);
 
+  // Handle row selection
+  const handleRowSelected = React.useCallback(state => {
+    setSelectedRows(state.selectedRows);
+  }, []);
+
+  // Toggle column selection
+  const toggleColumnSelection = (columnKey) => {
+    setSelectedColumns(prev => {
+      if (prev.includes(columnKey)) {
+        return prev.filter(key => key !== columnKey);
+      } else {
+        return [...prev, columnKey];
+      }
+    });
+  };
+
+  // Select all columns
+  const selectAllColumns = () => {
+    setSelectedColumns(exportableColumns.map(col => col.key));
+  };
+
+  // Deselect all columns
+  const deselectAllColumns = () => {
+    setSelectedColumns([]);
+  };
+
+  // Filter data to only include selected columns
+  const filterDataByColumns = React.useCallback((dataArray) => {
+    return dataArray.map(row => {
+      const filteredRow = {};
+      selectedColumns.forEach(colKey => {
+        if (Object.prototype.hasOwnProperty.call(row, colKey)) {
+          filteredRow[colKey] = row[colKey];
+        }
+      });
+      return filteredRow;
+    });
+  }, [selectedColumns]);
+
+  const downloadCSV = React.useCallback((array) => {
+    let dataToExport = array;
+    
+    if (selectedRows.length > 0) {
+      dataToExport = selectedRows;
+    }
+
+    if (selectedColumns.length > 0 && dataToExport.length > 0) {
+      dataToExport = filterDataByColumns(dataToExport);
+    }
+
+    if (dataToExport.length === 0) {
+      alert('No data to export. Please select rows and/or columns.');
+      return;
+    }
+
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(dataToExport);
+
+    if (csv == null) return;
+    const filename = `faculty_${tab.toLowerCase().replace(/ /g, '_').replace(/[()]/g, '')}_export.csv`;
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }, [selectedRows, selectedColumns, filterDataByColumns, tab]);
+
+  const Export = ({ onExport }) => (
+    <div className="flex gap-2 items-center">
+      <button 
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+        onClick={() => setShowColumnSelector(!showColumnSelector)}
+      >
+        Select Columns ({selectedColumns.length})
+      </button>
+      <button 
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+        onClick={e => onExport(e.target.value)}
+      >
+        Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
+      </button>
+    </div>
+  );
+
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
+
   const FilteringComponent = () => {
 
     const filteredItems = data.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || item.department && item.department.toLowerCase().includes(filterText.toLowerCase()));
@@ -152,7 +379,13 @@ const Faculty = () => {
     // can go with search woth department faculty Name, ID etc.
     return (
       <>
-        <DataTable data={filteredItems} columns={column} />
+        <DataTable 
+          data={filteredItems} 
+          columns={column} 
+          actions={actionsMemo}
+          selectableRows
+          onSelectedRowsChange={handleRowSelected}
+        />
       </>
     )
   }
@@ -180,7 +413,56 @@ const Faculty = () => {
         {loading ? (
           <div className="text-center py-8 text-blue-600 font-semibold">Loading...</div>
         ) : <div>
-          { filterText.length == 0 ? <DataTable data={data} columns={column} /> : <FilteringComponent /> }
+          {/* Column Selector Modal */}
+          {showColumnSelector && exportableColumns.length > 0 && (
+            <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+                <button 
+                  onClick={() => setShowColumnSelector(false)}
+                  className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="flex gap-2 mb-3">
+                <button 
+                  onClick={selectAllColumns}
+                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+                >
+                  Select All
+                </button>
+                <button 
+                  onClick={deselectAllColumns}
+                  className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+                >
+                  Deselect All
+                </button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+                {exportableColumns.map(column => (
+                  <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={selectedColumns.includes(column.key)}
+                      onChange={() => toggleColumnSelection(column.key)}
+                      className="w-4 h-4 cursor-pointer"
+                    />
+                    <span className="text-sm">{column.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          { filterText.length == 0 ? 
+            <DataTable 
+              data={data} 
+              columns={column} 
+              actions={actionsMemo}
+              selectableRows
+              onSelectedRowsChange={handleRowSelected}
+            /> : <FilteringComponent /> }
         </div>
         }
       </div>
@@ -418,19 +700,6 @@ export const facultyAwardsColumns = [
     selector: row => row.level,
     sortable: true
   },
-  // {
-  //   name: 'Supporting Document',
-  //   cell: row => (
-  //     <a
-  //       href={row.supportingDocument}
-  //       target="_blank"
-  //       rel="noopener noreferrer"
-  //       className="text-blue-600 underline"
-  //     >
-  //       View
-  //     </a>
-  //   )
-  // }
 ];
 
 export const facultyDevlopmentColumn = [
@@ -438,7 +707,6 @@ export const facultyDevlopmentColumn = [
   { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
   { name: 'department', selector: row => row.department, wrap: true },
   { name: 'FDP title', selector: row => row.fdpTitle },
-  // { name: 'Program Name', selector: row => row.programName },
   { name: 'Organising Institute', selector: row => row.organizingInstitute },
 
   { name: 'Start Date', selector: row => row.startDate },
@@ -495,55 +763,72 @@ export const patentPublished = [
   { name: 'faculty Id', selector: row => row.facultyId, sortable: true, width: '70px' },
   { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
   { name: 'Department', selector: row => row.department, wrap: true },
-  { name: 'title', selector: row => row.title },
+  { name: 'Title', selector: row => row.title },
   { name: 'Applicant', selector: row => row.applicant },
-  { name: 'Application Number', selector: row => row.applicationNumber },
   { name: 'Application Number', selector: row => row.applicationNumber, wrap: true },
   { name: 'Application Date', selector: row => row.applicationDate },
   { name: 'Status', selector: row => row.status },
-  { name: 'Co-Inventors', selector: row => row.coInventors },
+  { 
+    name: 'Co-Inventors', 
+    selector: row => row.coInventors,
+    cell: row => {
+      if (!row.coInventors) return 'N/A';
+      if (Array.isArray(row.coInventors)) return row.coInventors.join(', ');
+      if (typeof row.coInventors === 'object') return Object.values(row.coInventors).filter(v => v).join(', ');
+      return String(row.coInventors);
+    },
+    wrap: true
+  },
   { name: 'Country', selector: row => row.country },
   { name: 'Category', selector: row => row.category },
   {
     name: 'Certificate',
     cell: row => (
-      <a
-        href={row.Certificate_Link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-600 underline text-sm"
-      >
-        View
-      </a>
+      row.Certificate_Link || row.certificateLink || row.fileId ? (
+        <a
+          href={row.Certificate_Link || row.certificateLink || `http://localhost:3000/file/${row.fileId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline text-sm"
+        >
+          View
+        </a>
+      ) : 'N/A'
     ),
-
   },
-  { name: 'Patent Title', selector: row => row.patentTitle },
-  // { name: 'Patent Type', selector: row => row.patentType },
-  { name: 'Inventors', selector: row => row.inventors },
+  { name: 'Patent Title', selector: row => row.patentTitle, wrap: true },
+  { 
+    name: 'Inventors', 
+    selector: row => row.inventors,
+    cell: row => {
+      if (!row.inventors) return 'N/A';
+      if (Array.isArray(row.inventors)) return row.inventors.join(', ');
+      if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
+      return String(row.inventors);
+    },
+    wrap: true
+  },
   { name: 'Publication Date', selector: row => row.publicationDate },
-  { name: 'Abstract', selector: row => row.abstract },
-
-
+  { name: 'Abstract', selector: row => row.abstract, wrap: true },
   {
     name: 'Actions',
     cell: row => (
-      <div className="flex">
+      <div className="flex gap-2">
         <button
-          onClick={() => alert(`Viewing patent ${row.Id}`)}
-          className="bg-blue-500  hover:bg-blue-600 text-white text-xs px-5 py-4 rounded"
+          onClick={() => alert(`Viewing patent ${row.Id || row._id}`)}
+          className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
         >
           View
         </button>
         <button
-          onClick={() => alert(`Editing patent ${row.Id}`)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-5 py-4 rounded"
+          onClick={() => alert(`Editing patent ${row.Id || row._id}`)}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1 rounded"
         >
           Edit
         </button>
         <button
-          onClick={() => alert(`Deleting patent ${row.Id}`)}
-          className="bg-red-500 hover:bg-red-600 text-white text-xs px-5 py-4 rounded"
+          onClick={() => alert(`Deleting patent ${row.Id || row._id}`)}
+          className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
         >
           Delete
         </button>
@@ -565,7 +850,13 @@ export const patentGrantedColumns = [
   },
   {
     name: 'Inventors',
-    selector: row => row.inventors?.join(', '),
+    selector: row => row.inventors,
+    cell: row => {
+      if (!row.inventors) return 'N/A';
+      if (Array.isArray(row.inventors)) return row.inventors.join(', ');
+      if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
+      return String(row.inventors);
+    },
     sortable: true,
     wrap: true,
   },
@@ -689,40 +980,97 @@ export const membershipColumn = [
 
 export const academicQualificationColumns = [
   {
+    name: 'Faculty Name',
+    selector: row => row.facultyName,
+    cell: row => {
+      if (!row.facultyName) return 'N/A';
+      if (typeof row.facultyName === 'object' && !Array.isArray(row.facultyName)) {
+        return Object.values(row.facultyName).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.facultyName);
+    },
+    sortable: true,
+    wrap: true,
+  },
+  {
     name: 'Highest Degree',
     selector: row => row.highestDegree,
+    cell: row => {
+      if (!row.highestDegree) return 'N/A';
+      if (typeof row.highestDegree === 'object' && !Array.isArray(row.highestDegree)) {
+        return Object.values(row.highestDegree).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.highestDegree);
+    },
     sortable: true,
     wrap: true,
   },
   {
     name: 'University/Institute',
     selector: row => row.universityOrInstitute,
+    cell: row => {
+      if (!row.universityOrInstitute) return 'N/A';
+      if (typeof row.universityOrInstitute === 'object' && !Array.isArray(row.universityOrInstitute)) {
+        return Object.values(row.universityOrInstitute).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.universityOrInstitute);
+    },
     sortable: true,
     wrap: true,
   },
   {
     name: 'Specialization',
     selector: row => row.specialization,
+    cell: row => {
+      if (!row.specialization) return 'N/A';
+      if (typeof row.specialization === 'object' && !Array.isArray(row.specialization)) {
+        return Object.values(row.specialization).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.specialization);
+    },
     sortable: true,
   },
   {
     name: 'Year of Completion',
     selector: row => row.yearOfCompletion,
+    cell: row => {
+      if (!row.yearOfCompletion) return 'N/A';
+      if (typeof row.yearOfCompletion === 'object' && !Array.isArray(row.yearOfCompletion)) {
+        return Object.values(row.yearOfCompletion).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.yearOfCompletion);
+    },
     sortable: true,
   },
   {
     name: 'Certificate',
-    cell: row => (
-      row.certificateUrl ? (
+    cell: row => {
+      const certLink = row.certificateUrl || row.fileId;
+      if (!certLink) return 'N/A';
+      
+      const url = row.fileId ? `http://localhost:3000/file/${row.fileId}` : certLink;
+      return (
         <a
-          href={row.certificateUrl}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
         >
-          View
+          View PDF
         </a>
-      ) : 'N/A'
+      );
+    },
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex flex-col items-center justify-center gap-0.5">
+        <button onClick={() => alert(`Editing qualification ${row._id}`)} className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-5 py-1 rounded">Edit</button>
+        <button onClick={() => alert(`Deleting qualification ${row._id}`)} className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">Delete</button>
+      </div>
     ),
     ignoreRowClick: true,
     allowOverflow: true,
@@ -887,5 +1235,3 @@ export const booksChaptersColumns = [
     sortable: true
   }
 ];
-
-
