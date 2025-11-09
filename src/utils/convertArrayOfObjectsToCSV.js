@@ -1,4 +1,8 @@
 export function convertArrayOfObjectsToCSV(array) {
+    if (!array || array.length === 0) {
+      return null;
+    }
+
     let result;
 
     const columnDelimiter = ',';
