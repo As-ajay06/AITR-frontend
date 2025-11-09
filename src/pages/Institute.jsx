@@ -4,6 +4,58 @@ import DepartmentTabs from '../components/DepartmentTabs';
 import axios from 'axios';
 
 import DataTable from 'react-data-table-component';
+import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
+
+// Define exportable columns for each tab
+const exportableColumnsByTab = {
+  'MOU': [
+    { key: 'agencyName', label: 'Agency Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'description', label: 'Description' },
+    { key: 'funding', label: 'Funding' },
+  ],
+  'Consultancy': [
+    { key: 'agencyName', label: 'Agency Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'description', label: 'Description' },
+    { key: 'funding', label: 'Funding' },
+  ],
+  'R&D': [
+    { key: 'agencyName', label: 'Agency Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'description', label: 'Description' },
+    { key: 'funding', label: 'Funding' },
+  ],
+  'Event Grant ': [
+    { key: 'eventName', label: 'Event Name' },
+    { key: 'eventType', label: 'Type of the Event' },
+    { key: 'agencyName', label: 'Agency Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'description', label: 'Description' },
+    { key: 'funding', label: 'Funding' },
+  ],
+  'Event Grant Organized': [
+    { key: 'eventName', label: 'Event Name' },
+    { key: 'eventType', label: 'Type of the Event' },
+    { key: 'agencyName', label: 'Agency Name' },
+    { key: 'category', label: 'Category' },
+    { key: 'numberOfParticipants', label: 'Number of Participants' },
+    { key: 'date', label: 'Date' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'discription', label: 'Description' },
+    { key: 'funding', label: 'Funding' },
+  ],
+  'Institute Documents': [
+    { key: 'aictePdf', label: 'AICTE Affiliation PDF' },
+    { key: 'rgpvPdf', label: 'RGPV PDF' },
+    { key: 'societyPdf', label: 'Society PDF' },
+    { key: 'byLawsPdf', label: 'By Laws PDF' },
+  ],
+};
 
 const Institute = () => {
   const [filterText, setFiltertext] = useState('');
@@ -11,6 +63,12 @@ const Institute = () => {
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
+  
+  // State for selected rows and columns
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [showColumnSelector, setShowColumnSelector] = React.useState(false);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [exportableColumns, setExportableColumns] = React.useState([]);
 
   const tabs = [
     { label: 'MOU' },
@@ -74,6 +132,11 @@ const Institute = () => {
           setColumn([]);
           break;
       }
+      
+      // Set exportable columns for the selected tab
+      const tabColumns = exportableColumnsByTab[selectedTab] || [];
+      setExportableColumns(tabColumns);
+      setSelectedColumns(tabColumns.map(col => col.key));
     } catch (error) {
       console.error(`Error fetching ${selectedTab} data:`, error);
     }
@@ -88,6 +151,93 @@ const Institute = () => {
     console.log(filterText)
   }, [tab]);
 
+  // Handle row selection
+  const handleRowSelected = React.useCallback(state => {
+    setSelectedRows(state.selectedRows);
+  }, []);
+
+  // Toggle column selection
+  const toggleColumnSelection = (columnKey) => {
+    setSelectedColumns(prev => {
+      if (prev.includes(columnKey)) {
+        return prev.filter(key => key !== columnKey);
+      } else {
+        return [...prev, columnKey];
+      }
+    });
+  };
+
+  // Select all columns
+  const selectAllColumns = () => {
+    setSelectedColumns(exportableColumns.map(col => col.key));
+  };
+
+  // Deselect all columns
+  const deselectAllColumns = () => {
+    setSelectedColumns([]);
+  };
+
+  // Filter data to only include selected columns
+  const filterDataByColumns = React.useCallback((dataArray) => {
+    return dataArray.map(row => {
+      const filteredRow = {};
+      selectedColumns.forEach(colKey => {
+        if (Object.prototype.hasOwnProperty.call(row, colKey)) {
+          filteredRow[colKey] = row[colKey];
+        }
+      });
+      return filteredRow;
+    });
+  }, [selectedColumns]);
+
+  const downloadCSV = React.useCallback((array) => {
+    let dataToExport = array;
+    
+    if (selectedRows.length > 0) {
+      dataToExport = selectedRows;
+    }
+
+    if (selectedColumns.length > 0 && dataToExport.length > 0) {
+      dataToExport = filterDataByColumns(dataToExport);
+    }
+
+    if (dataToExport.length === 0) {
+      alert('No data to export. Please select rows and/or columns.');
+      return;
+    }
+
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(dataToExport);
+
+    if (csv == null) return;
+    const filename = `institute_${tab.toLowerCase().replace(/ /g, '_')}_export.csv`;
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }, [selectedRows, selectedColumns, filterDataByColumns, tab]);
+
+  const Export = ({ onExport }) => (
+    <div className="flex gap-2 items-center">
+      <button 
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+        onClick={() => setShowColumnSelector(!showColumnSelector)}
+      >
+        Select Columns ({selectedColumns.length})
+      </button>
+      <button 
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+        onClick={e => onExport(e.target.value)}
+      >
+        Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
+      </button>
+    </div>
+  );
+
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
+
 
   const FilteringComponent = () => {
 
@@ -96,7 +246,13 @@ const Institute = () => {
     // can go with search woth department faculty Name, ID etc.
     return (
       <>
-        <DataTable data={filteredItems} columns={column} />
+        <DataTable 
+          data={filteredItems} 
+          columns={column} 
+          actions={actionsMemo}
+          selectableRows
+          onSelectedRowsChange={handleRowSelected}
+        />
       </>
     )
   }
@@ -124,7 +280,56 @@ const Institute = () => {
         {loading ? (
           <div className="text-center py-8 text-blue-600 font-semibold">Loading...</div>
         ) : <div>
-          {filterText.length == 0 ? <DataTable data={data} columns={column} /> : <FilteringComponent />}
+          {/* Column Selector Modal */}
+          {showColumnSelector && exportableColumns.length > 0 && (
+            <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+                <button 
+                  onClick={() => setShowColumnSelector(false)}
+                  className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="flex gap-2 mb-3">
+                <button 
+                  onClick={selectAllColumns}
+                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+                >
+                  Select All
+                </button>
+                <button 
+                  onClick={deselectAllColumns}
+                  className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+                >
+                  Deselect All
+                </button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+                {exportableColumns.map(column => (
+                  <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+                    <input
+                      type="checkbox"
+                      checked={selectedColumns.includes(column.key)}
+                      onChange={() => toggleColumnSelection(column.key)}
+                      className="w-4 h-4 cursor-pointer"
+                    />
+                    <span className="text-sm">{column.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {filterText.length == 0 ? 
+            <DataTable 
+              data={data} 
+              columns={column} 
+              actions={actionsMemo}
+              selectableRows
+              onSelectedRowsChange={handleRowSelected}
+            /> : <FilteringComponent />}
         </div>
         }
       </div>
