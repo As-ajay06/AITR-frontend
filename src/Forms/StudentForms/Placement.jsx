@@ -5,6 +5,7 @@ import InputBox from "../../components/InputBox";
 import FileBox from "../../components/FileBox";
 import CalenderBox from "../../components/CalenderBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const branches = ["CSE", "ECE", "Mechanical", "Civil"];
 const placementTypes = ["On Campus", "Off Campus"];
@@ -19,7 +20,7 @@ const StudentPlacementForm = ({ register, handleSubmit, reset, onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Placement Form
         </h2>
-        <UploadForm url={"addPlacementData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/placement`}/>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

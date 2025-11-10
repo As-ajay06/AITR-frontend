@@ -8,6 +8,7 @@ import UploadForm from '../../components/UploadForm';
 import { useFilter } from '../../hooks/useFilter';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -187,7 +188,7 @@ function BooksChapteresAuthored() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
             Books and Chapter Authored
           </h2>
-          <UploadForm url={"addBooksAndChapterAuthoredData"} />
+          <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/books_chapters_authored`} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>

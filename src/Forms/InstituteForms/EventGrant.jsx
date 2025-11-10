@@ -9,7 +9,7 @@ import UploadForm from '../../components/UploadForm';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
 import { useFilter } from '../../hooks/useFilter';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
-
+import { API_INSTITUTE_FILE_UPLOAD } from '../../../config/config';
 // Define available columns for export
 const exportableColumns = [
   { key: 'eventName', label: 'Event Name' },
@@ -189,7 +189,7 @@ function InstituteEventGrant() {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Institute Event Grant form
         </h2>
-        <UploadForm url={"addEventGrantData"} />
+        <UploadForm  url={`${API_INSTITUTE_FILE_UPLOAD}/event_grant`}  />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -5,7 +5,7 @@ import FileBox from "../../components/FileBox";
 import SelectBox from "../../components/SelectBox";
 import CalenderBox from "../../components/CalenderBox";
 import UploadForm from "../../components/UploadForm";
-
+import { API_FACULTY_FILE_UPLOAD } from "../../../config/config";
 
 const conferenceTypes = ["National", "International"];
 const modes = ["Online", "Offline", "Hybrid"];
@@ -26,7 +26,7 @@ const FacultyConferenceForm = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Faculty Conference Form
         </h2>
-        <UploadForm url={"addConferenceData"} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/conference`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

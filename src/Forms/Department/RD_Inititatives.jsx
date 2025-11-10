@@ -11,6 +11,7 @@ import UploadForm from '../../components/UploadForm';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
 import { useFilter } from '../../hooks/useFilter';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
+import { API_DEPARTMENT_FILE_UPLOAD } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -212,7 +213,7 @@ const RDInitiatives = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           RnD initiative submission form
         </h2>
-        <UploadForm url={"addRndInitiativeData"} />
+        <UploadForm url={`${API_DEPARTMENT_FILE_UPLOAD}/rnd_initiatives`} />
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>

@@ -10,6 +10,7 @@ import DataTable from 'react-data-table-component'
 import { useFilter } from '../../hooks/useFilter'
 import { DataFilterComponent } from '../../components/DataFilterComponent'
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 // Define available columns for export
 const exportableColumns = [
@@ -184,7 +185,7 @@ function MembershipProfessionalBodies() {
                     <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
                         Faculty Membership Form
                     </h2>
-                    <UploadForm url={"addFacultyMembershipData"} />
+                    <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/membership_professional_bodies`} />
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-3 md:grid-cols-3 gap-6" >

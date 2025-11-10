@@ -5,6 +5,7 @@ import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const outcomes = ["Prototype", "Patent", "Paper"];
 
@@ -22,7 +23,7 @@ const CapstoneProjectForm = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Capstone Form
         </h2>
-        <UploadForm url={"addCaptsoneData"} />
+        <UploadForm  url={`${API_STUDENT_FILE_UPLOAD}/project_work`}  />
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>

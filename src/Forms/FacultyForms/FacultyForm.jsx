@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import InputBox from '../../components/InputBox'
 import SelectBox from '../../components/SelectBox'
 import UploadForm from '../../components/UploadForm'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 
 function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
@@ -18,7 +19,7 @@ function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Faculty Profile Form
         </h2>
-        <UploadForm url={"addFacultyProfileData"} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/profile`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -3,6 +3,7 @@ import CalenderBox from "../../components/CalenderBox";
 import InputBox from "../../components/InputBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const StudentHackathonForm = ({ onSubmit }) => {
   const methods = useForm({
@@ -19,7 +20,7 @@ const StudentHackathonForm = ({ onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Hackathons Form
         </h2>
-        <UploadForm url={"addHackathonData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/hackthons`} />
       </div>
 
       <FormProvider {...methods}>

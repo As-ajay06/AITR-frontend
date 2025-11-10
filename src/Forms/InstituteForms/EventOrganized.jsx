@@ -10,6 +10,7 @@ import UploadForm from '../../components/UploadForm';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
 import { useFilter } from '../../hooks/useFilter';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
+import { API_INSTITUTE_FILE_UPLOAD } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -208,7 +209,7 @@ const EventOrganized = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Event organised form
         </h2>
-        <UploadForm url={"addEventOrganisedData"} />
+        <UploadForm  url={`${API_INSTITUTE_FILE_UPLOAD}/event_organised`}  />
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>

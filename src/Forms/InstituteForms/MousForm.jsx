@@ -10,6 +10,7 @@ import UploadForm from "../../components/UploadForm";
 import { convertArrayOfObjectsToCSV } from "../../utils/convertArrayOfObjectsToCSV";
 import { useFilter } from "../../hooks/useFilter";
 import { DataFilterComponent } from "../../components/DataFilterComponent";
+import { API_INSTITUTE_FILE_UPLOAD } from "../../../config/config";
 
 // Define available columns for export
 const exportableColumns = [
@@ -195,7 +196,7 @@ const MouForm = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Memorandum of Understanding (MoU) Submission Form
         </h2>
-        <UploadForm url={"addInstituteMouData"} />
+        <UploadForm  url={`${API_INSTITUTE_FILE_UPLOAD}/mou`}  />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

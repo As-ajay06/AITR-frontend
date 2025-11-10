@@ -6,6 +6,7 @@ import FileBox from "../../components/FileBox";
 import DynamicSelectBox from "../../components/DynamicSelectBox";
 import UploadForm from "../../components/UploadForm";
 import Button from "../../components/Button";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const genderOptions = ["Male", "Female", "Other"];
 const categoryOptions = ["General", "OBC", "SC", "ST", "Other"];
@@ -20,7 +21,7 @@ const StudentForm = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Profile Form
         </h2>
-        <UploadForm url={"addStudentData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/profile`} />
       </div>
 
       <form

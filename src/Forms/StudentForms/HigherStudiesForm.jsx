@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import InputBox from '../../components/InputBox';
 import CalenderBox from '../../components/CalenderBox';
 import UploadForm from '../../components/UploadForm';
+import { API_STUDENT_FILE_UPLOAD } from '../../../config/config';
 
 const HigherStudies = ({ register, handleSubmit, reset, onSubmit }) => {
 
@@ -13,7 +14,7 @@ const HigherStudies = ({ register, handleSubmit, reset, onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Higher Studies Form
         </h2>
-        <UploadForm url={"addHigherStudiesData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/higher_studies`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

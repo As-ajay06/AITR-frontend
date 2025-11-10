@@ -7,6 +7,7 @@ import DynamicUserFields from "../../components/DynamicFieldsForm";
 import { FormProvider } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const internshipModes = ["Online", "Offline", "Hybrid"];
 const stipends = ["Unpaid", "₹5,000", "₹10,000", "₹20,000"];
@@ -32,7 +33,7 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Intership Form
         </h2>
-        <UploadForm url={"addInternshipData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/internship`} />
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>

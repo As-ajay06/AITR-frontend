@@ -10,6 +10,7 @@ import { useFilter } from '../../hooks/useFilter';
 import { useMemo } from 'react';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { API_DEPARTMENT_FILE_UPLOAD } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -212,7 +213,7 @@ const ConsultancyProject = () => {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
             Consulatancy Projects
           </h2>
-          <UploadForm url={"addConsultancyData"} />
+          <UploadForm url={`${API_DEPARTMENT_FILE_UPLOAD}/consultancy_projects`} /> 
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>

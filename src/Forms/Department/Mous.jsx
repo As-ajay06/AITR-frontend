@@ -9,6 +9,7 @@ import UploadForm from '../../components/UploadForm';
 import { DataFilterComponent } from '../../components/DataFilterComponent';
 import { useFilter } from '../../hooks/useFilter';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { API_DEPARTMENT_FILE_UPLOAD } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -209,7 +210,7 @@ function Mous() {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           MOU form
         </h2>
-        <UploadForm url={"addMouDepartmentData"} />
+        <UploadForm url={`${API_DEPARTMENT_FILE_UPLOAD}/mous`} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>

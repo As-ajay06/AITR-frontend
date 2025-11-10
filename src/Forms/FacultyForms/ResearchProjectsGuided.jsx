@@ -9,6 +9,7 @@ import UploadForm from '../../components/UploadForm'
 import { useFilter } from '../../hooks/useFilter'
 import { DataFilterComponent } from '../../components/DataFilterComponent'
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 // Define available columns for export
 const exportableColumns = [
@@ -194,7 +195,7 @@ function ResearchProjectsGuided() {
                     <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
                         Faculty Research Project Guided Form
                     </h2>
-                    <UploadForm url={"addResearchProjectGuidedData"} />
+                    <UploadForm uurl={`${API_FACULTY_FILE_UPLOAD}/research_project_guided`} />
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-3 md:grid-cols-3 gap-6" >

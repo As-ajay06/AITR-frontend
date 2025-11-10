@@ -5,6 +5,7 @@ import CalenderBox from "../../components/CalenderBox";
 import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import UploadForm from "../../components/UploadForm";
+import { API_FACULTY_FILE_UPLOAD } from "../../../config/config";
 
 const programTypes = ["FDP", "Workshop", "Seminar", "Training"];
 const modes = ["Online", "Offline", "Hybrid"];
@@ -19,7 +20,7 @@ const DevlopmentProgram = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Faculty Devlopment Form
         </h2>
-        <UploadForm url={"addDevelopmentData"} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/devlopment_program`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

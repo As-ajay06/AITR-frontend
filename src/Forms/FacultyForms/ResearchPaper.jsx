@@ -5,6 +5,7 @@ import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import UploadForm from "../../components/UploadForm";
 import DataTable from "react-data-table-component";
+import { API_FACULTY_FILE_UPLOAD } from "../../../config/config";
 
 
 const ResearchPaper = ({ handleSubmit, onSubmit, register, reset }) => {
@@ -16,7 +17,7 @@ const ResearchPaper = ({ handleSubmit, onSubmit, register, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Faculty Reseach Paper Form
         </h2>
-        <UploadForm url={"addResearchPaperData"} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/research_paper_publication`}/>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -5,6 +5,7 @@ import CalenderBox from "../../components/CalenderBox";
 import Button from "../../components/Button";
 import SelectBox from "../../components/SelectBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const MembershipForm = ({ onSubmit, register, handleSubmit, reset }) => {
 
@@ -16,7 +17,7 @@ const MembershipForm = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Proffesional Membership Form
         </h2>
-        <UploadForm url={"addProffesionalMembershipData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/professional_membership`}/>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
