@@ -3,6 +3,7 @@ import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import CalenderBox from "../../components/CalenderBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const validityOptions = ["6 Months", "1 Year", "2 Years", "Lifetime"];
 const modesOfLearning = ["Online", "Offline", "Hybrid"];
@@ -17,7 +18,7 @@ const StudentCertificateForm = ({ handleSubmit, onSubmit, register, reset }) => 
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Certificate Form
         </h2>
-        <UploadForm url={"addStudentData"} />
+        <UploadForm urlurl={`${API_STUDENT_FILE_UPLOAD}/certification`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

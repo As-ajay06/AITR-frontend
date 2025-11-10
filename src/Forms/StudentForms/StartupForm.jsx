@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import InputBox from "../../components/InputBox";
 import SelectBox from "../../components/SelectBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const statusOptions = ["Idea", "Prototype", "Registered"];
 
@@ -13,7 +14,7 @@ const StartupForm = ({ onSubmit, register, handleSubmit, reset }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Startups Form
         </h2>
-        <UploadForm url={"addStartupsData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/startups`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

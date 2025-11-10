@@ -5,6 +5,7 @@ import SelectBox from "../../components/SelectBox";
 import CalenderBox from "../../components/CalenderBox";
 import FileBox from "../../components/FileBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const eventNames = [
   "Annual Sports Meet",
@@ -24,7 +25,7 @@ const SportForm = ( {register, handleSubmit, reset, onSubmit } ) => {
          <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
            Student Sports Form
          </h2>
-         <UploadForm url={"addSportsData"} />
+         <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/sports`} />
        </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

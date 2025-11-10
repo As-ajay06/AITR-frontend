@@ -5,6 +5,7 @@ import FileBox from "../../components/FileBox";
 import StudentResearchPaper from "../../table/StudentResearchPaper";
 import CalenderBox from "../../components/CalenderBox";
 import UploadForm from "../../components/UploadForm";
+import { API_STUDENT_FILE_UPLOAD } from "../../../config/config";
 
 const ResearchForm = ({ register, handleSubmit, reset, onSubmit }) => {
 
@@ -15,7 +16,7 @@ const ResearchForm = ({ register, handleSubmit, reset, onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Research Form
         </h2>
-        <UploadForm url={"addStudentResearchData"} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/research_paper`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
