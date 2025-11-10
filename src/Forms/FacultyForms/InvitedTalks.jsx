@@ -12,6 +12,7 @@ import DataTable from 'react-data-table-component'
 import { useFilter } from '../../hooks/useFilter'
 import { DataFilterComponent } from '../../components/DataFilterComponent'
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 // Define available columns for export
 const exportableColumns = [
@@ -202,7 +203,7 @@ function InvitedTalks() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
             Invited Talks Form
           </h2>
-          <UploadForm url={"addInvitedFormData"} />
+          <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/invited_talks`} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>

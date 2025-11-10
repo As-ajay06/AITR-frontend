@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component'
 import { useEffect, useState } from 'react'
 import UploadForm from '../../components/UploadForm'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 import axios from 'axios'
 import DynamicUserFields from '../../components/DynamicFieldsForm'
@@ -207,7 +208,7 @@ function PatentGrantedForm() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
             Patent Granted Form
           </h2>
-          <UploadForm url={"addPatentGrantedData"} />
+          <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/patent_granted`} />
         </div>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>

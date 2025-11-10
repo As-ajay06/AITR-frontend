@@ -9,6 +9,8 @@ import UploadForm from '../../components/UploadForm'
 import { useFilter } from '../../hooks/useFilter'
 import { DataFilterComponent } from '../../components/DataFilterComponent'
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
+
 
 // Define available columns for export
 const exportableColumns = [
@@ -197,7 +199,7 @@ function AcedmicQualificationDiscipline() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
             Faculty Academic Qualification Discipline Form
           </h2>
-          <UploadForm url={"addAcedmicQualificationDisciplineData"} />
+          <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/acedemic_qualification_discipline`} />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6" >

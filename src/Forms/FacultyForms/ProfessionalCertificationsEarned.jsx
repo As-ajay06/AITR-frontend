@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component'
 import SelectBox from '../../components/SelectBox'
 import UploadForm from '../../components/UploadForm'
+import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 import { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -199,7 +200,7 @@ function ProfessionalCertificationsEarned() {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Faculty Proffesional Certifications Form
         </h2>
-        <UploadForm url={"addProffesionalCertificationData"} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/professional_certification_earned`} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6" >
