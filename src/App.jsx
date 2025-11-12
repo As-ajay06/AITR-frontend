@@ -80,25 +80,13 @@ import ConsultancyProject from "./Forms/Department/ConsultancyProject";
 import RDInititatives from "./Forms/Department/RD_Inititatives";
 import EventGrantReceived from "./Forms/Department/EventGrantReceived";
 import EventOrganized from "./Forms/InstituteForms/EventOrganized";
-import StudentTable from "./table/StudentTable";
-import ExcelUploader from "./components/ExelUploader";
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> feat/file-uploading-route
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
 import UpdateProfile from "./pages/UpdateProfile";
 import SuperAdmin from "./pages/SuperAdmin";
-<<<<<<< HEAD
-
-=======
 import SuperAdminNavbar from "./components/SuperAdminNavbar";
 import AddProfile from "./pages/AddProfile";
 
->>>>>>> Stashed changes
->>>>>>> feat/file-uploading-route
 
 
 function App() {
@@ -107,27 +95,16 @@ function App() {
 
     <>
       <BrowserRouter>
-<<<<<<< Updated upstream
-        <NavbarHeader />
-        <Routes>
-
-<<<<<<< HEAD
-=======
-=======
         <SuperAdminNavbar />
         <Routes>
 
->>>>>>> feat/file-uploading-route
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/update_profile" element={<UpdateProfile />} />
 
-<<<<<<< HEAD
-=======
-          <Route path="/add_profile" element={<AddProfile />} />
+          <Route path="/add_profile" element={<AddProfile />} /> 
 
->>>>>>> feat/file-uploading-route
           {/* super admin routes */}
 
           <Route path="/super_admin" element={<SuperAdmin />} >
@@ -138,10 +115,6 @@ function App() {
 
 
 
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> feat/file-uploading-route
           <Route path="/" element={<HomePage />} />
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/student" element={<Student />} />
