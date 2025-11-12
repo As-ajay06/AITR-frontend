@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SearchBar from '../components/SearchBar';
 import DataTable from 'react-data-table-component';
-
+import { BASE_URL } from '../../config/config';
 
 const Student = () => {
   const [data, setData] = useState([]);
@@ -34,42 +34,42 @@ const Student = () => {
       let response;
       switch (selectedTab) {
         case 'Profile':
-          response = await axios.get("http://localhost:3000/api/v1/students/profiles");
+          response = await axios.get(`${BASE_URL}/api/v1/students/profiles`);
           console.log(response.data)
           setData(response.data.profiles);
           setColumn(studentProfileColumns);
           break;
 
         case 'Certification':
-          response = await axios.get("http://localhost:3000/api/v1/students/certificates");
+          response = await axios.get(`${BASE_URL}/api/v1/students/certificates`);
           console.log(response.data);
           setData(response.data.certificates);
           setColumn(certificateColumns);
           break;
 
         case 'Technical/ Non-technical Competitions':
-          response = await axios.get("http://localhost:3000/api/v1/students/skills");
+          response = await axios.get(`${BASE_URL}/api/v1/students/skills`);
           console.log(response.data)
           setData(response.data.technicalData);
           setColumn(studentTechinalNonTechnicalColumn);
           break;
 
         case 'Placement':
-          response = await axios.get("http://localhost:3000/api/v1/students/placements");
+          response = await axios.get(`${BASE_URL}/api/v1/students/placements`);
           console.log(response.data)
           setData(response.data.placements);
           setColumn(studentPlacementColumns);
           break;
 
         case 'Internship':
-          response = await axios.get("http://localhost:3000/api/v1/students/profiles");
+          response = await axios.get(`${BASE_URL}/api/v1/students/profiles`);
           console.log(response.data)
           setData(response.data.profiles);
           setColumn(studentInternshipColumn);
           break;
 
         case 'Reasearch Paper':
-          response = await axios.get("http://localhost:3000/api/v1/students/research-papers");
+          response = await axios.get(`${BASE_URL}/api/v1/students/research-papers`);
           console.log(response.data)
           setData(response.data.researchPapers);
           setColumn(researchPaperColumns);
@@ -77,42 +77,42 @@ const Student = () => {
           break;
 
         case 'Sports':
-          response = await axios.get("http://localhost:3000/api/v1/students/sports");
+          response = await axios.get(`${BASE_URL}/api/v1/students/sports`);
           console.log(response.data)
           setData(response.data.sportsData);
           setColumn(studentSportsEventColumns);
           break;
 
         case 'Extra Curricular':
-          response = await axios.get("http://localhost:3000/api/v1/students/extracurriculars");
+          response = await axios.get(`${BASE_URL}/api/v1/students/extracurriculars`);
           console.log(response.data)
           setData(response.data.extraCurriculars);
           setColumn(studentExtraCurricularColumns);
           break;
 
         case 'Project Work / Capstone Projects':
-          response = await axios.get("http://localhost:3000/api/v1/students/projects");
+          response = await axios.get(`${BASE_URL}/api/v1/students/projects`);
           console.log(response.data)
           setData(response.data.projectWorks);
           setColumn(CapstoneprojectColumns);
           break;
 
         case 'Startups/ Entrepreneurial Ventures':
-          response = await axios.get("http://localhost:3000/api/v1/students/startups");
+          response = await axios.get(`${BASE_URL}/api/v1/students/startups`);
           console.log(response.data)
           setData(response.data.startupsData);
           setColumn(startupColumns);
           break;
 
         case 'Hackathons / Innvoation Challenges':
-          response = await axios.get("http://localhost:3000/api/v1/students/hackathons");
+          response = await axios.get(`${BASE_URL}/api/v1/students/hackathons`);
           console.log(response.data)
           setData(response.data.hackathons);
           setColumn(studentHackthonColumns);
           break;
 
         case 'Higher Studies':
-          response = await axios.get("http://localhost:3000/api/v1/students/higher-studies");
+          response = await axios.get(`${BASE_URL}/api/v1/students/higher-studies`);
           console.log(response.data)
           setData(response.data.higherStudies);
           setColumn(studentHigherStudies);
@@ -120,7 +120,7 @@ const Student = () => {
 
 
         case 'Professional Memberships':
-          response = await axios.get("http://localhost:3000/api/v1/students/memberships");
+          response = await axios.get(`${BASE_URL}/api/v1/students/memberships`);
           console.log(response.data)
           setData(response.data.membershipCertificates);
           setColumn(membershipColumns);
@@ -152,7 +152,7 @@ const Student = () => {
       item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
     // can add more filters to this manually or think about more options
     // can go with search woth department faculty Name, ID etc.
-    
+
     return (
       <>
         <DataTable data={filteredItems} columns={column} />
@@ -340,7 +340,7 @@ export const certificateColumns = [
   { name: 'ID', selector: row => row.certificateId, sortable: true, width: '100px' },
   { name: 'Student Name', selector: row => row.studentName, sortable: true },
   { name: 'Enrollment Number', selector: row => row.enrollmentNumber },
-  { name: 'Certificate Name', selector: row => row.courseName},
+  { name: 'Certificate Name', selector: row => row.courseName },
   { name: 'Certificate Type', selector: row => row.certificateType },
   { name: 'Branch', selector: row => row.branch },
   { name: 'Batch', selector: row => row.batch },
@@ -369,9 +369,24 @@ export const certificateColumns = [
     name: 'Actions',
     cell: row => (
       <div className="flex gap-2">
-        <button onClick={() => alert(`Viewing certificate ${row.Id}`)} className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">View</button>
-        <button onClick={() => alert(`Editing certificate ${row.Id}`)} className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1 rounded">Edit</button>
-        <button onClick={() => alert(`Deleting certificate ${row.Id}`)} className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">Delete</button>
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
       </div>
     ),
     ignoreRowClick: true,
@@ -412,9 +427,24 @@ export const studentPlacementColumns = [
     name: 'Actions',
     cell: row => (
       <div className="flex gap-2">
-        <button onClick={() => alert(`Viewing ${row.Id}`)} className="bg-blue-500 text-white px-2 py-1 text-xs rounded">View</button>
-        <button onClick={() => alert(`Editing ${row.Id}`)} className="bg-yellow-500 text-white px-2 py-1 text-xs rounded">Edit</button>
-        <button onClick={() => alert(`Deleting ${row.Id}`)} className="bg-red-500 text-white px-2 py-1 text-xs rounded">Delete</button>
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
       </div>
     ),
     ignoreRowClick: true,
@@ -455,6 +485,34 @@ export const studentInternshipColumn = [
       </a>
     ),
   },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export const researchPaperColumns = [
@@ -477,6 +535,34 @@ export const researchPaperColumns = [
     ),
   },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 
@@ -563,7 +649,35 @@ export const publicationColumns = [
   {
     name: 'Department',
     selector: row => row.department
-  }
+  },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export const studentSportsEventColumns = [
@@ -635,7 +749,35 @@ export const studentSportsEventColumns = [
   {
     name: "Organizer",
     selector: row => row.organizer
-  }
+  },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export const studentExtraCurricularColumns = [
@@ -709,6 +851,34 @@ export const studentExtraCurricularColumns = [
     name: "Coach Name",
     selector: row => row.coachName,
   },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export const CapstoneprojectColumns = [
@@ -737,6 +907,34 @@ export const CapstoneprojectColumns = [
   {
     name: "Project Outcome",
     selector: row => row.projectOutcome,
+  },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];
 
@@ -778,6 +976,34 @@ export const startupColumns = [
         "N/A"
       ),
   },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export const studentHackthonColumns = [
@@ -798,9 +1024,24 @@ export const studentHackthonColumns = [
     name: 'Actions',
     cell: row => (
       <div className="flex gap-2">
-        <button onClick={() => alert(`Viewing event ${row.Id}`)} className="bg-blue-500 text-white px-2 py-1 text-xs rounded">View</button>
-        <button onClick={() => alert(`Editing event ${row.Id}`)} className="bg-yellow-500 text-white px-2 py-1 text-xs rounded">Edit</button>
-        <button onClick={() => alert(`Deleting event ${row.Id}`)} className="bg-red-500 text-white px-2 py-1 text-xs rounded">Delete</button>
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
       </div>
     ),
     ignoreRowClick: true,
@@ -822,9 +1063,24 @@ export const studentHigherStudies = [
     name: 'Actions',
     cell: row => (
       <div className="flex gap-2">
-        <button onClick={() => alert(`Viewing ${row.id}`)} className="bg-blue-500 text-white px-2 py-1 text-xs rounded">View</button>
-        <button onClick={() => alert(`Editing ${row.id}`)} className="bg-yellow-500 text-white px-2 py-1 text-xs rounded">Edit</button>
-        <button onClick={() => alert(`Deleting ${row.id}`)} className="bg-red-500 text-white px-2 py-1 text-xs rounded">Delete</button>
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
       </div>
     ),
     ignoreRowClick: true,
@@ -853,7 +1109,35 @@ export const membershipColumns = [
     name: "Membership Status",
     selector: row => row.membershipStatus,
     sortable: true,
-  }
+  },
+  {
+    name: 'Actions',
+    cell: row => (
+      <div className="flex gap-2">
+        <button
+          onClick={() => alert(`Viewing ${row.Title}`)}
+          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
+        >
+          View
+        </button>
+        <button
+          onClick={() => alert(`Editing ${row.Title}`)}
+          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => alert(`Deleting ${row.Title}`)}
+          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 

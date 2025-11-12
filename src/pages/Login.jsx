@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { API_AUTH_ADMIN, BASE_URL } from "../../config/config";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_AUTH}/login`, {
+      const res = await fetch(`${BASE_URL}/${API_AUTH_ADMIN}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
