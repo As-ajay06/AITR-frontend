@@ -82,6 +82,16 @@ import EventGrantReceived from "./Forms/Department/EventGrantReceived";
 import EventOrganized from "./Forms/InstituteForms/EventOrganized";
 import StudentTable from "./table/StudentTable";
 import ExcelUploader from "./components/ExelUploader";
+<<<<<<< Updated upstream
+=======
+import SignupPage from "./pages/Signup";
+import LoginPage from "./pages/Login";
+import UpdateProfile from "./pages/UpdateProfile";
+import SuperAdmin from "./pages/SuperAdmin";
+import SuperAdminNavbar from "./components/SuperAdminNavbar";
+import AddProfile from "./pages/AddProfile";
+
+>>>>>>> Stashed changes
 
 
 function App() {
@@ -90,10 +100,33 @@ function App() {
 
     <>
       <BrowserRouter>
+<<<<<<< Updated upstream
         <NavbarHeader />
         <Navbar />
         <Routes>
 
+=======
+        <SuperAdminNavbar />
+        <Routes>
+
+          {/* super admin Routes */}
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/update_profile" element={<UpdateProfile />} />
+
+          <Route path="/add_profile" element={<AddProfile />} />
+
+          {/* super admin routes */}
+
+          <Route path="/super_admin" element={<SuperAdmin />} >
+            <Route path="faculty-addfaculty" element={<AddFaculty />} />
+          </Route>
+
+
+
+
+
+>>>>>>> Stashed changes
           <Route path="/" element={<HomePage />} />
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/student" element={<Student />} />
