@@ -82,6 +82,11 @@ import EventGrantReceived from "./Forms/Department/EventGrantReceived";
 import EventOrganized from "./Forms/InstituteForms/EventOrganized";
 import StudentTable from "./table/StudentTable";
 import ExcelUploader from "./components/ExelUploader";
+import SignupPage from "./pages/Signup";
+import LoginPage from "./pages/Login";
+import UpdateProfile from "./pages/UpdateProfile";
+import SuperAdmin from "./pages/SuperAdmin";
+
 
 
 function App() {
@@ -91,19 +96,32 @@ function App() {
     <>
       <BrowserRouter>
         <NavbarHeader />
-        <Navbar />
         <Routes>
+
+          {/* super admin Routes */}
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/update_profile" element={<UpdateProfile />} />
+
+          {/* super admin routes */}
+
+          <Route path="/super_admin" element={<SuperAdmin />} >
+            <Route path="faculty-addfaculty" element={<AddFaculty />} />
+          </Route>
+
+
+
+
 
           <Route path="/" element={<HomePage />} />
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/student" element={<Student />} />
-
           <Route path="/institute" element={<Institute />} />
           <Route path="/department" element={<Department />} />
 
-          <Route path="/admin" element={<Admin />} >
 
-        // faculty routing
+          <Route path="/admin" element={<Admin />} >
+            {/* faculty Routes */}
             <Route path="faculty-addfaculty" element={<AddFaculty />} />
             <Route path="faculty-addawards" element={<AddAwards />} />
             <Route path="faculty-addconferences" element={<AddConferenceData />} />
@@ -115,17 +133,18 @@ function App() {
 
           // problem with this form
             <Route path="faculty-research-projects-guided" element={<ResearchProjectsGuidedForm />} />
-          
+
 
             <Route path="faculty-books-chapterd-authored" element={<BooksChapteresAuthored />} />
             <Route path="faculty-invited-talks" element={<InvitedTalksForm />} />
             <Route path="faculty-academic-qualification-discipline" element={<AcademicQualificationForm />} />
             <Route path="faculty-membership-professional-bodies" element={<MembershipProfessionalBodies />} />
             <Route path="faculty-research-paper-publication" element={<ResearchPaper />} />
-            {/* institute routing */}
 
-          // studnets routing
             <Route path="addfacultyresearch" element={<AddFacultyResearchData />} />
+
+
+            {/* student Routes */}
             <Route path="/admin/addstudents" element={<AddStudentData />} />
             <Route path="/admin/addstudentcertificates" element={<AddStudentCertificateData />} />
             <Route path="/admin/addhackathons" element={<AddHackathonsData />} />
@@ -141,15 +160,16 @@ function App() {
             <Route path="/admin/higher-studies" element={<HigherStudies />} />
             <Route path="/admin/professional-membership" element={<AddProfessionalMembership />} />
 
-            // institute routing
 
+            {/* Institute Routes */}
             <Route path="/admin/addinstitue-mous" element={<MouForm />} />
             <Route path="/admin/addinstitute-counsultancy" element={<Counsultancy />} />
             <Route path="/admin/addinstitute-eventgrant" element={<EventGrant />} />
             <Route path="/admin/addinstitute-documents" element={<InstituteDocumentForm />} />
             <Route path="/admin/addinstitute-r&dforms" element={<RnDForms />} />
             <Route path="/admin/addinstitute-eventorganized" element={<EventOrganized />} />
-            {/* Admin Department */}
+
+            {/* Department Routes */}
             <Route path='/admin/addmou' element={<MOU />} />
             <Route path="/admin/addconsultancy-project" element={<ConsultancyProject />} />
             <Route path="/admin/addrd-inititatives" element={<RDInititatives />} />
