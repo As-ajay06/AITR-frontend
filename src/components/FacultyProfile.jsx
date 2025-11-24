@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import useGetProfile from '../hooks/useGetProfile'
-import useGetStudentProfile from '../hooks/useGetStudentProfile';
+import useGetFacultyProfile from '../hooks/useGetFacultyProfile';
 
 function FacultyProfile() {
   // To display all of the faculty info for given params
