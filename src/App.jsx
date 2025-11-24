@@ -32,9 +32,7 @@ import Admin from "./pages/Admin";
 
 import Navbar from './components/Navbar'
 import NavbarHeader from './components/NavbarHeader'
-
-
-import Accordian from './components/Accordian'
+import ProfilePage from "./pages/ProfilePage";
 
 // Add in faculty tabs
 
@@ -86,6 +84,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 import SuperAdmin from "./pages/SuperAdmin";
 import SuperAdminNavbar from "./components/SuperAdminNavbar";
 import AddProfile from "./pages/AddProfile";
+import FacultyProfile from "./components/FacultyProfile";
 
 
 
@@ -97,7 +96,7 @@ function App() {
       <BrowserRouter>
         <SuperAdminNavbar />
         <Routes>
-
+          <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -106,9 +105,9 @@ function App() {
           <Route path="/add_profile" element={<AddProfile />} /> 
 
           {/* super admin routes */}
+          <Route path="/user/:id" element={<ProfilePage />} />
 
           <Route path="/super_admin" element={<SuperAdmin />} >
-            <Route path="faculty-addfaculty" element={<AddFaculty />} />
           </Route>
 
 

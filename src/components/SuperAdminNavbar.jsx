@@ -3,13 +3,17 @@ import logo from "../assets/img/AITR_LOGO.png";
 import { FaCopy } from "react-icons/fa";
 import { FaUserShield } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
-import { href, Link } from "react-router-dom"
+import { Link, redirect, useNavigate } from "react-router-dom"
+import { FiSearch } from "react-icons/fi";
+
 
 const SuperAdminNavbar = () => {
 
     const [authenticated, setAuthenticated] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [searchValue , setSearchValue] = useState();
 
+    const navigate = useNavigate();
 
     const links = [
         {
@@ -48,6 +52,13 @@ const SuperAdminNavbar = () => {
 
     // todo : run a useEffect on mount. to check if the user is authenticated or not.
 
+    const handleSearch = () => {
+        console.log('i am clicked')
+        console.log(searchValue);
+        navigate(`faculty/profile/${searchValue}`);
+    }
+    
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
@@ -59,6 +70,18 @@ const SuperAdminNavbar = () => {
             <div className="mx-32 flex justify-between w-full ">
                 <img className="h-24 max-w-xs object-contain" src={logo} alt="logo" />
                 <div className="flex gap-8 items-center">
+                    {
+                        <div>
+                        <input 
+                        type="text"
+                        className="outline-none text-black"
+                        placeholder="search..."
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        />
+                        <button onClick={handleSearch}><FiSearch />
+                        </button>
+                        </div>
+                    }
                     {
                         links.map((link, index) => (
                             <div key={index}
