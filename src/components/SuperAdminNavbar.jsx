@@ -71,16 +71,24 @@ const SuperAdminNavbar = () => {
                 <img className="h-24 max-w-xs object-contain" src={logo} alt="logo" />
                 <div className="flex gap-8 items-center">
                     {
-                        <div>
-                        <input 
-                        type="text"
-                        className="outline-none text-black"
-                        placeholder="search..."
-                        onChange={(e) => setSearchValue(e.target.value)}
+                        <div className="relative w-full">
+                        <input
+                            type="text"
+                            className="w-full px-3 pr-10 py-2 rounded-lg bg-white border border-gray-300 shadow-sm 
+                                       focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition-all 
+                                       duration-200 text-black outline-none"
+                            placeholder="search..."
+                            onChange={(e) => setSearchValue(e.target.value)}
                         />
-                        <button onClick={handleSearch}><FiSearch />
+                    
+                        <button 
+                            onClick={handleSearch}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+                        >
+                            <FiSearch size={18} />
                         </button>
-                        </div>
+                    </div>
+                    
                     }
                     {
                         links.map((link, index) => (

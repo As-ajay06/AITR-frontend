@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import useGetFacultyProfile from '../hooks/useGetFacultyProfile';
+import { useParams } from 'react-router-dom'
 
 function FacultyProfile() {
   // To display all of the faculty info for given params
@@ -40,7 +41,7 @@ function FacultyProfile() {
 
             {/* Profile Details */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-2">Profile info</h2>
+              {/* <h2 className="text-lg font-semibold mb-2">Profile info</h2>
               <p><strong>Name:</strong> {user.name}</p>
               <p><strong>Roll No:</strong> {user.rollNo}</p>
               <p><strong>Age:</strong> {user.age}</p>
@@ -50,7 +51,7 @@ function FacultyProfile() {
               <p><strong>Mobile Number:</strong> {user.qualification}</p>
               <p><strong>Category:</strong> {user.qualification}</p>
               <p><strong>Teaching Experience:</strong> {user.qualification}</p>
-              <p><strong>Current Designation:</strong> {user.qualification}</p>
+              <p><strong>Current Designation:</strong> {user.qualification}</p> */}
             </div>
 
            {/* Faculty Development Programme */}
