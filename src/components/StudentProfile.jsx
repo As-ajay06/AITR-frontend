@@ -44,15 +44,40 @@ function StudentProfile() {
                   {/* Basic Details */}
                   <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-2">Profile info</h2>
+                    <p><strong>ID:</strong> {profile._id}</p>
+
+                    <p><strong>Certificate ID:</strong> {profile.certificate._id}</p>
+                    <p><strong>Certificate Uploaded At:</strong> {profile.certificate.uploadedAt}</p>
+
+                    <p><strong>Student ID:</strong> {profile.studentId}</p>
                     <p><strong>Name:</strong> {profile.name}</p>
+                    <p><strong>Enrollment Number:</strong> {profile.enrollmentNumber}</p>
+                    <p><strong>Branch:</strong> {profile.branch}</p>
+                    <p><strong>Batch:</strong> {profile.batch}</p>
                     <p><strong>Email:</strong> {profile.email}</p>
-                    <p><strong>Qualification:</strong> {profile.qualification}</p>
-                    <p><strong>Department:</strong> {profile.department}</p>
-                    <p><strong>Mobile Number:</strong> {profile.mobileNumber}</p>
+
+                    <p><strong>Year:</strong> {profile.year}</p>
+                    <p><strong>Course:</strong> {profile.course}</p>
+                    <p><strong>CGPA:</strong> {profile.cgpa}</p>
+
+                    <p><strong>Date of Birth:</strong> {profile.dateOfBirth}</p>
+                    <p><strong>Gender:</strong> {profile.gender}</p>
                     <p><strong>Category:</strong> {profile.category}</p>
-                    <p><strong>Teaching Experience:</strong> {profile.teachingExperience} years</p>
-                    <p><strong>Industrial Experience:</strong> {profile.industrialExperience} years</p>
-                    <p><strong>Designation:</strong> {profile.designation}</p>
+
+                    <p><strong>Year of Admission:</strong> {profile.yearOfAdmission}</p>
+                    <p><strong>Year of Graduation Status:</strong> {profile.yearOfGraduationStatus}</p>
+                    <p><strong>Status:</strong> {profile.status}</p>
+
+                    <p><strong>Github Link:</strong> {profile.githubLink}</p>
+
+                    <p><strong>Guardian Contact Number:</strong> {profile.guardianContactNumber}</p>
+                    <p><strong>Guardian Name:</strong> {profile.guardianName}</p>
+
+                    <p><strong>Address:</strong> {profile.address}</p>
+
+                    <p><strong>Created At:</strong> {profile.createdAt}</p>
+                    <p><strong>Updated At:</strong> {profile.updatedAt}</p>
+
                   </div>
 
                                       
