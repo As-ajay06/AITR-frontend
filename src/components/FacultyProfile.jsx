@@ -41,17 +41,15 @@ function FacultyProfile() {
 
             {/* Profile Details */}
             <div className="mb-6">
-              {/* <h2 className="text-lg font-semibold mb-2">Profile info</h2>
-              <p><strong>Name:</strong> {user.name}</p>
-              <p><strong>Roll No:</strong> {user.rollNo}</p>
-              <p><strong>Age:</strong> {user.age}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Qualification:</strong> {user.qualification}</p>
-              <p><strong>Deparment:</strong> {user.qualification}</p>
-              <p><strong>Mobile Number:</strong> {user.qualification}</p>
-              <p><strong>Category:</strong> {user.qualification}</p>
-              <p><strong>Teaching Experience:</strong> {user.qualification}</p>
-              <p><strong>Current Designation:</strong> {user.qualification}</p> */}
+            <p><strong>Name:</strong> {profile.name}</p>
+            <p><strong>Email:</strong> {profile.email}</p>
+            <p><strong>Qualification:</strong> {profile.qualification}</p>
+            <p><strong>Department:</strong> {profile.department}</p>
+            <p><strong>Mobile Number:</strong> {profile.mobileNumber}</p>
+            <p><strong>Category:</strong> {profile.category}</p>
+            <p><strong>Teaching Experience:</strong> {profile.teachingExperience} years</p>
+            <p><strong>Industrial Experience:</strong> {profile.industrialExperience} years</p>
+            <p><strong>Designation:</strong> {profile.designation}</p>
             </div>
 
            {/* Faculty Development Programme */}
