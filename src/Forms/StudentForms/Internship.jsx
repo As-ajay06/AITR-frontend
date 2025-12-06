@@ -54,7 +54,7 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
             <InputBox label="Project Description" name="projectDescription" register={methods.register} />
             <SelectBox label="Company Location" name="companyLocation" options={companyLocations} register={methods.register} />
             <InputBox label="Area of Work" name="areaOfWork" register={methods.register} />
-            <FileBox label="Certificate / Report Upload" name="certificatePdf" register={methods.register} />
+            <FileBox label="Certificate / Report Upload" name="file" register={methods.register} />
           </div>
 
           <div className="mt-8">

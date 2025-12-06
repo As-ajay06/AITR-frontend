@@ -37,7 +37,7 @@ function AddTechnicalNonTechnicalCompetition() {
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -66,9 +66,8 @@ function AddTechnicalNonTechnicalCompetition() {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
     try {
       const res = await axios.post("http://localhost:3000/file", formData)
@@ -157,7 +156,7 @@ function AddTechnicalNonTechnicalCompetition() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -186,14 +185,14 @@ function AddTechnicalNonTechnicalCompetition() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -219,7 +218,7 @@ function AddTechnicalNonTechnicalCompetition() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -227,13 +226,13 @@ function AddTechnicalNonTechnicalCompetition() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -255,10 +254,10 @@ function AddTechnicalNonTechnicalCompetition() {
             </div>
           </div>
         )}
-        
-        <DataTable 
+
+        <DataTable
           title={"Technical/Nontechnical"}
-          data={data} 
+          data={data}
           columns={TechnicalNonTechnicalCompetitionColumn}
           actions={actionsMemo}
           selectableRows

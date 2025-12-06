@@ -36,7 +36,7 @@ const StudentPlacementForm = ({ register, handleSubmit, reset, onSubmit }) => {
           <SelectBox label="Placement Type" name="placementType" options={placementTypes} register={register} />
           <InputBox label="Package" name="package" register={register} />
           <CalenderBox label="Joining Date" name="joiningDate" register={register} />
-          <FileBox label="Offer Letter PDF" name="offerLetterPdf" register={register} />
+          <FileBox label="Offer Letter PDF" name="file" register={register} />
         </div>
 
         <div className="mt-8">

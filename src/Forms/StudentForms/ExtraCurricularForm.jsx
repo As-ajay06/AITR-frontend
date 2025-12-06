@@ -36,7 +36,7 @@ const ExtraCurricularForm = ({ onSubmit, register, handleSubmit, reset }) => {
           <SelectBox label="position" name="position" options={positions} register={register} />
           <InputBox label="organizer" name="organizer" register={register} />
           <InputBox label="coach_name" name="coachName" register={register} />
-          <FileBox label="certificate_pdf" name="certificatePdf" register={register} />
+          <FileBox label="certificate_pdf" name="file" register={register} />
         </div>
 
         <div className="mt-8">

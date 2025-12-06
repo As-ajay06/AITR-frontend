@@ -44,7 +44,7 @@ const SportForm = ( {register, handleSubmit, reset, onSubmit } ) => {
           <SelectBox label="Position" name="position" options={positions} register={register} />
           <InputBox label="Organizer" name="organizer" register={register} />
           <InputBox label="Coach Name" name="coachName" register={register} required />
-          <FileBox label="Certificate PDF" name="certificatePdf" register={register} />
+          <FileBox label="Certificate PDF" name="file" register={register} />
         </div>
 
         <div className="mt-8">

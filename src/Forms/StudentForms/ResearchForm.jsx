@@ -31,7 +31,7 @@ const ResearchForm = ({ register, handleSubmit, reset, onSubmit }) => {
           <InputBox label="Journal / Conference Name" name="journalOrConferenceName" register={register} required />
           <InputBox label="Co-authors" name="coAuthors" register={register} />
           <InputBox label="Indexing (Scopus, SCI, etc.)" name="indexing" register={register} />
-          <FileBox label="Paper PDF" name="paperPdf" register={register} />
+          <FileBox label="Paper PDF" name="file" register={register} />
           <InputBox label="Faculty Guide" name="facultyGuide" register={register} />
         </div>
 

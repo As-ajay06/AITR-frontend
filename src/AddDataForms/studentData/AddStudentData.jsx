@@ -65,7 +65,7 @@ function AddStudentData() {
           guardianContactNumber: data.guardianContactNumber,
           guardianName: data.guardianName,
           address: data.address,
-          // storing file id
+          // storing file
           fileId: res.data.fileId
         });
       console.log("Profile saved:", response.data);

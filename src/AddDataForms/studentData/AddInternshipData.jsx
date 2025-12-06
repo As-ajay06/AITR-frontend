@@ -31,14 +31,16 @@ function AddInternshipData() {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
+
     try {
 
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
+    
+
       //  todo: chage placement with internship 
       if (res.status === 200 && res.data?.fileId) {
 

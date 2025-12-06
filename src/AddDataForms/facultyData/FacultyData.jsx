@@ -37,7 +37,12 @@ function AddFaculty() {
 
   const fetchData = async () => {
     if (loading == true) {
-      const data = await axios.get("http://localhost:3000/api/v1/faculty/profiles")
+      const token = localStorage.getItem('token');
+      const data = await axios.get("http://localhost:3000/api/v1/faculty/profiles" , {
+        headers:{
+          Authorization: `${token}`
+        }
+      } )
       console.log(data.data.profiles)
       setData(data.data.profiles)
       setLoading(false)
@@ -68,7 +73,6 @@ function AddFaculty() {
           category: facultyData.category,
           teachingExperience: facultyData.teachingExperience,
           designation: facultyData.designation,
-
         }
       )
 

@@ -18,7 +18,7 @@ const StudentCertificateForm = ({ handleSubmit, onSubmit, register, reset }) => 
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Student Certificate Form
         </h2>
-        <UploadForm urlurl={`${API_STUDENT_FILE_UPLOAD}/certification`} />
+        <UploadForm url={`${API_STUDENT_FILE_UPLOAD}/certification`} />
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,7 +40,7 @@ const StudentCertificateForm = ({ handleSubmit, onSubmit, register, reset }) => 
           <InputBox label="Course Duration" name="courseDuration" register={register} />
           <InputBox label="Rank / Position" name="rankOrPosition" register={register} />
           <SelectBox label="Relevance to Program / Branch" name="relevance" options={relevanceOptions} register={register} />
-          <FileBox label="Certificate PDF" name="certificatePdf" register={register} />
+          <FileBox label="Certificate PDF" name="file" register={register} />
 
         </div>
 
