@@ -17,7 +17,7 @@ const AwardForm = ({ register, handleSubmit, reset, onSubmit }) => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Facluty Awards and Recognition Form
         </h2>
-        <UploadForm url={`${API_FACULTY_FILE_UPLOAD/faculty_awards_recognition}`} />
+        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/faculty_awards_recognition}`} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" >
