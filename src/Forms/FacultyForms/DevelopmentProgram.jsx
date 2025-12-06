@@ -37,7 +37,7 @@ const DevlopmentProgram = ({ onSubmit, register, handleSubmit, reset }) => {
           <SelectBox label="mode" name={"mode"} options={modes} register={register} />
           <InputBox label="location" name={"location"} register={register} />
           <InputBox label="duration_Days" name={"numberOfDays"} register={register} />
-          <FileBox label="certificatePdf" name={"file"} register={register} />
+          <FileBox label="certificatePdf" name="file" register={register} />
           <InputBox label="outcome" name={"outcomeHighlights"} register={register} />
         </div>
 

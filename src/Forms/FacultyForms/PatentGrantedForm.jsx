@@ -91,9 +91,9 @@ function PatentGrantedForm() {
       const url = "http://localhost:3000/api/v1/faculty/patent-granted"
       const response = await axios.post(url
         , {
-          paperTitle: data.paperTitle,
+          patentTitle: data.patentTitle,
           inventors: data.inventorse,
-          grantNumber: data.grantNumbert,
+          grantNumber: data.grantNumber,
           dateOfGrant: data.dateOfGrant,
           countryOfGrant: data.countryOfGrant,
           applicationNumber: data.applicationNumber,

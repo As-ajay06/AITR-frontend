@@ -32,7 +32,7 @@ function ProfessionalCertificationsEarned() {
   const [file, setFile] = useState(null)
 
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -72,9 +72,9 @@ function ProfessionalCertificationsEarned() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      console.log("this is file", data.file[0])
+      formData.append("file", data.file[0]);
     }
     try {
       const res = await axios.post("http://localhost:3000/file", formData)
@@ -147,7 +147,7 @@ function ProfessionalCertificationsEarned() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -176,14 +176,14 @@ function ProfessionalCertificationsEarned() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -210,7 +210,7 @@ function ProfessionalCertificationsEarned() {
           <SelectBox label="certification_Level" options={['Beginner', 'Intermediate', 'Advanced', 'Expert', 'Other']} name="certificationLevel" register={register} required />
           <InputBox label="validity_Period" name="validityPeriod" register={register} required />
           <InputBox label="field/domain" name="domain" register={register} required />
-          <FileBox label="certificate_Upload" name="certificateUrl" register={register} />
+          <FileBox label="certificate_Upload" name="file" register={register} />
 
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
         </div>
@@ -220,7 +220,7 @@ function ProfessionalCertificationsEarned() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -228,13 +228,13 @@ function ProfessionalCertificationsEarned() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
