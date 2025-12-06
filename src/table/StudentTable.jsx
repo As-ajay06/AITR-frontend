@@ -210,7 +210,7 @@ const StudentTable = ({ data }) => {
 
   return (
     <div className="p-4 overflow-x-auto">
-      {/* Column Selector Modal */}
+      {/* Column Selector Modal
       {showColumnSelector && (
         <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
           <div className="flex justify-between items-center mb-3">
@@ -250,17 +250,26 @@ const StudentTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
+      )} */}
+
+
+    <div className="sticky top-0 bg-white z-40 pb-3">
+      <h2 className="text-xl font-semibold mb-2">Students</h2>
+      <div className="flex justify-between items-center mb-2">
+        {actionsMemo}
+      </div>
+      {subHeaderComponentMemo}
+    </div>
 
       <DataTable
-        title="Students"
+        // title="Students"
         columns={columns}
         data={filteredData}
         pagination
         paginationResetDefaultPage={resetPaginationToggle}
         subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        actions={actionsMemo}
+        // subHeaderComponent={subHeaderComponentMemo}
+        // actions={actionsMemo}
         selectableRows
         onSelectedRowsChange={handleRowSelected}
       />

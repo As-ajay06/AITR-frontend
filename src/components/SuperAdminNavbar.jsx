@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/img/AITR_LOGO.png";
-import { FaCopy } from "react-icons/fa";
-import { FaUserShield } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
-import { Link, redirect, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FiSearch } from "react-icons/fi";
 
 
@@ -32,7 +29,11 @@ const SuperAdminNavbar = () => {
 
     const profile = [
         {
-            title: "Add profile",
+            title: "Add data",
+            href: "/admin"
+        },
+        {
+            title: "Add Admin",
             href: "/add_profile"
         },
         {
@@ -49,11 +50,33 @@ const SuperAdminNavbar = () => {
         }
     ]
 
+    async function verifyTokenFromServer(token) {
+        const res = await fetch('http://localhost:3000/api/auth/verify', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+            }
+        });
+        return res.json();
+    }          
+
 
     // todo : run a useEffect on mount. to check if the user is authenticated or not.
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setAuthenticated(false);
+        } else {
+          verifyTokenFromServer(token).then(res => {
+            console.log(res);
+            setAuthenticated(res.valid);
+          });
+        }
+      }, []);
+      
 
     const handleSearch = () => {
-        console.log('i am clicked')
         console.log(searchValue);
         navigate(`faculty/profile/${searchValue}`);
     }

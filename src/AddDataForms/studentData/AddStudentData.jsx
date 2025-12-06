@@ -9,7 +9,7 @@ function AddStudentData() {
   const { register, handleSubmit, reset } = useForm();
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [file, setFile] = useState(null)
+  const [file , setFile ] = useState();
 
 
   const fetchData = async () => {
@@ -33,9 +33,8 @@ function AddStudentData() {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
 
     try {
@@ -66,7 +65,8 @@ function AddStudentData() {
           guardianContactNumber: data.guardianContactNumber,
           guardianName: data.guardianName,
           address: data.address,
-          fileId: res.date.fileId
+          // storing file id
+          fileId: res.data.fileId
         });
       console.log("Profile saved:", response.data);
     }
