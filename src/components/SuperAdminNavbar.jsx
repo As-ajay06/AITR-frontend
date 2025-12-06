@@ -12,21 +12,6 @@ const SuperAdminNavbar = () => {
 
     const navigate = useNavigate();
 
-    const links = [
-        {
-            title: "Home",
-            href: "/"
-        },
-        {
-            title: "About",
-            href: "/about"
-        },
-        {
-            title: "Help",
-            href: "/help"
-        },
-    ]
-
     const profile = [
         {
             title: "Add data",
@@ -41,12 +26,8 @@ const SuperAdminNavbar = () => {
             href: "/admins"
         },
         {
-            title: "setting",
+            title: "Settings",
             href: "/setting"
-        },
-        {
-            title: "help",
-            href: "/help"
         }
     ]
 
@@ -89,82 +70,77 @@ const SuperAdminNavbar = () => {
     };
 
     return (
-        <div className="bg-[#002147] h-24 w-full flex items-center justify-between text-white ">
-            <div className="mx-32 flex justify-between w-full ">
-                <img className="h-24 max-w-xs object-contain" src={logo} alt="logo" />
-                <div className="flex gap-8 items-center">
-                    {
-                        <div className="relative w-full">
-                        <input
-                            type="text"
-                            className="w-full px-3 pr-10 py-2 rounded-lg bg-white border border-gray-300 shadow-sm 
-                                       focus:border-blue-500 focus:ring-2 focus:ring-blue-400 transition-all 
-                                       duration-200 text-black outline-none"
-                            placeholder="search..."
-                            onChange={(e) => setSearchValue(e.target.value)}
-                        />
-                    
-                        <button 
-                            onClick={handleSearch}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
-                        >
-                            <FiSearch size={18} />
-                        </button>
-                    </div>
-                    
-                    }
-                    {
-                        links.map((link, index) => (
-                            <div key={index}
-                                className="text-center hover:text-zinc-300"
+        <div className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 h-20 w-full flex items-center justify-between text-white shadow-lg sticky top-0 z-40">
+            <div className="w-full px-4 lg:px-6 flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                    <img className="h-14 max-w-xs object-contain" src={logo} alt="logo" />
+                </div>
+                <div className="flex gap-3 lg:gap-4 items-center">
+                    {/* Search Bar - Only show if authenticated */}
+                    {authenticated && (
+                        <div className="relative w-64 hidden md:block">
+                            <input
+                                type="text"
+                                className="w-full px-4 pr-10 py-2.5 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 shadow-sm 
+                                           focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50 transition-all 
+                                           duration-200 text-white placeholder:text-white/70 outline-none"
+                                placeholder="Search faculty..."
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                            />
+                        
+                            <button 
+                                onClick={handleSearch}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors"
                             >
-                                <Link to={link.href}>{link.title}</Link>
-                            </div>
-                        ))
-                    }
-                    <div>
-                        <div
-                            className="text-center hover:text-zinc-300"
-
-                        >
-                            <button
-                                className="px-2"
-                                onClick={() => setIsOpen(!isOpen)}>Profile</button>
-                            <div>
-                                {
-                                    isOpen && (
-                                        <div
-                                            onMouseLeave={() => setIsOpen(false)}
-                                            className=" absolute text-start bg-[#002147] border border-blue-900 -translate-x-10 mt-4 justify-center text-gray-600 border-t">
-                                            {profile.map((link, index) => (
-                                                <Link
-                                                    to={link.href}>
-                                                    <div
-                                                        className="hover:bg-zinc-300 hover:text-black px-4 py-2"
-                                                        key={index}>{link.title}
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )
-                                }
-                            </div>
+                                <FiSearch size={18} />
+                            </button>
                         </div>
+                    )}
+                    {/* Profile Dropdown - Only show if authenticated */}
+                    {authenticated && (
+                    <div className="relative">
+                        <button
+                            className="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors font-medium text-sm text-white"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            Profile
+                        </button>
+                        {
+                            isOpen && (
+                                <div
+                                    onMouseLeave={() => setIsOpen(false)}
+                                    className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50"
+                                >
+                                    {profile.map((link, index) => (
+                                        <Link
+                                            key={index}
+                                            to={link.href}
+                                            className="block px-4 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors text-sm font-medium"
+                                        >
+                                            {link.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )
+                        }
                     </div>
-                    {authenticated ?
+                    )}
+                    {authenticated ? (
                         <button
                             onClick={handleLogout}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-all"
+                            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-5 py-2 rounded-lg font-medium hover:shadow-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 text-sm"
                         >
                             Logout
-                        </button> :
+                        </button>
+                    ) : (
                         <Link
                             to="/login"
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-all"
+                            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-5 py-2 rounded-lg font-medium hover:shadow-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-200 text-sm"
                         >
                             Login
                         </Link>
-                    }
+                    )}
                 </div>
             </div>
 

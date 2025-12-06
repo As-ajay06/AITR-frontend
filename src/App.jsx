@@ -3,6 +3,21 @@ import "./App.css";
 
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Layout from "./components/Layout";
+
+// Create a QueryClient instance with default options
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+      cacheTime: 10 * 60 * 1000, // 10 minutes - cache duration
+      refetchOnWindowFocus: false, // Don't refetch on window focus
+      refetchOnMount: false, // Don't refetch if data exists in cache
+      retry: 1, // Retry failed requests once
+    },
+  },
+});
 
 import PatentGrantedForm from "./Forms/FacultyForms/PatentGrantedForm";
 import ProfessionalCertificationsEarned from "./Forms/FacultyForms/ProfessionalCertificationsEarned";
@@ -92,11 +107,13 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 function App() {
   // todo: add some class name for to fix some notification bar
   return (
-
-    <>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <SuperAdminNavbar />
-        <Routes>
+        <Layout>
+          <div className="min-h-screen bg-slate-50">
+            <SuperAdminNavbar />
+            <div className="p-4 lg:p-6">
+              <Routes>
           <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
@@ -187,11 +204,12 @@ function App() {
 
 
         <Route path='*' element={<NotFound404 />} />
-        </Routes>
-
+              </Routes>
+            </div>
+          </div>
+        </Layout>
       </BrowserRouter>
-    </>
-    
+    </QueryClientProvider>
   )
 }
 

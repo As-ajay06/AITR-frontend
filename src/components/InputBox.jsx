@@ -1,18 +1,21 @@
-
-const InputBox = ({ label, register, required , name }) => {
+const InputBox = ({ label, register, required, name, type = "text", className = "" }) => {
+  const formattedLabel = label.split("_").map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(" ");
 
   return (
-
-    <div className="flex flex-col mb-4 w-full max-w-xs">
-    <label className="text-sm font-medium text-gray-700 mb-1">
-      {label.split("_").join(" ").toUpperCase()}
-    </label>
-    <input
-      {...register(name, { required })}
-      className="px-3 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+    <div className={`flex flex-col mb-6 w-full ${className}`}>
+      <label className="text-sm font-semibold text-slate-700 mb-2">
+        {formattedLabel}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      <input
+        type={type}
+        {...register(name, { required })}
+        className="input-field"
       />
-  </div>
-    )
+    </div>
+  );
 };
 
 
