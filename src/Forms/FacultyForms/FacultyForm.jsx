@@ -14,34 +14,45 @@ function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
 
 
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-10">
-      <div className="flex justify-between">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
-          Faculty Profile Form
-        </h2>
-        <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/profile`} />
+    <div className="w-full bg-white rounded-2xl shadow-lg border border-slate-200 p-8 lg:p-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-slate-200">
+        <div>
+          <h2 className="text-3xl font-bold text-slate-800 mb-2">
+            Faculty Profile Form
+          </h2>
+          <p className="text-slate-600">Fill in the details to add a new faculty member</p>
+        </div>
+        <div className="mt-4 md:mt-0">
+          <UploadForm url={`${API_FACULTY_FILE_UPLOAD}/profile`} />
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InputBox label="facultyId" name="facultyId" register={register} required />
           <InputBox label="name" name="name" register={register} required />
-          <InputBox label="email" name="email" register={register} required />
+          <InputBox label="email" name="email" register={register} required type="email" />
           <InputBox label="Highest qualification" name="qualification" register={register} required />
           <SelectBox label="department" name={"department"} options={departments} register={register} />
-          <InputBox label="mobile_Number" name={"mobileNumber"} register={register} required />
+          <InputBox label="mobile_Number" name={"mobileNumber"} register={register} required type="tel" />
           <InputBox label="category" name={"category"} register={register} required />
           <SelectBox label="teaching_Experience" name={"teachingExperience"} options={experienceYears} register={register} />
           <SelectBox label="designation" name={"designation"} options={designations} register={register} />
-
         </div>
 
-        <div className="mt-8">
+        <div className="mt-10 flex gap-4">
           <button
             type="submit"
-            className="px-6 py-3 bg-blue-600 text-white font-semibold text-base rounded-md shadow hover:bg-blue-700 transition"
+            className="btn-primary"
           >
-            Submit
+            Submit Form
+          </button>
+          <button
+            type="button"
+            onClick={() => reset()}
+            className="btn-secondary"
+          >
+            Reset
           </button>
         </div>
       </form>

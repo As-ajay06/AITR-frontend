@@ -3,6 +3,21 @@ import "./App.css";
 
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Layout from "./components/Layout";
+
+// Create a QueryClient instance with default options
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+      cacheTime: 10 * 60 * 1000, // 10 minutes - cache duration
+      refetchOnWindowFocus: false, // Don't refetch on window focus
+      refetchOnMount: false, // Don't refetch if data exists in cache
+      retry: 1, // Retry failed requests once
+    },
+  },
+});
 
 import PatentGrantedForm from "./Forms/FacultyForms/PatentGrantedForm";
 import ProfessionalCertificationsEarned from "./Forms/FacultyForms/ProfessionalCertificationsEarned";
@@ -86,21 +101,28 @@ import SuperAdminNavbar from "./components/SuperAdminNavbar";
 import AddProfile from "./pages/AddProfile";
 import FacultyProfile from "./components/StudentProfile";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import PublicRoute from "./routes/PublicRoutes";
 
 
 
 function App() {
   // todo: add some class name for to fix some notification bar
   return (
-
-    <>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <SuperAdminNavbar />
-        <Routes>
+        <Layout>
+          <div className="min-h-screen bg-slate-50">
+            <SuperAdminNavbar />
+            <div className="p-4 lg:p-6">
+              <Routes>
           <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          } />
           <Route path="/update_profile" element={<UpdateProfile />} />
 
           <Route path="/add_profile" element={<AddProfile />} /> 
@@ -111,14 +133,10 @@ function App() {
           <Route path="/super_admin" element={<SuperAdmin />} >
           </Route>
 
-
-
-          <Route index element={<HomePage />} />
-
           <Route path="/*" element={
             <ProtectedRoute>
               <Routes>
-
+                <Route index element={<HomePage />} />
                 <Route path="/faculty" element={<Faculty />} />
                 <Route path="/student" element={<Student />} />
                 <Route path="/institute" element={<Institute />} />
@@ -187,11 +205,12 @@ function App() {
 
 
         <Route path='*' element={<NotFound404 />} />
-        </Routes>
-
+              </Routes>
+            </div>
+          </div>
+        </Layout>
       </BrowserRouter>
-    </>
-    
+    </QueryClientProvider>
   )
 }
 
