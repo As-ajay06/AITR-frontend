@@ -44,16 +44,21 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-slate-900 to-gray-800 text-white px-4">
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl p-10 rounded-2xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-fuchsia-500 via-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6">
-          Welcome Back
+    <div className="h-screen flex items-center justify-center bg-gray-100 p-4 overflow-hidden">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">AITR CMS</h1>
+          <p className="text-sm text-gray-600">Content Management System</p>
+        </div>
+        
+        <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">
+          Login
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
             </label>
             <input
@@ -62,14 +67,14 @@ const LoginPage = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-500 outline-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
               placeholder="Enter your email"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
             </label>
             <input
@@ -78,7 +83,7 @@ const LoginPage = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-500 outline-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
               placeholder="Enter your password"
             />
           </div>
@@ -87,7 +92,7 @@ const LoginPage = () => {
           <div>
             <label
               htmlFor="role"
-              className="block text-sm font-medium text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Role
             </label>
@@ -97,7 +102,7 @@ const LoginPage = () => {
               value={formData.role}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-500 outline-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
             >
               <option value="" disabled>
                 Select role
@@ -109,31 +114,41 @@ const LoginPage = () => {
 
           {/* Error */}
           {error && (
-            <p className="text-red-400 text-sm text-center font-semibold">
-              {error}
-            </p>
+            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
           )}
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:opacity-90 py-3 rounded-lg font-semibold transition-all"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white py-3 rounded-md font-medium transition"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          {/* Link */}
-          <p className="text-sm text-center text-gray-400 mt-4">
-            forgot password ?{" "}
+          {/* Forgot Password Link */}
+          <div className="text-center">
             <Link
               to="/signup"
-              className="text-cyan-400 hover:text-cyan-300 underline transition"
+              className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
             >
-              click here
+              Forgot password? Click here
             </Link>
-          </p>
+          </div>
         </form>
+
+        {/* Sign up link */}
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Don't have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );

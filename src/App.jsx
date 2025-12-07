@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from "./components/Layout";
@@ -105,15 +105,15 @@ import PublicRoute from "./routes/PublicRoutes";
 
 
 
-function App() {
-  // todo: add some class name for to fix some notification bar
+function AppContent() {
+  const location = useLocation();
+  const hideNavbar = ["/login", "/signup"].includes(location.pathname);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Layout>
-          <div className="min-h-screen bg-slate-50">
-            <SuperAdminNavbar />
-            <div className="p-4 lg:p-6">
+    <Layout>
+      <div className="min-h-screen bg-slate-50">
+        {!hideNavbar && <SuperAdminNavbar />}
+        <div className={hideNavbar ? "" : "p-4 lg:p-6"}>
               <Routes>
           <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
           {/* super admin Routes */}
@@ -209,6 +209,15 @@ function App() {
             </div>
           </div>
         </Layout>
+  );
+}
+
+function App() {
+  // todo: add some class name for to fix some notification bar
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AppContent />
       </BrowserRouter>
     </QueryClientProvider>
   )

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import DateRangeFilter from '../components/DateRangeFilter';
 import DepartmentTabs from '../components/DepartmentTabs';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
@@ -61,6 +62,7 @@ const exportableColumnsByTab = {
 const Institute = () => {
   const [filterText, setFiltertext] = useState('');
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
@@ -87,49 +89,56 @@ const Institute = () => {
       switch (selectedTab) {
 
         case 'MOU':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/mous");
+          response = await api.get("http://localhost:3000/api/v1/Institute/mous");
           console.log(response.data)
           setData(response.data.mous);
+          setFilteredData(response.data.mous);
           setColumn(MouColumns);
           break;
 
         case 'Consultancy':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/consultancies");
+          response = await api.get("http://localhost:3000/api/v1/Institute/consultancies");
           console.log(response.data)
           setData(response.data.consultancies);
+          setFilteredData(response.data.consultancies);
           setColumn(ConsultancyColumns);
           break;
 
         case 'R&D':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/rnds");
+          response = await api.get("http://localhost:3000/api/v1/Institute/rnds");
           console.log(response.data)
           setData(response.data.rds);
+          setFilteredData(response.data.rds);
           setColumn(RDColumns);
           break;
 
         case 'Event Grant ':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/event-grants");
+          response = await api.get("http://localhost:3000/api/v1/Institute/event-grants");
           console.log(response.data)
           setData(response.data.eventGrants);
+          setFilteredData(response.data.eventGrants);
           setColumn(EventGrantColumns);
           break;
 
         case 'Event Grant Organized':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/events-organised");
+          response = await api.get("http://localhost:3000/api/v1/Institute/events-organised");
           console.log(response.data)
           setData(response.data.eventOrganised);
+          setFilteredData(response.data.eventOrganised);
           setColumn(EventOrganziedColumns);
           break;
 
         case 'Institute Documents':
-          response = await axios.get("http://localhost:3000/api/v1/Institute/documents");
+          response = await api.get("http://localhost:3000/api/v1/Institute/documents");
           console.log(response.data)
           setData(response.data.instituteDocuments);
+          setFilteredData(response.data.instituteDocuments);
           setColumn(InstituteDocumentsColumns);
           break;
 
         default:
           setData([]);
+          setFilteredData([]);
           setColumn([]);
           break;
       }
@@ -237,7 +246,7 @@ const Institute = () => {
     </div>
   );
 
-  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(filteredData)} />, [downloadCSV, filteredData]);
 
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
@@ -246,7 +255,7 @@ const Institute = () => {
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
-        onClick={() => downloadCSV(data)}
+        onClick={() => downloadCSV(filteredData)}
       >
         Export {selectedRows.length} Selected
       </button>
@@ -255,7 +264,7 @@ const Institute = () => {
 
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
-    const filteredItems = universalSearch(data, filterText);
+    const filteredItems = universalSearch(filteredData, filterText);
     
     return (
       <div 
@@ -292,6 +301,14 @@ const Institute = () => {
           pagination
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+          customStyles={{
+            headCells: {
+              style: {
+                fontSize: '16px',
+                fontWeight: '600',
+              },
+            },
+          }}
         />
       </div>
     )
@@ -312,7 +329,15 @@ const Institute = () => {
           </p>
         </div>
       </div>
-      <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
+      <div className="flex gap-4 items-center flex-wrap mb-6">
+        <div className="flex-1 min-w-[200px]">
+          <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
+        </div>
+        <DateRangeFilter 
+          onDateRangeChange={setFilteredData}
+          data={data}
+        />
+      </div>
       <br />
       <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
         {tabs.map(({ label }) => (
@@ -400,7 +425,7 @@ const Institute = () => {
           >
             {filterText.length == 0 ? 
               <DataTable 
-                data={data} 
+                data={filteredData} 
                 columns={column} 
                 actions={actionsMemo}
                 selectableRows
@@ -409,8 +434,17 @@ const Institute = () => {
                 pagination
                 paginationPerPage={10}
                 paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                customStyles={{
+                  headCells: {
+                    style: {
+                      fontSize: '16px',
+                      fontWeight: '600',
+                    },
+                  },
+                }}
               /> : <FilteringComponent />}
           </div>
+
         </div>
         }
       </div>
