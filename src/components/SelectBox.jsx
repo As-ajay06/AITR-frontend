@@ -1,28 +1,30 @@
 import React from "react";
 
-const SelectBox = ({ label, name, options, register}) => {
+const SelectBox = ({ label, name, options, register, required, className = "" }) => {
+  const formattedLabel = label.split("_").map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(" ");
 
-  
-  
   return (
-    <>
-  <div className="flex flex-col mb-4 w-full max-w-sm">
-    <label className="text-sm font-medium text-gray-700 mb-1">{label.split("_").join(" ").toUpperCase()}</label>
-    <select
-      name={name}
-      {...register(name)}
-      className="px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-    >
-      <option value="">Select {label.split("_").join(" ")}</option>
-      {options.map((option, index) => (
-        <option key={index} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  </div>
-  </>
-);
+    <div className={`flex flex-col mb-6 w-full ${className}`}>
+      <label className="text-sm font-semibold text-slate-700 mb-2">
+        {formattedLabel}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      <select
+        name={name}
+        {...register(name, { required })}
+        className="input-field"
+      >
+        <option value="">Select {formattedLabel}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 } 
 
 export default SelectBox;

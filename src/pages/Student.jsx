@@ -3,6 +3,144 @@ import axios from 'axios';
 import SearchBar from '../components/SearchBar';
 import DataTable from 'react-data-table-component';
 import { BASE_URL } from '../../config/config';
+import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
+import { universalSearch } from '../utils/universalSearch';
+
+// Define exportable columns for each tab
+const exportableColumnsByTab = {
+  'Profile': [
+    { key: 'studentId', label: 'Student ID' },
+    { key: 'name', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'branch', label: 'Branch' },
+    { key: 'batch', label: 'Batch' },
+    { key: 'email', label: 'Email' },
+    { key: 'year', label: 'Year' },
+    { key: 'course', label: 'Course' },
+    { key: 'cgpa', label: 'CGPA' },
+    { key: 'dateOfBirth', label: 'Date of Birth' },
+    { key: 'gender', label: 'Gender' },
+    { key: 'category', label: 'Category' },
+    { key: 'yearOfAdmission', label: 'Year of Admission' },
+    { key: 'status', label: 'Status' },
+    { key: 'guardianName', label: 'Guardian Name' },
+    { key: 'guardianContactNumber', label: 'Guardian Contact' },
+    { key: 'address', label: 'Address' },
+  ],
+  'Certification': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'certificateName', label: 'Certificate Name' },
+    { key: 'certificateType', label: 'Certificate Type' },
+    { key: 'issuingOrganization', label: 'Issuing Organization' },
+    { key: 'issueDate', label: 'Issue Date' },
+    { key: 'branch', label: 'Branch' },
+    { key: 'batch', label: 'Batch' },
+  ],
+  'Technical/ Non-technical Competitions': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'competitionName', label: 'Competition Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'level', label: 'Level' },
+    { key: 'positionSecured', label: 'Position Secured' },
+    { key: 'organiser', label: 'Organiser' },
+    { key: 'venue', label: 'Venue' },
+    { key: 'priceMoney', label: 'Price Money' },
+  ],
+  'Placement': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'companyName', label: 'Company Name' },
+    { key: 'jobTitle', label: 'Job Title' },
+    { key: 'package', label: 'Package' },
+    { key: 'placementDate', label: 'Placement Date' },
+    { key: 'branch', label: 'Branch' },
+  ],
+  'Internship': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'companyName', label: 'Company Name' },
+    { key: 'internshipTitle', label: 'Internship Title' },
+    { key: 'startDate', label: 'Start Date' },
+    { key: 'endDate', label: 'End Date' },
+    { key: 'stipend', label: 'Stipend' },
+    { key: 'branch', label: 'Branch' },
+  ],
+  'Reasearch Paper': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'titleOfPaper', label: 'Title of Paper' },
+    { key: 'publicationDate', label: 'Publication Date' },
+    { key: 'journalOrConferenceName', label: 'Journal/Conference Name' },
+    { key: 'coAuthors', label: 'Co-Authors' },
+    { key: 'indexing', label: 'Indexing' },
+    { key: 'facultyGuide', label: 'Faculty Guide' },
+  ],
+  'Sports': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'eventName', label: 'Event Name' },
+    { key: 'eventType', label: 'Event Type' },
+    { key: 'date', label: 'Date' },
+    { key: 'position', label: 'Position' },
+    { key: 'level', label: 'Level' },
+    { key: 'venue', label: 'Venue' },
+  ],
+  'Extra Curricular': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'activityName', label: 'Activity Name' },
+    { key: 'activityType', label: 'Activity Type' },
+    { key: 'date', label: 'Date' },
+    { key: 'organizer', label: 'Organizer' },
+    { key: 'role', label: 'Role' },
+  ],
+  'Project Work / Capstone Projects': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'projectTitle', label: 'Project Title' },
+    { key: 'description', label: 'Description' },
+    { key: 'technologiesUsed', label: 'Technologies Used' },
+    { key: 'startDate', label: 'Start Date' },
+    { key: 'endDate', label: 'End Date' },
+    { key: 'facultyGuide', label: 'Faculty Guide' },
+  ],
+  'Startups/ Entrepreneurial Ventures': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'startupName', label: 'Startup Name' },
+    { key: 'description', label: 'Description' },
+    { key: 'foundingDate', label: 'Founding Date' },
+    { key: 'status', label: 'Status' },
+    { key: 'website', label: 'Website' },
+  ],
+  'Hackathons / Innvoation Challenges': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'hackathonName', label: 'Hackathon Name' },
+    { key: 'date', label: 'Date' },
+    { key: 'position', label: 'Position' },
+    { key: 'organizer', label: 'Organizer' },
+    { key: 'prize', label: 'Prize' },
+  ],
+  'Higher Studies': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'universityName', label: 'University Name' },
+    { key: 'programName', label: 'Program Name' },
+    { key: 'country', label: 'Country' },
+    { key: 'admissionDate', label: 'Admission Date' },
+  ],
+  'Professional Memberships': [
+    { key: 'studentName', label: 'Student Name' },
+    { key: 'enrollmentNumber', label: 'Enrollment Number' },
+    { key: 'organizationName', label: 'Organization Name' },
+    { key: 'membershipType', label: 'Membership Type' },
+    { key: 'membershipId', label: 'Membership ID' },
+    { key: 'dateOfJoining', label: 'Date of Joining' },
+  ],
+};
 
 const Student = () => {
   const [data, setData] = useState([]);
@@ -10,7 +148,12 @@ const Student = () => {
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
   const [filterText, setFiltertext] = useState('');
-
+  
+  // State for selected rows and columns
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [showColumnSelector, setShowColumnSelector] = React.useState(false);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [exportableColumns, setExportableColumns] = React.useState([]);
 
   const tabs = [
     { label: 'Profile' },
@@ -131,6 +274,11 @@ const Student = () => {
           setColumn([]);
           break;
       }
+      
+      // Set exportable columns for the selected tab
+      const tabColumns = exportableColumnsByTab[selectedTab] || [];
+      setExportableColumns(tabColumns);
+      setSelectedColumns(tabColumns.map(col => col.key));
     } catch (error) {
       console.error(`Error fetching ${selectedTab} data:`, error);
     }
@@ -143,49 +291,289 @@ const Student = () => {
     }
   }, [tab]);
 
-  const FilteringComponent = () => {
+  // Handle row selection
+  const handleRowSelected = React.useCallback(state => {
+    setSelectedRows(state.selectedRows);
+  }, []);
 
-    const filteredItems = data.filter(item =>
-      // filters
-      item.studentName && item.studentName.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.enrollmentNumber && item.enrollmentNumber.toLowerCase().includes(filterText.toLowerCase()) ||
-      item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
-    // can add more filters to this manually or think about more options
-    // can go with search woth department faculty Name, ID etc.
+  // Toggle column selection
+  const toggleColumnSelection = (columnKey) => {
+    setSelectedColumns(prev => {
+      if (prev.includes(columnKey)) {
+        return prev.filter(key => key !== columnKey);
+      } else {
+        return [...prev, columnKey];
+      }
+    });
+  };
+
+  // Select all columns
+  const selectAllColumns = () => {
+    setSelectedColumns(exportableColumns.map(col => col.key));
+  };
+
+  // Deselect all columns
+  const deselectAllColumns = () => {
+    setSelectedColumns([]);
+  };
+
+  // Filter data to only include selected columns
+  const filterDataByColumns = React.useCallback((dataArray) => {
+    return dataArray.map(row => {
+      const filteredRow = {};
+      selectedColumns.forEach(colKey => {
+        if (Object.prototype.hasOwnProperty.call(row, colKey)) {
+          filteredRow[colKey] = row[colKey];
+        }
+      });
+      return filteredRow;
+    });
+  }, [selectedColumns]);
+
+  const downloadCSV = React.useCallback((array) => {
+    let dataToExport = array;
+    
+    if (selectedRows.length > 0) {
+      dataToExport = selectedRows;
+    }
+
+    if (selectedColumns.length > 0 && dataToExport.length > 0) {
+      dataToExport = filterDataByColumns(dataToExport);
+    }
+
+    if (dataToExport.length === 0) {
+      alert('No data to export. Please select rows and/or columns.');
+      return;
+    }
+
+    const link = document.createElement('a');
+    let csv = convertArrayOfObjectsToCSV(dataToExport);
+
+    if (csv == null) return;
+    const filename = `student_${tab.toLowerCase().replace(/ /g, '_').replace(/[()]/g, '')}_export.csv`;
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', filename);
+    link.click();
+  }, [selectedRows, selectedColumns, filterDataByColumns, tab]);
+
+  const Export = ({ onExport }) => (
+    <div className="flex gap-2 items-center">
+      <button 
+        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150' 
+        onClick={() => setShowColumnSelector(!showColumnSelector)}
+      >
+        Select Columns ({selectedColumns.length})
+      </button>
+      <button 
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150' 
+        onClick={e => onExport(e.target.value)}
+      >
+        Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
+      </button>
+    </div>
+  );
+
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data, selectedRows, selectedColumns]);
+
+  // Context Actions - Shows export button in selection bar
+  const contextActions = React.useMemo(() => {
+    if (selectedRows.length === 0) return null;
+    
+    return (
+      <button
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
+        onClick={() => downloadCSV(data)}
+      >
+        Export {selectedRows.length} Selected
+      </button>
+    );
+  }, [selectedRows, downloadCSV, data]);
+
+  const FilteringComponent = () => {
+    // Universal Search - searches in all fields automatically
+    const filteredItems = universalSearch(data, filterText);
 
     return (
-      <>
-        <DataTable data={filteredItems} columns={column} />
-      </>
+      <div 
+        className="overflow-x-auto w-full" 
+        style={{ 
+          overflowX: 'auto',
+          overflowY: 'visible',
+          WebkitOverflowScrolling: 'touch',
+          minWidth: '100%'
+        }}
+        onWheel={(e) => {
+          // Enable horizontal scroll with Shift + Mouse Wheel
+          if (e.shiftKey) {
+            e.preventDefault();
+            e.currentTarget.scrollLeft += e.deltaY;
+          }
+          // Also enable horizontal scroll when at horizontal edge
+          const element = e.currentTarget;
+          const isAtLeftEdge = element.scrollLeft === 0;
+          const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+          if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+            e.preventDefault();
+            element.scrollLeft += e.deltaY;
+          }
+        }}
+      >
+        <DataTable 
+          data={filteredItems} 
+          columns={column} 
+          actions={actionsMemo}
+          selectableRows
+          onSelectedRowsChange={handleRowSelected}
+          contextActions={contextActions}
+          pagination
+          paginationPerPage={10}
+          paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+        />
+      </div>
     )
   }
 
   return (
-    <div>
-      <SearchBar placeholder={"filter by Id, name , department"} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
-      <br />
+    <div className="w-full px-4">
+      {/* Header */}
+      <div className="mt-4 mb-6 text-center">
+        <div className="inline-block">
+          <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-slate-800 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+            Student Management
+          </h1>
+          <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto rounded-full mb-3"></div>
+          <p className="text-sm md:text-base text-slate-600 font-medium">
+            View and manage student data across all categories
+          </p>
+        </div>
+      </div>
 
-      <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
-        {tabs.map(({ label }) => (
-          <button key={label} onClick={() => setTab(label)}>
-            <div className={`px-4 py-2 rounded-full transition-colors duration-200 ${tab === label
-              ? "bg-blue-600 text-white"
-              : "bg-white text-black hover:bg-blue-300"
+      {/* Search Bar */}
+      <div className="mb-6">
+        <SearchBar 
+          placeholder={"Filter by ID, name, or department"} 
+          onChange={(e) => setFiltertext(e.target.value)} 
+          value={filterText} 
+        />
+      </div>
+
+      {/* Tabs */}
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 mb-6 overflow-x-auto">
+        <div className="flex flex-wrap gap-2 min-w-max">
+          {tabs.map(({ label }) => (
+            <button 
+              key={label} 
+              onClick={() => setTab(label)}
+              className="whitespace-nowrap"
+            >
+              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
+                tab === label
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}>
-              {label}
-            </div>
-          </button>
-        ))}
+                {label}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Display loading or table */}
-      <div className="mt-6">
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200">
         {loading ? (
-          <div className="text-center py-8 text-blue-600 font-semibold">Loading...</div>
-        ) : <div>
-          {filterText.length == 0 ? <DataTable data={data} columns={column} /> : <FilteringComponent />}
-        </div>
-        }
+          <div className="text-center py-16">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 font-medium">Loading data...</p>
+          </div>
+        ) : (
+          <div className="p-4">
+            {/* Column Selector Modal */}
+            {showColumnSelector && exportableColumns.length > 0 && (
+              <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+                  <button 
+                    onClick={() => setShowColumnSelector(false)}
+                    className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="flex gap-2 mb-3">
+                  <button 
+                    onClick={selectAllColumns}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+                  >
+                    Select All
+                  </button>
+                  <button 
+                    onClick={deselectAllColumns}
+                    className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+                  >
+                    Deselect All
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+                  {exportableColumns.map(column => (
+                    <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedColumns.includes(column.key)}
+                        onChange={() => toggleColumnSelection(column.key)}
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                      <span className="text-sm">{column.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div 
+              className="overflow-x-auto w-full" 
+              style={{ 
+                overflowX: 'auto',
+                overflowY: 'visible',
+                WebkitOverflowScrolling: 'touch',
+                minWidth: '100%'
+              }}
+              onWheel={(e) => {
+                // Enable horizontal scroll with Shift + Mouse Wheel
+                if (e.shiftKey) {
+                  e.preventDefault();
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }
+                // Also enable horizontal scroll when at horizontal edge
+                const element = e.currentTarget;
+                const isAtLeftEdge = element.scrollLeft === 0;
+                const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+                if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+                  e.preventDefault();
+                  element.scrollLeft += e.deltaY;
+                }
+              }}
+            >
+              {filterText.length == 0 ? (
+                <DataTable 
+                  data={data} 
+                  columns={column} 
+                  actions={actionsMemo}
+                  selectableRows
+                  onSelectedRowsChange={handleRowSelected}
+                  contextActions={contextActions}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                />
+              ) : (
+                <FilteringComponent />
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
+import { universalSearch } from '../utils/universalSearch';
 
 // Define exportable columns for each tab
 const exportableColumnsByTab = {
@@ -212,13 +213,13 @@ const Department = () => {
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
       <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150' 
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
       <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150' 
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -228,28 +229,79 @@ const Department = () => {
 
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
 
+  // Context Actions - Shows export button in selection bar
+  const contextActions = React.useMemo(() => {
+    if (selectedRows.length === 0) return null;
+    
+    return (
+      <button
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
+        onClick={() => downloadCSV(data)}
+      >
+        Export {selectedRows.length} Selected
+      </button>
+    );
+  }, [selectedRows, downloadCSV, data]);
 
   const FilteringComponent = () => {
-
-    const filteredItems = data.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || item.department && item.department.toLowerCase().includes(filterText.toLowerCase()));
-    // can add more filters to this manually or think about more options
-    // can go with search woth department faculty Name, ID etc.
+    // Universal Search - searches in all fields automatically
+    const filteredItems = universalSearch(data, filterText);
+    
     return (
-      <>
+      <div 
+        className="overflow-x-auto w-full" 
+        style={{ 
+          overflowX: 'auto',
+          overflowY: 'visible',
+          WebkitOverflowScrolling: 'touch',
+          minWidth: '100%'
+        }}
+        onWheel={(e) => {
+          // Enable horizontal scroll with Shift + Mouse Wheel
+          if (e.shiftKey) {
+            e.preventDefault();
+            e.currentTarget.scrollLeft += e.deltaY;
+          }
+          // Also enable horizontal scroll when at horizontal edge
+          const element = e.currentTarget;
+          const isAtLeftEdge = element.scrollLeft === 0;
+          const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+          if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+            e.preventDefault();
+            element.scrollLeft += e.deltaY;
+          }
+        }}
+      >
         <DataTable 
           data={filteredItems} 
           columns={column} 
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          contextActions={contextActions}
+          pagination
+          paginationPerPage={10}
+          paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
         />
-      </>
+      </div>
     )
   }
 
 
   return (
-    <div>
+    <div className="w-full">
+      {/* Header */}
+      <div className="mt-4 mb-6 text-center">
+        <div className="inline-block">
+          <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-slate-800 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+            Department Management
+          </h1>
+          <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto rounded-full mb-3"></div>
+          <p className="text-sm md:text-base text-slate-600 font-medium">
+            View and manage department data across all categories
+          </p>
+        </div>
+      </div>
       <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
       <br />
       <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
@@ -312,14 +364,43 @@ const Department = () => {
             </div>
           )}
           
-          {filterText.length == 0 ? 
-            <DataTable 
-              data={data} 
-              columns={column} 
-              actions={actionsMemo}
-              selectableRows
-              onSelectedRowsChange={handleRowSelected}
-            /> : <FilteringComponent />}
+          <div 
+            className="overflow-x-auto w-full" 
+            style={{ 
+              overflowX: 'auto',
+              overflowY: 'visible',
+              WebkitOverflowScrolling: 'touch',
+              minWidth: '100%'
+            }}
+            onWheel={(e) => {
+              // Enable horizontal scroll with Shift + Mouse Wheel
+              if (e.shiftKey) {
+                e.preventDefault();
+                e.currentTarget.scrollLeft += e.deltaY;
+              }
+              // Also enable horizontal scroll when at horizontal edge
+              const element = e.currentTarget;
+              const isAtLeftEdge = element.scrollLeft === 0;
+              const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+              if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+                e.preventDefault();
+                element.scrollLeft += e.deltaY;
+              }
+            }}
+          >
+            {filterText.length == 0 ? 
+              <DataTable 
+                data={data} 
+                columns={column} 
+                actions={actionsMemo}
+                selectableRows
+                onSelectedRowsChange={handleRowSelected}
+                contextActions={contextActions}
+                pagination
+                paginationPerPage={10}
+                paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+              /> : <FilteringComponent />}
+          </div>
         </div>
         } 
       </div>
