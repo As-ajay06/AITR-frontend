@@ -33,7 +33,7 @@ const EventOrganized = () => {
   const [submit, setSubmit] = useState(false)
 
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -77,36 +77,38 @@ const EventOrganized = () => {
   });
 
   const onSubmit = async (data) => {
+
+    console.log(data)
     const formData = new FormData();
-    formData.append("file", file);
+    if(data.file){
+      formData.append("file", data.file[0]);
+    }
 
     try {
 
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
-      if (res.data.status == 200 && res?.data.fileId) {
 
-        console.log(data)
-        const url = "http://localhost:3000/api/v1/institute/event-organised"
-        const response = await axios.post(url
-          , {
-            eventName: data.eventName,
-            eventType: data.eventType,
-            agencyName: data.agencyName,
-            category: data.category,
-            numberOfParticipants: data.numberOfParticipants,
-            date: data.date,
-            duration: data.duration,
-            description: data.description,
-            funding: data.funding,
+      const url = "http://localhost:3000/api/v1/institute/event-organised"
+      const response = await axios.post(url
+        , {
+          eventName: data.eventName,
+          eventType: data.eventType,
+          agencyName: data.agencyName,
+          category: data.category,
+          numberOfParticipants: data.numberOfParticipants,
+          date: data.date,
+          duration: data.duration,
+          description: data.description,
+          funding: data.funding,
 
-            // using fileId without middleware 
-            // TODO : create middleware and send the fileId with using middleware
-            fileId: res.data.fileId
-          }
-        )
-        console.log(response)
-      }
+          // using fileId without middleware 
+          // TODO : create middleware and send the fileId with using middleware
+          fileId: res.data.fileId
+        }
+      )
+      console.log(response)
+
     } catch (err) {
       console.log("Error:", err)
     }
@@ -156,7 +158,7 @@ const EventOrganized = () => {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -185,14 +187,14 @@ const EventOrganized = () => {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -209,21 +211,21 @@ const EventOrganized = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-200 pb-2">
           Event organised form
         </h2>
-        <UploadForm  url={`${API_INSTITUTE_FILE_UPLOAD}/event_organised`}  />
+        <UploadForm url={`${API_INSTITUTE_FILE_UPLOAD}/event_organised`} />
       </div>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputBox label="Event Name" name="eventName" register={register} required />
-            <InputBox label="Type of the Event" name="typeOfTheEvent" register={register} required />
-            <InputBox label="Agency Name" name="agencyName" register={register} required />
-            <InputBox label="Category" name="category" register={register} required />
-            <DynamicUserFields label="Participants" name="numberOfParticipants" register={register} required />
-            <CalenderBox label="Date" name="date" register={register} required type="date" />
-            <InputBox label="Duration" name="duration" register={register} required />
-            <InputBox label="Description" name="description" register={register} required />
-            <InputBox label="Funding" name="funding" register={register} required />
-            <FileBox label="PDF" name="pdf" register={register} />
+            <InputBox label="Event Name" name="eventName" register={methods.register} required />
+            <InputBox label="Type of the Event" name="eventType" register={methods.register} required />
+            <InputBox label="Agency Name" name="agencyName" register={methods.register} required />
+            <InputBox label="Category" name="category" register={methods.register} required />
+            <DynamicUserFields label="Participants" name="numberOfParticipants" register={methods.register} required />
+            <CalenderBox label="Date" name="date" register={methods.register} required type="date" />
+            <InputBox label="Duration" name="duration" register={methods.register} required />
+            <InputBox label="Description" name="description" register={methods.register} required />
+            <InputBox label="Funding" name="funding" register={methods.register} required />
+            <FileBox label="PDF" name="file" register={methods.register} />
 
             <button
               type="submit"
@@ -240,7 +242,7 @@ const EventOrganized = () => {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -248,13 +250,13 @@ const EventOrganized = () => {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -276,7 +278,7 @@ const EventOrganized = () => {
             </div>
           </div>
         )}
-        
+
         <DataTable
           title={"Institute Event Organized Data"}
           columns={eventOrganisedColumns}
