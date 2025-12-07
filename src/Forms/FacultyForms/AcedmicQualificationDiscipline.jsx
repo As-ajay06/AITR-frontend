@@ -71,9 +71,9 @@ function AcedmicQualificationDiscipline() {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      console.log("this is file", data.file[0])
+      formData.append("file", data.file[0]);
     }
     try {
 
