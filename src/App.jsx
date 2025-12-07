@@ -101,6 +101,7 @@ import SuperAdminNavbar from "./components/SuperAdminNavbar";
 import AddProfile from "./pages/AddProfile";
 import FacultyProfile from "./components/StudentProfile";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import PublicRoute from "./routes/PublicRoutes";
 
 
 
@@ -117,7 +118,11 @@ function App() {
           <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          } />
           <Route path="/update_profile" element={<UpdateProfile />} />
 
           <Route path="/add_profile" element={<AddProfile />} /> 
@@ -128,14 +133,10 @@ function App() {
           <Route path="/super_admin" element={<SuperAdmin />} >
           </Route>
 
-
-
-          <Route index element={<HomePage />} />
-
           <Route path="/*" element={
             <ProtectedRoute>
               <Routes>
-
+                <Route index element={<HomePage />} />
                 <Route path="/faculty" element={<Faculty />} />
                 <Route path="/student" element={<Student />} />
                 <Route path="/institute" element={<Institute />} />
