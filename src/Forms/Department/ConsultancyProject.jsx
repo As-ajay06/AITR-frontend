@@ -79,12 +79,12 @@ const ConsultancyProject = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0] && data.supportingDocument[0]) {
+      formData.append("file", data.file[0]);
+      formData.append("supportingDocument" , data.supportingDocument[0])
     }
     try {
-      const res = await axios.post("http://localhost:3000/file", formData)
+      const res = await axios.post("http://localhost:3000/file", formData )
       console.log(res.data)
       console.log(data)
       const url = "http://localhost:3000/api/v1/department/consulatancy"
@@ -217,19 +217,19 @@ const ConsultancyProject = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <InputBox label="department Name" name="departmentName" register={register} required />
             <InputBox label="agency Name" name="agencyName" register={register} required />
             <CalenderBox label="date" name="date" register={register} required type="date" />
             <InputBox label="duration" name="duration" register={register} required />
             <InputBox label="description" name="description" register={register} required />
             <InputBox label="funding" name="funding" register={register} required />
-            <FileBox label="pdf" name="pdf" register={register} />
+            <FileBox label="pdf" name="file" register={register} />
             <InputBox label="title Of Consultancy" name="titleOfConsultancy" register={register} required />
             <InputBox label="client Industry Partner" name="clientIndustryPartner" register={register} required />
             <InputBox label="faculty Lead" name="facultyLead" register={register} required />
             <InputBox label="amount Sanctioned" name="amountSanctioned" register={register} required />
-            <FileBox label="supporting Documents" name="supportingDocuments" register={register} />
+            <FileBox label="supporting Documents" name="supportingDocument" register={register} />
 
             <button
               type="submit"

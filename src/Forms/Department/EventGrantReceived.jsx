@@ -79,9 +79,8 @@ const EventGrantReceived = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
     try {
 
@@ -92,7 +91,7 @@ const EventGrantReceived = () => {
       const url = "http://localhost:3000/api/v1/department/event-grant-received"
       const response = await axios.post(url
         , {
-          typesOfEvent: data.typesOfEvent,
+          typeOfEvent: data.typeOfEvent,
           departmentName: data.departmentName,
           grantingAgency: data.grantingAgency,
           category: data.category,
@@ -221,7 +220,7 @@ const EventGrantReceived = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <InputBox label="Event Title" name="eventTitle" register={register} required />
-            <InputBox label="Event Type" name="eventType" register={register} required />
+            <InputBox label="Event Type" name="typeOfEvent" register={register} required />
             <InputBox label="Department Name" name="departmentName" register={register} required />
             <InputBox label="Granting Agency" name="grantingAgency" register={register} required />
             <InputBox label="Category" name="category" register={register} required />
@@ -230,7 +229,7 @@ const EventGrantReceived = () => {
             <InputBox label="Duration" name="duration" register={register} required />
             <InputBox label="Description" name="description" register={register} required />
             <InputBox label="Funding" name="funding" register={register} required />
-            <FileBox label="PDF" name="pdf" register={register} />
+            <FileBox label="PDF" name="file" register={register} />
             <InputBox label="Grant Amount" name="grantAmount" register={register} required />
             <InputBox label="Faculty Coordinator" name="facultyCoordinator" register={register} required />
             <InputBox label="Purpose" name="purpose" register={register} required />

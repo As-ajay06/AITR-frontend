@@ -34,7 +34,7 @@ function Mous() {
   const [loading, setLoading] = useState(true)
   const [submit, setSubmit] = useState(false)
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -79,9 +79,8 @@ function Mous() {
     e.preventDefault();
 
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
     try {
       const res = await axios.post("http://localhost:3000/file", formData)
@@ -90,7 +89,7 @@ function Mous() {
       const url = "http://localhost:3000/api/v1/department/mou"
       const response = await axios.post(url
         , {
-          dapetmentName: data.dapetmentName,
+          departmentName: data.departmentName,
           agencyName: data.agencyName,
           date: data.date,
           duration: data.duration,
@@ -157,7 +156,7 @@ function Mous() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -186,14 +185,14 @@ function Mous() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -221,8 +220,8 @@ function Mous() {
             <InputBox label="duration" name="duration" register={register} required />
             <InputBox label="description" name="description" register={register} required />
             <InputBox label="funding" name="funding" register={register} required />
-            <FileBox label="mou Pdf" name="mouPdf" register={register} />
-            <InputBox label="title Of Mou" name="titleOfMou" register={register} required />
+            <FileBox label="mou Pdf" name="file" register={register} />
+            <InputBox label="title Of Mou" name="titleOfMoU" register={register} required />
             <InputBox label="organization Name" name="organizationName" register={register} required />
             <CalenderBox label="date Of Signing" name="dateOfSigning" register={register} required type="date" />
             <InputBox label="validity Period" name="validityPeriod" register={register} required />
@@ -245,7 +244,7 @@ function Mous() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -253,13 +252,13 @@ function Mous() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -281,7 +280,7 @@ function Mous() {
             </div>
           </div>
         )}
-        
+
         <DataTable
           title={"MoUs Data"}
           columns={mouColumns}
