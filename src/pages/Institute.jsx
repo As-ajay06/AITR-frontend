@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import DateRangeFilter from '../components/DateRangeFilter';
-import DepartmentTabs from '../components/DepartmentTabs';
 import api from '../utils/axiosInstance';
 
 import DataTable from 'react-data-table-component';
@@ -329,34 +328,52 @@ const Institute = () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-4 items-center flex-wrap mb-6">
+
+      {/* Search Bar and Date Filter */}
+      <div className="mb-6 flex gap-4 items-center flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
+          <SearchBar 
+            placeholder={"Filter by ID, name, or department"} 
+            onChange={(e) => setFiltertext(e.target.value)} 
+            value={filterText} 
+          />
         </div>
         <DateRangeFilter 
           onDateRangeChange={setFilteredData}
           data={data}
         />
       </div>
-      <br />
-      <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
-        {tabs.map(({ label }) => (
-          <button key={label} onClick={() => setTab(label)}>
-            <div className={`px-4 py-2 rounded-full transition-colors duration-200 ${tab === label
-              ? "bg-blue-600 text-white"
-              : "bg-white text-black hover:bg-blue-300"
+
+      {/* Tabs */}
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 mb-6 overflow-x-auto">
+        <div className="flex flex-wrap gap-2 min-w-max">
+          {tabs.map(({ label }) => (
+            <button 
+              key={label} 
+              onClick={() => setTab(label)}
+              className="whitespace-nowrap"
+            >
+              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
+                tab === label
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}>
-              {label}
-            </div>
-          </button>
-        ))}
+                {label}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Display loading or table */}
-      <div className="mt-6">
+      <div className="bg-white rounded-xl shadow-lg border border-slate-200">
         {loading ? (
-          <div className="text-center py-8 text-blue-600 font-semibold">Loading...</div>
-        ) : <div>
+          <div className="text-center py-16">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 font-medium">Loading data...</p>
+          </div>
+        ) : (
+          <div className="p-4">
           {/* Column Selector Modal */}
           {showColumnSelector && exportableColumns.length > 0 && (
             <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
@@ -444,9 +461,8 @@ const Institute = () => {
                 }}
               /> : <FilteringComponent />}
           </div>
-
-        </div>
-        }
+          </div>
+        )}
       </div>
     </div>
   );
