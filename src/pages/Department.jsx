@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import DateRangeFilter from '../components/DateRangeFilter';
 import DepartmentTabs from '../components/DepartmentTabs';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
@@ -67,6 +68,7 @@ const exportableColumnsByTab = {
 const Department = () => {
   const [filterText, setFiltertext] = useState('');
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
@@ -91,30 +93,34 @@ const Department = () => {
       switch (selectedTab) {
 
         case 'MoUs':
-          response = await axios.get("http://localhost:3000/api/v1/department/mous");
+          response = await api.get("http://localhost:3000/api/v1/department/mous");
           console.log(response.data)
           setData(response.data.mous);
+          setFilteredData(response.data.mous);
           setColumn(MoUsColumn);
           break;
 
         case 'Consultancy Project':
-          response = await axios.get("http://localhost:3000/api/v1/department/consultancies");
+          response = await api.get("http://localhost:3000/api/v1/department/consultancies");
           console.log(response.data)
           setData(response.data.projects);
+          setFilteredData(response.data.projects);
           setColumn(CounsultancyProjectColumn);
           break;
 
         case 'R&D Initiatives':
-          response = await axios.get("http://localhost:3000/api/v1/department/rnds");
+          response = await api.get("http://localhost:3000/api/v1/department/rnds");
           console.log(response.data)
           setData(response.data.rdInitiatives);
+          setFilteredData(response.data.rdInitiatives);
           setColumn(RDColumn);
           break;
 
         case 'Event Grant Received':
-          response = await axios.get("http://localhost:3000/api/v1/department/event-grants-received");
+          response = await api.get("http://localhost:3000/api/v1/department/event-grants-received");
           console.log(response.data)
           setData(response.data.eventGrants);
+          setFilteredData(response.data.eventGrants);
           setColumn(EventGrantReceivedColumns);
           break;
 
@@ -227,7 +233,7 @@ const Department = () => {
     </div>
   );
 
-  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(filteredData)} />, [downloadCSV, filteredData]);
 
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
@@ -236,7 +242,7 @@ const Department = () => {
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
-        onClick={() => downloadCSV(data)}
+        onClick={() => downloadCSV(filteredData)}
       >
         Export {selectedRows.length} Selected
       </button>
@@ -245,7 +251,7 @@ const Department = () => {
 
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
-    const filteredItems = universalSearch(data, filterText);
+    const filteredItems = universalSearch(filteredData, filterText);
     
     return (
       <div 
@@ -282,6 +288,14 @@ const Department = () => {
           pagination
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+          customStyles={{
+            headCells: {
+              style: {
+                fontSize: '16px',
+                fontWeight: '600',
+              },
+            },
+          }}
         />
       </div>
     )
@@ -302,7 +316,15 @@ const Department = () => {
           </p>
         </div>
       </div>
-      <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
+      <div className="flex gap-4 items-center flex-wrap mb-6">
+        <div className="flex-1 min-w-[200px]">
+          <SearchBar placeholder={"Search ..."} onChange={(e) => setFiltertext(e.target.value)} value={filterText} />
+        </div>
+        <DateRangeFilter 
+          onDateRangeChange={setFilteredData}
+          data={data}
+        />
+      </div>
       <br />
       <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
         {tabs.map(({ label }) => (
@@ -390,7 +412,7 @@ const Department = () => {
           >
             {filterText.length == 0 ? 
               <DataTable 
-                data={data} 
+                data={filteredData} 
                 columns={column} 
                 actions={actionsMemo}
                 selectableRows
@@ -399,6 +421,14 @@ const Department = () => {
                 pagination
                 paginationPerPage={10}
                 paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                customStyles={{
+                  headCells: {
+                    style: {
+                      fontSize: '16px',
+                      fontWeight: '600',
+                    },
+                  },
+                }}
               /> : <FilteringComponent />}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 import SearchBar from '../components/SearchBar';
+import DateRangeFilter from '../components/DateRangeFilter';
 import DataTable from 'react-data-table-component';
 import { BASE_URL } from '../../config/config';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
@@ -144,6 +145,7 @@ const exportableColumnsByTab = {
 
 const Student = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
@@ -177,42 +179,42 @@ const Student = () => {
       let response;
       switch (selectedTab) {
         case 'Profile':
-          response = await axios.get(`${BASE_URL}/api/v1/students/profiles`);
+          response = await api.get(`${BASE_URL}/api/v1/students/profiles`);
           console.log(response.data)
           setData(response.data.profiles);
           setColumn(studentProfileColumns);
           break;
 
         case 'Certification':
-          response = await axios.get(`${BASE_URL}/api/v1/students/certificates`);
+          response = await api.get(`${BASE_URL}/api/v1/students/certificates`);
           console.log(response.data);
           setData(response.data.certificates);
           setColumn(certificateColumns);
           break;
 
         case 'Technical/ Non-technical Competitions':
-          response = await axios.get(`${BASE_URL}/api/v1/students/skills`);
+          response = await api.get(`${BASE_URL}/api/v1/students/skills`);
           console.log(response.data)
           setData(response.data.technicalData);
           setColumn(studentTechinalNonTechnicalColumn);
           break;
 
         case 'Placement':
-          response = await axios.get(`${BASE_URL}/api/v1/students/placements`);
+          response = await api.get(`${BASE_URL}/api/v1/students/placements`);
           console.log(response.data)
           setData(response.data.placements);
           setColumn(studentPlacementColumns);
           break;
 
         case 'Internship':
-          response = await axios.get(`${BASE_URL}/api/v1/students/profiles`);
+          response = await api.get(`${BASE_URL}/api/v1/students/profiles`);
           console.log(response.data)
           setData(response.data.profiles);
           setColumn(studentInternshipColumn);
           break;
 
         case 'Reasearch Paper':
-          response = await axios.get(`${BASE_URL}/api/v1/students/research-papers`);
+          response = await api.get(`${BASE_URL}/api/v1/students/research-papers`);
           console.log(response.data)
           setData(response.data.researchPapers);
           setColumn(researchPaperColumns);
@@ -220,42 +222,42 @@ const Student = () => {
           break;
 
         case 'Sports':
-          response = await axios.get(`${BASE_URL}/api/v1/students/sports`);
+          response = await api.get(`${BASE_URL}/api/v1/students/sports`);
           console.log(response.data)
           setData(response.data.sportsData);
           setColumn(studentSportsEventColumns);
           break;
 
         case 'Extra Curricular':
-          response = await axios.get(`${BASE_URL}/api/v1/students/extracurriculars`);
+          response = await api.get(`${BASE_URL}/api/v1/students/extracurriculars`);
           console.log(response.data)
           setData(response.data.extraCurriculars);
           setColumn(studentExtraCurricularColumns);
           break;
 
         case 'Project Work / Capstone Projects':
-          response = await axios.get(`${BASE_URL}/api/v1/students/projects`);
+          response = await api.get(`${BASE_URL}/api/v1/students/projects`);
           console.log(response.data)
           setData(response.data.projectWorks);
           setColumn(CapstoneprojectColumns);
           break;
 
         case 'Startups/ Entrepreneurial Ventures':
-          response = await axios.get(`${BASE_URL}/api/v1/students/startups`);
+          response = await api.get(`${BASE_URL}/api/v1/students/startups`);
           console.log(response.data)
           setData(response.data.startupsData);
           setColumn(startupColumns);
           break;
 
         case 'Hackathons / Innvoation Challenges':
-          response = await axios.get(`${BASE_URL}/api/v1/students/hackathons`);
+          response = await api.get(`${BASE_URL}/api/v1/students/hackathons`);
           console.log(response.data)
           setData(response.data.hackathons);
           setColumn(studentHackthonColumns);
           break;
 
         case 'Higher Studies':
-          response = await axios.get(`${BASE_URL}/api/v1/students/higher-studies`);
+          response = await api.get(`${BASE_URL}/api/v1/students/higher-studies`);
           console.log(response.data)
           setData(response.data.higherStudies);
           setColumn(studentHigherStudies);
@@ -263,7 +265,7 @@ const Student = () => {
 
 
         case 'Professional Memberships':
-          response = await axios.get(`${BASE_URL}/api/v1/students/memberships`);
+          response = await api.get(`${BASE_URL}/api/v1/students/memberships`);
           console.log(response.data)
           setData(response.data.membershipCertificates);
           setColumn(membershipColumns);
@@ -376,7 +378,7 @@ const Student = () => {
     </div>
   );
 
-  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data, selectedRows, selectedColumns]);
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(filteredData)} />, [downloadCSV, filteredData, selectedRows, selectedColumns]);
 
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
@@ -385,16 +387,16 @@ const Student = () => {
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
-        onClick={() => downloadCSV(data)}
+        onClick={() => downloadCSV(filteredData)}
       >
         Export {selectedRows.length} Selected
       </button>
     );
-  }, [selectedRows, downloadCSV, data]);
+  }, [selectedRows, downloadCSV, filteredData]);
 
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
-    const filteredItems = universalSearch(data, filterText);
+    const filteredItems = universalSearch(filteredData, filterText);
 
     return (
       <div 
@@ -431,6 +433,14 @@ const Student = () => {
           pagination
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+          customStyles={{
+            headCells: {
+              style: {
+                fontSize: '16px',
+                fontWeight: '600',
+              },
+            },
+          }}
         />
       </div>
     )
@@ -451,12 +461,18 @@ const Student = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="mb-6">
-        <SearchBar 
-          placeholder={"Filter by ID, name, or department"} 
-          onChange={(e) => setFiltertext(e.target.value)} 
-          value={filterText} 
+      {/* Search Bar and Date Filter */}
+      <div className="mb-6 flex gap-4 items-center flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <SearchBar 
+            placeholder={"Filter by ID, name, or department"} 
+            onChange={(e) => setFiltertext(e.target.value)} 
+            value={filterText} 
+          />
+        </div>
+        <DateRangeFilter 
+          onDateRangeChange={setFilteredData}
+          data={data}
         />
       </div>
 
@@ -558,7 +574,8 @@ const Student = () => {
             >
               {filterText.length == 0 ? (
                 <DataTable 
-                  data={data} 
+                  key={`table-${tab}-${filteredData.length}`}
+                  data={filteredData} 
                   columns={column} 
                   actions={actionsMemo}
                   selectableRows
@@ -567,6 +584,14 @@ const Student = () => {
                   pagination
                   paginationPerPage={10}
                   paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                  customStyles={{
+                    headCells: {
+                      style: {
+                        fontSize: '16px',
+                        fontWeight: '600',
+                      },
+                    },
+                  }}
                 />
               ) : (
                 <FilteringComponent />
@@ -591,24 +616,24 @@ export const studentProfileColumns = [
   { name: 'Student Name', selector: row => row.name, sortable: true },
   { name: 'Enrollment No.', selector: row => row.enrollmentNumber },
   { name: 'Branch', selector: row => row.branch },
-  { name: 'batch', selector: row => row.batch, wrap: true },
-  { name: 'email', selector: row => row.email },
-  { name: 'year', selector: row => row.year },
-  { name: 'course', selector: row => row.course, wrap: true },
-  { name: 'cgpa', selector: row => row.cgpa, wrap: true },
-  { name: 'dateOfBirth', selector: row => row.dateOfBirth, wrap: true },
-  { name: 'gender', selector: row => row.gender, wrap: true },
-  { name: 'catogory', selector: row => row.category, wrap: true },
-  { name: 'yearOfAdmission', selector: row => row.yearOfAdmission, wrap: true },
-  { name: 'status', selector: row => row.status, wrap: true },
-  { name: 'githubLink', selector: row => (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>), wrap: true },
-  { name: 'linkinProfileLink', selector: row => (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>), wrap: true },
+  { name: 'Batch', selector: row => row.batch, wrap: true },
+  { name: 'Email', selector: row => row.email },
+  { name: 'Year', selector: row => row.year },
+  { name: 'Course', selector: row => row.course, wrap: true },
+  { name: 'CGPA', selector: row => row.cgpa, wrap: true },
+  { name: 'Date Of Birth', selector: row => row.dateOfBirth, wrap: true },
+  { name: 'Gender', selector: row => row.gender, wrap: true },
+  { name: 'Category', selector: row => row.category, wrap: true },
+  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, wrap: true },
+  { name: 'Status', selector: row => row.status, wrap: true },
+  { name: 'Github Link', selector: row => (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>), wrap: true },
+  { name: 'LinkedIn Profile Link', selector: row => (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>), wrap: true },
   {
-    name: 'gaurdianContactNumber', selector: row => row.guardianContactNumber
+    name: 'Guardian Contact Number', selector: row => row.guardianContactNumber
     , wrap: true
   },
-  { name: 'gaurdianName', selector: row => row.guardianName, wrap: true },
-  { name: 'address', selector: row => row.address, wrap: true },
+  { name: 'Guardian Name', selector: row => row.guardianName, wrap: true },
+  { name: 'Address', selector: row => row.address, wrap: true },
   {
     name: 'Certificate',
     cell: row => (
@@ -622,34 +647,6 @@ export const studentProfileColumns = [
       </a>
     ),
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const studentTechinalNonTechnicalColumn = [
@@ -657,25 +654,25 @@ export const studentTechinalNonTechnicalColumn = [
   { name: 'Student Name', selector: row => row.studentName, sortable: true },
   { name: 'Enrollment No.', selector: row => row.enrollmentNumber },
   { name: 'Branch', selector: row => row.branch },
-  { name: 'batch', selector: row => row.batch, wrap: true },
-  { name: 'email', selector: row => row.email },
-  { name: 'year', selector: row => row.year },
+  { name: 'Batch', selector: row => row.batch, wrap: true },
+  { name: 'Email', selector: row => row.email },
+  { name: 'Year', selector: row => row.year },
   { name: 'Competition Name', selector: row => row.competitionName, wrap: true },
-  { name: 'date', selector: row => row.date, wrap: true },
+  { name: 'Date', selector: row => row.date, wrap: true },
   { name: 'Team Name', selector: row => row.teamName, wrap: true },
-  { name: 'Team size', selector: row => row.teamSize, wrap: true },
-  { name: 'Mentor name', selector: row => row.mentorName, wrap: true },
+  { name: 'Team Size', selector: row => row.teamSize, wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName, wrap: true },
   { name: 'Level', selector: row => row.level, wrap: true },
   { name: 'Organiser', selector: row => row.organiser, wrap: true },
-  { name: 'venue', selector: row => row.venue, wrap: true },
-  { name: 'Problem statement', selector: row => row.problemStatement, wrap: true },
-  { name: 'Technology used', selector: row => row.technologyUsed, wrap: true },
+  { name: 'Venue', selector: row => row.venue, wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement, wrap: true },
+  { name: 'Technology Used', selector: row => row.technologyUsed, wrap: true },
   { name: 'Price Money', selector: row => row.priceMoney, wrap: true },
   { name: 'Sponsoring Agency', selector: row => row.sponsoringAgency, wrap: true },
-  { name: 'Position secured', selector: row => row.positionSecured, wrap: true },
-  { name: 'Project Git-hub link', selector: row => (<a href={row.projectGithubLink}>Link</a>), wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured, wrap: true },
+  { name: 'Project Git-hub Link', selector: row => (<a href={row.projectGithubLink}>Link</a>), wrap: true },
   { name: 'Project Description', selector: row => (<a href={row.projectDescription}>Link</a>), wrap: true },
-  { name: 'Event mode', selector: row => row.eventMode, wrap: true },
+  { name: 'Event Mode', selector: row => row.eventMode, wrap: true },
   { name: 'Achievement', selector: row => row.achiecvement, wrap: true },
 
   {
@@ -690,34 +687,6 @@ export const studentTechinalNonTechnicalColumn = [
         View
       </a>
     ),
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -735,14 +704,14 @@ export const certificateColumns = [
   { name: 'Year', selector: row => row.year },
   { name: 'Course', selector: row => row.courseName },
   { name: 'Issuing Organization', selector: row => row.issuingOrganization, wrap: true },
-  { name: 'issue Date', selector: row => row.issueDate },
+  { name: 'Issue Date', selector: row => row.issueDate },
   { name: 'Validity Period', selector: row => row.validityPeriod },
-  { name: 'Graded of Score', selector: row => row.gradeOrScore },
+  { name: 'Graded Of Score', selector: row => row.gradeOrScore },
   { name: 'Mode Of Learning', selector: row => row.modeOfLearning },
   { name: 'Course Duration', selector: row => row.courseDuration },
-  { name: 'Rank or Position', selector: row => row.rankOrPosition },
+  { name: 'Rank Or Position', selector: row => row.rankOrPosition },
   { name: 'Certificate Description', selector: row => row.certificateDescription },
-  { name: 'relevance To Program Or Branch', selector: row => row.relevanceToProgramOrBranch },
+  { name: 'Relevance To Program Or Branch', selector: row => row.relevanceToProgramOrBranch },
 
 
   {
@@ -752,34 +721,6 @@ export const certificateColumns = [
         View
       </a>
     ),
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -810,34 +751,6 @@ export const studentPlacementColumns = [
         View
       </a>
     ),
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -873,34 +786,6 @@ export const studentInternshipColumn = [
       </a>
     ),
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const researchPaperColumns = [
@@ -923,34 +808,6 @@ export const researchPaperColumns = [
     ),
   },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 
@@ -1038,34 +895,6 @@ export const publicationColumns = [
     name: 'Department',
     selector: row => row.department
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const studentSportsEventColumns = [
@@ -1137,34 +966,6 @@ export const studentSportsEventColumns = [
   {
     name: "Organizer",
     selector: row => row.organizer
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -1239,34 +1040,6 @@ export const studentExtraCurricularColumns = [
     name: "Coach Name",
     selector: row => row.coachName,
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const CapstoneprojectColumns = [
@@ -1295,34 +1068,6 @@ export const CapstoneprojectColumns = [
   {
     name: "Project Outcome",
     selector: row => row.projectOutcome,
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -1364,34 +1109,6 @@ export const startupColumns = [
         "N/A"
       ),
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const studentHackthonColumns = [
@@ -1408,34 +1125,6 @@ export const studentHackthonColumns = [
   { name: 'Technology Used', selector: row => row.technologyUsed },
   { name: 'Prize Money', selector: row => row.prizeMoney },
   { name: 'Position Secured', selector: row => row.positionSecured },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const studentHigherStudies = [
@@ -1447,34 +1136,6 @@ export const studentHigherStudies = [
   { name: 'Duration (months)', selector: row => row.programDuration },
   { name: 'Admission Year', selector: row => row.admissionYear },
   { name: 'Admission Date', selector: row => row.admissionDate },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const membershipColumns = [
@@ -1497,34 +1158,6 @@ export const membershipColumns = [
     name: "Membership Status",
     selector: row => row.membershipStatus,
     sortable: true,
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing ${row.Title}`)}
-          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing ${row.Title}`)}
-          className="bg-yellow-500 text-white text-xs px-3 py-1 rounded hover:bg-yellow-600"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting ${row.Title}`)}
-          className="bg-red-500 text-white text-xs px-3 py-1 rounded hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 

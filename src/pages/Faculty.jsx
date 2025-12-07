@@ -1,7 +1,8 @@
 import React from 'react';
 import SearchBar from '../components/SearchBar';
+import DateRangeFilter from '../components/DateRangeFilter';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
 import { universalSearch } from '../utils/universalSearch';
@@ -142,6 +143,7 @@ const exportableColumnsByTab = {
 const Faculty = () => {
   const [filterText, setFiltertext] = useState("");
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
@@ -173,96 +175,109 @@ const Faculty = () => {
       let response;
       switch (selectedTab) {
         case 'Profile':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/profiles");
+          response = await api.get("http://localhost:3000/api/v1/faculty/profiles");
           console.log(response.data)
           setData(response.data.profiles);
+          setFilteredData(response.data.profiles);
           setColumn(facultyProfileColumn);
           break;
 
         case 'Research paper publication':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/research-papers");
+          response = await api.get("http://localhost:3000/api/v1/faculty/research-papers");
           console.log(response.data)
           setData(response.data.papers);
+          setFilteredData(response.data.papers);
           setColumn(facultyResearchPaperColumn);
           break;
 
         case 'Faculty Awards and Recognitions':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/award-recognitions");
+          response = await api.get("http://localhost:3000/api/v1/faculty/award-recognitions");
           console.log(response.data)
           setData(response.data.data);
+          setFilteredData(response.data.data);
           setColumn(facultyAwardsColumns);
           break;
 
         case 'Faculty Devlopment Program(FDPs Attended)':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/development-programmes");
+          response = await api.get("http://localhost:3000/api/v1/faculty/development-programmes");
           console.log(response.data)
           setData(response.data.programs);
+          setFilteredData(response.data.programs);
           setColumn(facultyDevlopmentColumn);
           break;
 
         case 'Patent Published':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/patents-published");
+          response = await api.get("http://localhost:3000/api/v1/faculty/patents-published");
           console.log(response.data)
           setData(response.data.patents);
+          setFilteredData(response.data.patents);
           setColumn(patentPublished);
           break;
 
         case 'Patents Granted':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/patents-granted");
+          response = await api.get("http://localhost:3000/api/v1/faculty/patents-granted");
           console.log(response.data)
           setData(response.data.patents);
+          setFilteredData(response.data.patents);
           setColumn(patentGrantedColumns);
           break;
 
         case 'Membership in Professional Bodies':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/faculty-membership");
+          response = await api.get("http://localhost:3000/api/v1/faculty/faculty-membership");
           console.log(response.data)
           setData(response.data.facultyMembershipData);
+          setFilteredData(response.data.facultyMembershipData);
           setColumn(membershipColumn);
           break;
 
         case 'Academic Qualifications Discipline':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/academic-qualifications");
+          response = await api.get("http://localhost:3000/api/v1/faculty/academic-qualifications");
           console.log('Academic Qualifications Response:', response.data);
           console.log('Qualifications Data:', response.data.qualifications);
           const qualificationsData = response.data.qualifications || [];
           console.log('Setting data with', qualificationsData.length, 'items');
           setData(qualificationsData);
+          setFilteredData(qualificationsData);
           setColumn(academicQualificationColumns);
           console.log('Columns set:', academicQualificationColumns);
           break;
 
         case 'PhD Supervision / Guidances':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/phd-superviseds");
+          response = await api.get("http://localhost:3000/api/v1/faculty/phd-superviseds");
           console.log(response.data)
           setData(response.data.supervisions);
+          setFilteredData(response.data.supervisions);
           setColumn(phdSupervisionColumns);
           break;
 
         case 'Research Projects Guided':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/research-projects-guided");
+          response = await api.get("http://localhost:3000/api/v1/faculty/research-projects-guided");
           console.log(response.data)
           setData(response.data.talks);
+          setFilteredData(response.data.talks);
           setColumn(invitedTalksColumn);
           break;
 
         case 'Invited Talks / Resource Person':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/invited-talks");
+          response = await api.get("http://localhost:3000/api/v1/faculty/invited-talks");
           console.log(response.data)
           setData(response.data.talks);
+          setFilteredData(response.data.talks);
           setColumn(invitedTalksColumn);
           break;
 
         case 'Books / Chapters Authored':
-          response = await axios.get("http://localhost:3000/api/v1/faculty/books-authored");
+          response = await api.get("http://localhost:3000/api/v1/faculty/books-authored");
           console.log("Data Length:", response.data.length);
           console.log("Full Data:", response.data);
           setData(response.data.books);
+          setFilteredData(response.data.books);
           setColumn(booksChaptersColumns);
           break;
 
         default:
           setData([]);
+          setFilteredData([]);
           setColumn([]);
           break;
       }
@@ -371,7 +386,7 @@ const Faculty = () => {
     </div>
   );
 
-  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(data)} />, [downloadCSV, data]);
+  const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(filteredData)} />, [downloadCSV, filteredData]);
 
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
@@ -380,7 +395,7 @@ const Faculty = () => {
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
-        onClick={() => downloadCSV(data)}
+        onClick={() => downloadCSV(filteredData)}
       >
         Export {selectedRows.length} Selected
       </button>
@@ -389,7 +404,7 @@ const Faculty = () => {
 
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
-    const filteredItems = universalSearch(data, filterText);
+    const filteredItems = universalSearch(filteredData, filterText);
     
     return (
       <div 
@@ -426,6 +441,14 @@ const Faculty = () => {
           pagination
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+          customStyles={{
+            headCells: {
+              style: {
+                fontSize: '16px',
+                fontWeight: '600',
+              },
+            },
+          }}
         />
       </div>
     )
@@ -447,12 +470,18 @@ const Faculty = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="mb-6">
-        <SearchBar 
-          placeholder={"Filter by ID, name, or department"} 
-          onChange={(e) => setFiltertext(e.target.value)} 
-          value={filterText} 
+      {/* Search Bar and Date Filter */}
+      <div className="mb-6 flex gap-4 items-center flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <SearchBar 
+            placeholder={"Filter by ID, name, or department"} 
+            onChange={(e) => setFiltertext(e.target.value)} 
+            value={filterText} 
+          />
+        </div>
+        <DateRangeFilter 
+          onDateRangeChange={setFilteredData}
+          data={data}
         />
       </div>
 
@@ -553,7 +582,7 @@ const Faculty = () => {
           >
             { filterText.length == 0 ? 
               <DataTable 
-                data={data} 
+                data={filteredData} 
                 columns={column} 
                 actions={actionsMemo}
                 selectableRows
@@ -562,6 +591,14 @@ const Faculty = () => {
                 pagination
                 paginationPerPage={10}
                 paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                customStyles={{
+                  headCells: {
+                    style: {
+                      fontSize: '16px',
+                      fontWeight: '600',
+                    },
+                  },
+                }}
               /> : <FilteringComponent /> }
           </div>
         </div>
@@ -615,34 +652,6 @@ export const facultyProfileColumn = [
     name: 'Designation',
     selector: row => row.designation,
     sortable: true,
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing program ${row.Id}`)}
-          className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing program ${row.Id}`)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting program ${row.Id}`)}
-          className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
   },
 ];
 
@@ -830,34 +839,6 @@ export const facultyDevlopmentColumn = [
       </a>
     ),
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing program ${row.Id}`)}
-          className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing program ${row.Id}`)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting program ${row.Id}`)}
-          className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 export const patentPublished = [
@@ -911,34 +892,6 @@ export const patentPublished = [
   },
   { name: 'Publication Date', selector: row => row.publicationDate },
   { name: 'Abstract', selector: row => row.abstract, wrap: true },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button
-          onClick={() => alert(`Viewing patent ${row.Id || row._id}`)}
-          className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
-        >
-          View
-        </button>
-        <button
-          onClick={() => alert(`Editing patent ${row.Id || row._id}`)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => alert(`Deleting patent ${row.Id || row._id}`)}
-          className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded"
-        >
-          Delete
-        </button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 
@@ -1165,18 +1118,6 @@ export const academicQualificationColumns = [
     allowOverflow: true,
     button: true,
   },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex flex-col items-center justify-center gap-0.5">
-        <button onClick={() => alert(`Editing qualification ${row._id}`)} className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-5 py-1 rounded">Edit</button>
-        <button onClick={() => alert(`Deleting qualification ${row._id}`)} className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">Delete</button>
-      </div>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
 ];
 
 
@@ -1240,17 +1181,6 @@ export const researchProjectGuided = [
   { name: 'indexing', selector: row => row.indexing },
   { name: 'PDF', selector: row => row.fileId },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex gap-2">
-        <button onClick={() => alert(`Viewing ${row.Title}`)} className="bg-blue-500 text-white text-xs px-2 py-1 rounded">View</button>
-        <button onClick={() => alert(`Editing ${row.Id}`)} className="bg-yellow-500 text-white text-xs px-2 py-1 rounded">Edit</button>
-        <button onClick={() => alert(`Deleting ${row.Id}`)} className="bg-red-500 text-white text-xs px-2 py-1 rounded">Delete</button>
-      </div>
-    ),
-    button: true,
-  },
 ];
 
 

@@ -3,7 +3,7 @@ import InputBox from '../../components/InputBox'
 import FileBox from '../../components/FileBox'
 import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../../utils/axiosInstance'
 import DataTable from 'react-data-table-component'
 import UploadForm from '../../components/UploadForm'
 import { useFilter } from '../../hooks/useFilter'
@@ -53,7 +53,7 @@ function AcedmicQualificationDiscipline() {
 
   const fetchData = async () => {
     if (loading == true) {
-      const data = await axios.get("http://localhost:3000/api/v1/faculty/academic-qualifications")
+      const data = await api.get("http://localhost:3000/api/v1/faculty/academic-qualifications")
       console.log(data.data.qualifications)
       setData(data.data.qualifications)
 
@@ -77,11 +77,11 @@ function AcedmicQualificationDiscipline() {
     }
     try {
 
-      const res = await axios.post("http://localhost:3000/file", formData)
+      const res = await api.post("http://localhost:3000/file", formData)
       console.log(res.data)
 
       const url = "http://localhost:3000/api/v1/faculty/academic-qualification"
-      const response = await axios.post(url
+      const response = await api.post(url
         , {
           facultyName: data.facultyName,
           highestDegree: data.highestDegree,
@@ -362,29 +362,6 @@ export const academicQualificationColumns = [
           View PDF
         </a>
       ) : "N/A"
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-  },
-  {
-    name: 'Actions',
-    cell: row => (
-      <div className="flex flex-col items-center justify-center gap-0.5">
-        {/* <button onClick={() => alert(`Viewing certificate ${row.Id}`)} className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-4 py-1 rounded">View</button> */}
-        <button onClick={() => alert(`Editing certificate ${row._Id}`)} className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-5 py-1 rounded">Edit</button>
-        <button
-          onClick={
-            async () => {
-              console.log(row._id)
-              alert(`Deleting this ${row._id}`)
-              const baseUrl = "http://localhost:3000";
-              const url = "api/v1/faculty/academic-qualification"
-              const response = await axios.delete(`${baseUrl}/${url}/${row._id}`);
-              console.log(response.data);
-            }
-          } className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">Delete</button>
-      </div >
     ),
     ignoreRowClick: true,
     allowOverflow: true,
