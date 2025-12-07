@@ -1,24 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
 
-function Card({ children, title, bgColor = 'bg-yellow-500', link = '/', className = '' }) {
+function Card({ children, title, bgColor = 'bg-yellow-500', link = '/' }) {
   return (
-    <Link to={link} className={`block ${className}`}> 
-      <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 group">
-        <div className="p-8 flex flex-col items-center justify-center min-h-[280px]">
-          <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
+    <Link to={link} className="w-1/5"> 
+      <div className="border-2 border-black rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+        <div
+          className={`h-60 rounded cursor-pointer shadow-custom flex flex-col justify-center items-center transition-all duration-300 ease-in-out hover:shadow-2xl ${bgColor}`}
+        >
+          <h1 className="text-center pb-3 text-2xl font-semibold uppercase text-black">
+            {title}
+          </h1>
+          <span className="flex items-center justify-center text-9xl">
             {children}
-          </div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
-              {title}
-            </h2>
-            <div className="flex items-center justify-center gap-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-sm font-medium">Explore</span>
-              <ChevronRight className="w-4 h-4" />
-            </div>
-          </div>
+          </span>
         </div>
       </div>
     </Link>

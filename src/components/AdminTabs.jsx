@@ -1,134 +1,104 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Accordion from "./Accordian";
-import { GraduationCap, Users, LayoutGrid, Building2, ChevronRight } from "lucide-react";
 
 const AdminTabs = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
 
   const tabs = [
-    { label: "Student", icon: GraduationCap, color: "from-cyan-500 to-blue-500" },
-    { label: "Faculty", icon: Users, color: "from-violet-500 to-indigo-500" }, 
-    { label: "Department", icon: LayoutGrid, color: "from-pink-500 to-fuchsia-500" },
-    { label: "Institute", icon: Building2, color: "from-emerald-500 to-teal-500" },
+    { label: "Student" },
+    { label: "Faculty" }, 
+    { label: "Department" },
+    { label: "Institute" },
   ];
 
+
+
   return (
-    <nav className="p-6">
+    <nav className="mt-4 px-4">
       {/* Top Tabs */}
-      <div className="flex flex-wrap justify-center gap-4 mb-6">
-        {tabs.map(({ label, icon: Icon, color }) => (
+      <div className="flex flex-wrap justify-center gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow">
+        {tabs.map(({ label }) => (
           <button
             key={label}
-            onClick={() => setTab(tab === label ? "" : label)}
-            className="group"
+            onClick={() => setTab(label)}
           >
             <div
-              className={`flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-300 transform ${
+              className={`px-4 py-2 rounded-full transition-colors duration-200 ${
                 tab === label
-                  ? `bg-gradient-to-r ${color} text-white shadow-lg scale-105`
-                  : "bg-white text-slate-700 hover:bg-slate-50 border-2 border-slate-200 hover:border-slate-300 shadow-sm"
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-black hover:bg-blue-300"
               }`}
             >
-              <Icon className={`w-5 h-5 ${tab === label ? "text-white" : "text-slate-600"}`} />
-              <span className="font-semibold">{label}</span>
-              {tab === label && (
-                <ChevronRight className="w-4 h-4 text-white" />
-              )}
+              {label}
             </div>
           </button>
         ))}
       </div>
 
       {/* Accordions based on selected tab */}
-      <div className="mt-6">
+      <div className="flex flex-wrap justify-center gap-3 mt-4">
+
         {tab === "Faculty" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <AdminLink to="faculty-addfaculty" label="Add Profile" />
-            <AdminLink to="faculty-addawards" label="Awards and Recognitions" />
-            <AdminLink to="faculty-adddevlopmentprograms" label="Development Programs" />
-            <AdminLink to="faculty-addpatents" label="Patent Published" />
-            <AdminLink to="faculty-patentsgranted" label="Patent Granted" />
-            <AdminLink to="faculty-professional-certificate" label="Professional Certificate" />
-            <AdminLink to="faculty-academic-qualification-discipline" label="Academic Qualification" />
-            <AdminLink to="faculty-phD-supervision" label="PhD Supervision" />
-            <AdminLink to="faculty-membership-professional-bodies" label="Professional Bodies" />
-            <AdminLink to="faculty-research-projects-guided" label="Research Projects" />
-            <AdminLink to="faculty-invited-talks" label="Invited Talks" />
-            <AdminLink to="faculty-books-chapterd-authored" label="Books/Chapters" />
-          </div>
+          <Accordion isOpen={true}>
+            <Link to="faculty-addfaculty">Add Profile</Link>
+            <Link to="faculty-addawards">Awards and Recognitions</Link>
+            <Link to="faculty-adddevlopmentprograms">Development Programs</Link>
+            <Link to="faculty-addpatents">Patent Published</Link>
+            <Link to="faculty-patentsgranted">Patent Granted</Link>
+            <Link to="faculty-professional-certificate">Professional Certificate</Link>
+            <Link to="faculty-academic-qualification-discipline">Academic Qualification</Link>
+            <Link to="faculty-phD-supervision">PhD Supervision</Link>
+            <Link to="faculty-membership-professional-bodies">Professional Bodies</Link>
+            <Link to="faculty-research-projects-guided">Research Projects</Link>
+            <Link to="faculty-invited-talks">Invited Talks</Link>
+            <Link to="faculty-books-chapterd-authored">Books/Chapters</Link>
+          </Accordion>
         )}
 
         {tab === "Student" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <AdminLink to="/admin/addstudents" label="Profile" />
-            <AdminLink to="/admin/addstudentcertificates" label="Certification" />
-            <AdminLink to="/admin/addhackathons" label="Hackathons" />
-            <AdminLink to="/admin/addplacements" label="Placement" />
-            <AdminLink to="/admin/addinternships" label="Internship" />
-            <AdminLink to="/admin/addstudentresearchs" label="Research Paper" />
-            <AdminLink to="/admin/addsports" label="Sports" />
-            <AdminLink to="/admin/extracurricular" label="Extra Curricular" />
-            <AdminLink to="/admin/capstone-projects" label="Capstone Projects" />
-            <AdminLink to="/admin/startups" label="Startups" />
-            <AdminLink to="/admin/technical-nontechnical" label="Technical/Non-Technical" />
-            <AdminLink to="/admin/higher-studies" label="Higher Studies" />
-            <AdminLink to="/admin/professional-membership" label="Professional Membership" />
-          </div>
+          <Accordion label="Student" isOpen={true}>
+            <Link to="/admin/addstudents">Profile</Link>
+            <Link to="/admin/addstudentcertificates">Certification</Link>
+            <Link to="/admin/addhackathons">Hackathons</Link>
+            <Link to="/admin/addplacements">Placement</Link>
+            <Link to="/admin/addinternships">Internship</Link>
+            <Link to="/admin/addstudentresearchs">Research Paper</Link>
+            <Link to="/admin/addsports">Sports</Link>
+            <Link to="/admin/extracurricular">Extra Curricular</Link>
+            <Link to="/admin/capstone-projects">Capstone Projects</Link>
+            <Link to="/admin/startups">Startups</Link>
+            <Link to="/admin/technical-nontechnical">Technical/Non-Technical</Link>
+            <Link to="/admin/higher-studies">Higher Studies</Link>
+            <Link to="/admin/professional-membership">Professional Membership</Link>
+          </Accordion>
         )}
 
         {tab === "Institute" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <AdminLink to="/admin/addinstitue-mous" label="MoU" />
-            <AdminLink to="/admin/addinstitute-counsultancy" label="Consultancy" />
-            <AdminLink to="/admin/addinstitute-eventgrant" label="Event Grant" />
-            <AdminLink to="/admin/addinstitute-documents" label="Institute Documents" />
-            <AdminLink to="/admin/addinstitute-r&dforms" label="R&D Forms" />
-            <AdminLink to="/admin/addinstitute-eventorganized" label="Event Organized" />
-          </div>
+          <Accordion label="Institute" isOpen={true}>
+            <Link to="/admin/addinstitue-mous">MoU</Link>
+            <Link to="/admin/addinstitute-counsultancy">Consultancy</Link>
+            <Link to="/admin/addinstitute-eventgrant">Event Grant</Link>
+            <Link to="/admin/addinstitute-documents">Institute Documents</Link>
+            <Link to="/admin/addinstitute-r&dforms">R&D Forms</Link>
+            <Link to="/admin/addinstitute-eventorganized">Event Organized</Link>
+          </Accordion>
         )}
 
         {tab === "Department" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <AdminLink to="/admin/addmou" label="MoUs" />
-            <AdminLink to="/admin/addconsultancy-project" label="Consultancy Projects" />
-            <AdminLink to="/admin/addrd-inititatives" label="R&D Initiatives" />
-            <AdminLink to="/admin/addevent-grant-received" label="Event Grants Received" />
-          </div>
-        )}
-
-        {!tab && (
-          <div className="text-center py-12 text-slate-400">
-            <p className="text-lg">Select a category above to manage data</p>
-          </div>
+          <Accordion label="Department" isOpen={true}>
+            <Link to="/admin/addmou">MoUs</Link>
+            <Link to="/admin/addconsultancy-project">Consultancy Projects</Link>
+            <Link to="/admin/addrd-inititatives">R&D Initiatives</Link>
+            <Link to="/admin/addevent-grant-received">Event Grants Received</Link>
+          </Accordion>
         )}
       </div>
     </nav>
   );
 };
 
-// Helper component for admin links
-const AdminLink = ({ to, label }) => {
-  const location = useLocation();
-  const isActive = location.pathname.includes(to.split('/').pop());
-  
-  return (
-    <Link
-      to={to}
-      className={`block p-4 rounded-lg border-2 transition-all duration-200 ${
-        isActive
-          ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-transparent shadow-lg transform scale-105"
-          : "bg-white text-slate-700 border-slate-200 hover:border-blue-300 hover:shadow-md hover:bg-blue-50"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <span className="font-medium">{label}</span>
-        <ChevronRight className={`w-4 h-4 ${isActive ? "text-white" : "text-slate-400"}`} />
-      </div>
-    </Link>
-  );
-};
-
 export default AdminTabs;
+
 
