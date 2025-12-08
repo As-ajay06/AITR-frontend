@@ -14,7 +14,7 @@ function AddInternshipData() {
 
   const fetchData = async () => {
     if (loading == true) {
-      const data = await axios.get("http://localhost:3000/api/v1/students/placements")
+      const data = await axios.get("http://localhost:3000/api/v1/students/internships")
       console.log(data.data)
       setData(data.data.placements)
     }
@@ -30,6 +30,8 @@ function AddInternshipData() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
+    console.log("this is internshipdata" , data)
+
     const formData = new FormData();
     if (data.file && data.file[0]) {
       formData.append("file", data.file[0]);
@@ -39,15 +41,12 @@ function AddInternshipData() {
 
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
-    
 
       //  todo: chage placement with internship 
-      if (res.status === 200 && res.data?.fileId) {
-
-        const url = "http://localhost:3000/api/v1/students/placement"
+        const url = "http://localhost:3000/api/v1/students/internship"
         const response = await axios.post(url
           , {
-            internshipId: data.internshipId,
+            studentId: data.studentId,
             studentName: data.studentName,
             enrollmentNumber: data.enrollmentNumber,
             branch: data.branch,
@@ -55,7 +54,7 @@ function AddInternshipData() {
             year: data.year,
             venue: data.venue,
             companyName: data.companyName,
-            insternshipRole: data.insternshipRole,
+            internshipRole: data.internshipRole,
             modeOfInternship: data.modeOfInternship,
             stipend: data.stipend,
             startDate: data.startDate,
@@ -70,9 +69,6 @@ function AddInternshipData() {
           }
         )
         console.log(response.data)
-      } else {
-        console.error("File upload failed, skipping Profile creation.");
-      }
     } catch (error) {
       console.error("Error occurred:", error.message);
     }

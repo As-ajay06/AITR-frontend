@@ -99,9 +99,10 @@ import UpdateProfile from "./pages/UpdateProfile";
 import SuperAdmin from "./pages/SuperAdmin";
 import SuperAdminNavbar from "./components/SuperAdminNavbar";
 import AddProfile from "./pages/AddProfile";
-import FacultyProfile from "./components/StudentProfile";
+import FacultyProfile from "./components/FacultyProfile";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import PublicRoute from "./routes/PublicRoutes";
+import StudentProfile from "./components/StudentProfile";
 
 
 
@@ -116,6 +117,7 @@ function AppContent() {
         <div className={hideNavbar ? "" : "p-4 lg:p-6"}>
               <Routes>
           <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
+          <Route path={`student/profile/:id`} element={<StudentProfile />} />
           {/* super admin Routes */}
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={

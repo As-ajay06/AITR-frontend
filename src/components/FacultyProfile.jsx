@@ -14,6 +14,7 @@ function FacultyProfile() {
   useEffect(() => {
     if (data && !loading) {
       console.log("this", data);
+      console.log("profile data", data.profile)
     }
 
 
@@ -23,7 +24,7 @@ function FacultyProfile() {
   }, [loading])
 
   return (
-    
+
     <div className="min-h-screen bg-zinc-200 flex justify-center p-10">
       <div className="bg-white shadow-md rounded-lg p-10 w-full min-w-5xl">
         <div className="min-h-screen bg-zinc-200 flex justify-center p-6 w-full" >
@@ -40,19 +41,22 @@ function FacultyProfile() {
             </div>
 
             {/* Profile Details */}
-            <div className="mb-6">
-            <p><strong>Name:</strong> {profile.name}</p>
-            <p><strong>Email:</strong> {profile.email}</p>
-            <p><strong>Qualification:</strong> {profile.qualification}</p>
-            <p><strong>Department:</strong> {profile.department}</p>
-            <p><strong>Mobile Number:</strong> {profile.mobileNumber}</p>
-            <p><strong>Category:</strong> {profile.category}</p>
-            <p><strong>Teaching Experience:</strong> {profile.teachingExperience} years</p>
-            <p><strong>Industrial Experience:</strong> {profile.industrialExperience} years</p>
-            <p><strong>Designation:</strong> {profile.designation}</p>
-            </div>
+            {data?.profile && (
+              <div className="mb-6">
+                <p><strong>Name:</strong> {data.profile.name}</p>
+                <p><strong>Email:</strong> {data.profile.email}</p>
+                <p><strong>Qualification:</strong> {data.profile.qualification}</p>
+                <p><strong>Department:</strong> {data.profile.department}</p>
+                <p><strong>Mobile Number:</strong> {data.profile.mobileNumber}</p>
+                <p><strong>Category:</strong> {data.profile.category}</p>
+                <p><strong>Teaching Experience:</strong> {data.profile.teachingExperience} years</p>
+                <p><strong>Industrial Experience:</strong> {data.profile.industrialExperience} years</p>
+                <p><strong>Designation:</strong> {data.profile.designation}</p>
+              </div>
+            )}
 
-           {/* Faculty Development Programme */}
+
+            {/* Faculty Development Programme */}
             {data?.facultyDevlopment && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Faculty Development Programme</h2>
@@ -92,7 +96,7 @@ function FacultyProfile() {
             )}
 
 
-          {/* Certificates */}
+            {/* Certificates */}
             {data?.certificates && data.certificates.length > 0 && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Certificates</h2>
@@ -121,7 +125,7 @@ function FacultyProfile() {
             )}
 
 
-          {/* Qualification */}
+            {/* Qualification */}
             {data?.qualification && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Qualification</h2>
@@ -147,54 +151,6 @@ function FacultyProfile() {
                 )}
               </div>
             )}
-
-
-            {/* Patent Published */}
-            {data?.patentPublished && (
-              <div className="mb-6">
-                <h2 className="text-lg font-semibold mb-2">Patent Published</h2>
-
-                <p><strong>Patent Title:</strong> {data.patentPublished.patentTitle}</p>
-                <p><strong>Main Title:</strong> {data.patentPublished.title}</p>
-                <p><strong>Applicant:</strong> {data.patentPublished.applicant}</p>
-                <p><strong>Application Number:</strong> {data.patentPublished.applicationNumber}</p>
-                <p><strong>Application Date:</strong> {new Date(data.patentPublished.applicationDate).toLocaleDateString()}</p>
-                <p><strong>Status:</strong> {data.patentPublished.status}</p>
-                <p><strong>Country:</strong> {data.patentPublished.country}</p>
-                <p><strong>Category:</strong> {data.patentPublished.category}</p>
-
-                <p>
-                  <strong>Inventors:</strong>{" "}
-                  {Array.isArray(data.patentPublished.inventors)
-                    ? data.patentPublished.inventors.join(", ").replace(/[\[\]']+/g, "")
-                    : data.patentPublished.inventors}
-                </p>
-
-                <p>
-                  <strong>Co-Inventors:</strong>{" "}
-                  {typeof data.patentPublished.coInventors === "string"
-                    ? data.patentPublished.coInventors.replace(/[\[\]']+/g, "")
-                    : data.patentPublished.coInventors}
-                </p>
-
-                <p><strong>Abstract:</strong> {data.patentPublished.abstract}</p>
-
-                {data.patentPublished.certificatePdfUrl && (
-                  <p>
-                    <strong>Certificate:</strong>{" "}
-                    <a
-                      href={`/${data.patentPublished.certificatePdfUrl}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline"
-                    >
-                      View Certificate
-                    </a>
-                  </p>
-                )}
-              </div>
-            )}
-
 
             {/* Patent Granted / Guided */}
             {data?.patentGuided && (
@@ -261,8 +217,8 @@ function FacultyProfile() {
                   <strong>Inventors:</strong>{" "}
                   {Array.isArray(data.patentPublished.inventors)
                     ? data.patentPublished.inventors
-                        .join(", ")
-                        .replace(/[\[\]']+/g, "")
+                      .join(", ")
+                      .replace(/[\[\]']+/g, "")
                     : data.patentPublished.inventors}
                 </p>
 
@@ -306,7 +262,7 @@ function FacultyProfile() {
               </div>
             )}
 
-          {/* Professional Bodies */}
+            {/* Professional Bodies */}
             {data?.professionalBodies && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Professional Bodies</h2>
@@ -318,7 +274,7 @@ function FacultyProfile() {
               </div>
             )}
 
-          {/* Research Projects Guided */}
+            {/* Research Projects Guided */}
             {data?.researchProjects && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Research Project Guided</h2>
@@ -329,8 +285,8 @@ function FacultyProfile() {
                   <strong>Student Names:</strong>{" "}
                   {Array.isArray(data.researchProjects.studentNames)
                     ? data.researchProjects.studentNames
-                        .join(", ")
-                        .replace(/[\[\]']+/g, "")
+                      .join(", ")
+                      .replace(/[\[\]']+/g, "")
                     : data.researchProjects.studentNames}
                 </p>
 
@@ -338,14 +294,14 @@ function FacultyProfile() {
                   <strong>Outcome:</strong>{" "}
                   {Array.isArray(data.researchProjects.outcome)
                     ? data.researchProjects.outcome
-                        .join(", ")
-                        .replace(/[\[\]']+/g, "")
+                      .join(", ")
+                      .replace(/[\[\]']+/g, "")
                     : data.researchProjects.outcome}
                 </p>
               </div>
             )}
 
-          {/* Invited Talks */}
+            {/* Invited Talks */}
             {data?.invitedTalks && data.invitedTalks.length > 0 && (
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Invited Talks</h2>
@@ -378,31 +334,31 @@ function FacultyProfile() {
             )}
 
 
-          {/* Books and Chapter Authored */}
-          {data?.booksAuthored && (
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-2">Books and Chapters Authored</h2>
+            {/* Books and Chapter Authored */}
+            {data?.booksAuthored && (
+              <div className="mb-6">
+                <h2 className="text-lg font-semibold mb-2">Books and Chapters Authored</h2>
 
-              <p><strong>Title of Book:</strong> {data.booksAuthored.title}</p>
-              <p><strong>Publisher:</strong> {data.booksAuthored.publisher}</p>
-              <p><strong>ISBN:</strong> {data.booksAuthored.isbn}</p>
-              <p><strong>Year of Publication:</strong> {data.booksAuthored.yearOfPublication}</p>
+                <p><strong>Title of Book:</strong> {data.booksAuthored.title}</p>
+                <p><strong>Publisher:</strong> {data.booksAuthored.publisher}</p>
+                <p><strong>ISBN:</strong> {data.booksAuthored.isbn}</p>
+                <p><strong>Year of Publication:</strong> {data.booksAuthored.yearOfPublication}</p>
 
-              <p>
-                <strong>Co-authors:</strong>{" "}
-                {Array.isArray(data.booksAuthored.coAuthors)
-                  ? data.booksAuthored.coAuthors
+                <p>
+                  <strong>Co-authors:</strong>{" "}
+                  {Array.isArray(data.booksAuthored.coAuthors)
+                    ? data.booksAuthored.coAuthors
                       .join(", ")
                       .replace(/[\[\]']+/g, "")
-                  : data.booksAuthored.coAuthors}
-              </p>
-            </div>
-          )}
+                    : data.booksAuthored.coAuthors}
+                </p>
+              </div>
+            )}
 
 
 
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

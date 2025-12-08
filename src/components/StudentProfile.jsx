@@ -37,7 +37,7 @@ function StudentProfile() {
                       className="w-32 h-32 object-cover rounded-lg border"
                       />
                     <div className="mb-6 border-b pb-4">
-                      <h1 className="text-2xl font-semibold text-gray-800">Faculty Report</h1>
+                      <h1 className="text-2xl font-semibold text-gray-800">Student Report</h1>
                     </div>
                   </div>
 

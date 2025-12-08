@@ -8,7 +8,7 @@ import ColumnSelectorModal from '../components/ColumnSelectorModal';
 
 // Define available columns for export with their keys
 const exportableColumns = [
-  { key: 'studentId', label: 'ID' },
+  { key: 'studentId', label: 'Student Id' },
   { key: 'name', label: 'Student Name' },
   { key: 'enrollmentNumber', label: 'Enrollment No.' },
   { key: 'branch', label: 'Branch' },
@@ -30,28 +30,53 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.studentId, sortable: true, width: '70px' },
-  { name: 'Student Name', selector: row => row.name, sortable: true },
-  { name: 'Enrollment No.', selector: row => row.enrollmentNumber },
-  { name: 'Branch', selector: row => row.branch },
-  { name: 'Batch', selector: row => row.batch, wrap: true },
-  { name: 'Email', selector: row => row.email },
-  { name: 'Year', selector: row => row.year },
-  { name: 'Course', selector: row => row.course, wrap: true },
-  { name: 'CGPA', selector: row => row.cgpa, wrap: true },
-  { name: 'Date Of Birth', selector: row => row.dateOfBirth, wrap: true },
-  { name: 'Gender', selector: row => row.gender, wrap: true },
-  { name: 'Category', selector: row => row.catogory, wrap: true },
-  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, wrap: true },
-  { name: 'Status', selector: row => row.status, wrap: true },
-  { name: 'Github Link', selector: row => (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>), wrap: true },
-  { name: 'LinkedIn Profile Link', selector: row => (<a href={row.linkinProfileLink} target='_blank'>Link</a>) || "N/A", wrap: true },
-  { name: 'Guardian Contact Number', selector: row => row.gaurdianContactNumber, wrap: true },
-  { name: 'Guardian Name', selector: row => row.gaurdianName, wrap: true },
-  { name: 'Address', selector: row => row.address, wrap: true },
+  { name: 'Student ID', selector: row => row.studentId, sortable: true, width: '200px', wrap: false },
+  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: false },
+  { name: 'Enrollment No.', selector: row => row.enrollmentNumber, width: '200px', wrap: false },
+  { name: 'Branch', selector: row => row.branch, width: '200px', wrap: false },
+  { name: 'Batch', selector: row => row.batch, width: '200px', wrap: false },
+  { name: 'Email', selector: row => row.email, width: '200px', wrap: false },
+  { name: 'Year', selector: row => row.year, width: '200px', wrap: false },
+  { name: 'Course', selector: row => row.course, width: '200px', wrap: false },
+  { name: 'CGPA', selector: row => row.cgpa, width: '200px', wrap: false },
+  { name: 'Date Of Birth', selector: row => row.dateOfBirth, width: '200px', wrap: false },
+  { name: 'Gender', selector: row => row.gender, width: '200px', wrap: false },
+  { name: 'Category', selector: row => row.catogory, width: '200px', wrap: false },
+  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, width: '200px', wrap: false },
+  { name: 'Status', selector: row => row.status, width: '200px', wrap: false },
+  {
+    name: 'Github Link',
+    selector: row => row.githubLink,
+    width: '220px',
+    wrap: false,
+    cell: row => (
+      <a href={row.githubLink} target='_blank' rel="noopener noreferrer">
+        {row.githubLink}
+      </a>
+    )
+  },
+  {
+    name: 'LinkedIn Profile Link',
+    selector: row => row.linkinProfileLink,
+    width: '300px',
+    wrap: false,
+    cell: row => (
+      row.linkinProfileLink ? (
+        <a href={row.linkinProfileLink} target='_blank' rel="noopener noreferrer">
+          {row.linkinProfileLink}
+        </a>
+      ) : "N/A"
+    )
+  },
+  { name: 'Guardian Contact Number', selector: row => row.gaurdianContactNumber, width: '340px', wrap: false },
+  { name: 'Guardian Name', selector: row => row.gaurdianName, width: '200px', wrap: false },
+  { name: 'Address', selector: row => row.address, width: '300px', wrap: false },
+
   {
     name: "Download PDF",
     selector: row => row.fileId,
+    width: '180px',
+    wrap: false,
     cell: row =>
       row.fileId ? (
         <a
@@ -145,13 +170,27 @@ const StudentTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
-          headCells: {
-            style: {
-              fontSize: '16px',
-              fontWeight: '600',
-            },
-          },
-        }}
+    table: {
+      style: {
+        tableLayout: "fixed",
+      },
+    },
+    headCells: {
+      style: {
+        whiteSpace: "nowrap",
+        fontSize: "18px",     // ⬆ Bigger header font
+        fontWeight: "700",
+      },
+    },
+    cells: {
+      style: {
+        whiteSpace: "nowrap",
+        fontSize: "16px",     // ⬆ Bigger row font
+        paddingTop: "12px",
+        paddingBottom: "12px",
+      },
+    },
+  }}
       />
     </div>
   );

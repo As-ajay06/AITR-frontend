@@ -86,7 +86,7 @@ const SuperAdminNavbar = () => {
                                            duration-200 text-white placeholder:text-white/70 outline-none"
                                 placeholder="Search faculty..."
                                 onChange={(e) => setSearchValue(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                                onClick={(e) => e.key === 'Enter' && handleSearch()}
                             />
                         
                             <button 

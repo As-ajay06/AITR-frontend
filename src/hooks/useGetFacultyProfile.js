@@ -13,6 +13,7 @@ export default function useGetFacultyProfile(id) {
 
             try {
                 const response = await axios.get(`${BASE_URL}/${SEARCH_URL}/faculty/${id}`);
+                console.log(response)
                 if (!response.data) {
                     setMessage("Sorry unable to find information")
                     setLoading(false);

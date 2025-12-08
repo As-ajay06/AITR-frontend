@@ -25,16 +25,16 @@ const columns = [
   { name: 'Hackathon Name', selector: row => row.hackathonName },
   { name: 'Organiser', selector: row => row.organizer },
   {
-    name: 'Team Details', selector: row =>
-    (row.teamDetails.map(
-      (item, index) =>
-      (<div
-        key={index}>
-        <p>{item.memberName}</p>
-        <p>{item.role}</p>
-      </div>)
-    )
-    ), wrap: true
+    name: 'Team Details', selector: row => row.teamDetails
+    // (row.teamDetails.map(
+    //   (item, index) =>
+    //   (<div
+    //     key={index}>
+    //     <p>{item.memberName}</p>
+    //     <p>{item.role}</p>
+    //   </div>)
+    // )
+    // ), wrap: true
   },
   { name: 'Result', selector: row => row.result },
   { name: 'Event Date', selector: row => row.eventDate },
@@ -44,16 +44,16 @@ const columns = [
   { name: 'Venue', selector: row => row.venue },
   { name: 'Problem Statement', selector: row => row.problemStatement, wrap: true },
   {
-    name: 'Technolgy used', selector: row =>
-    (row.technologyUsed.map(
-      (item, index) =>
-      (<div
-        key={index}>
-        <p>{item.memberName}</p>
-        <p>{item.role}</p>
-      </div>)
-    )
-    ), wrap: true
+    name: 'Technolgy used', selector: row => row.technologyUsed
+    // (row.technologyUsed.map(
+    //   (item, index) =>
+    //   (<div
+    //     key={index}>
+    //     <p>{item.memberName}</p>
+    //     <p>{item.role}</p>
+    //   </div>)
+    // )
+    // ), wrap: true
   },
   { name: 'Prize Money', selector: row => row.prizeMoney },
   { name: 'Position Secured', selector: row => row.positionSecured },
@@ -151,7 +151,7 @@ export const HackathonTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
+
 
       <DataTable
         title="Student Hackathon Participation"

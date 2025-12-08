@@ -38,7 +38,7 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <InputBox label="ID" name="internshipId" register={methods.register} required />
+            <InputBox label="ID" name="studentId" register={methods.register} required />
             <InputBox label="Student Name" name="studentName" register={methods.register} required />
             <InputBox label="Enrollment Number" name="enrollmentNumber" register={methods.register} required />
             <SelectBox label="Branch" name="branch" options={branches} register={methods.register} />
@@ -46,7 +46,7 @@ const StudentInternshipForm = ({ register, handleSubmit, reset, onSubmit }) => {
             <InputBox label="Year" name="year" register={methods.register} />
             <InputBox label="Company Name" name="companyName" register={methods.register} required />
             <InputBox label="Internship Role" name="internshipRole" register={methods.register} />
-            <SelectBox label="Mode of Internship" name="internshipMode" options={internshipModes} register={methods.register} />
+            <SelectBox label="Mode of Internship" name="modeOfInternship" options={internshipModes} register={methods.register} />
             <SelectBox label="Stipend" name="stipend" options={stipends} register={methods.register} />
             <CalenderBox label="Start Date" name="startDate" register={methods.register} />
             <CalenderBox label="End Date" name="endDate" register={methods.register} />
