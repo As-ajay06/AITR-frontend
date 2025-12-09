@@ -119,7 +119,6 @@ const HigherStudiesTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
 
       <DataTable
         title="Student Higher Studies Records"
