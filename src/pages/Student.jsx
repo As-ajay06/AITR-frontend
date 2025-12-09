@@ -638,9 +638,9 @@ export const studentProfileColumns = [
   { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: false },
   { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: false },
   { name: 'Year Of Admission', selector: row => row.yearOfAdmission, sortable: true, width: '300px', wrap: false },
-  { name: 'Status', selector: row => row.status, sortable: true, width: '200px', wrap: false },
-  { name: 'Github Link', selector: row => (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>), sortable: true, width: '200px', wrap: false },
-  { name: 'LinkedIn Profile Link', selector: row => (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>), sortable: true, width: '300px', wrap: false },
+  { name: 'Status', selector: row => row.status || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'Github Link', selector: row => row.githubLink ? ( <a href={row.githubLink} target='_blank'>{row.githubLink}</a>) : "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'LinkedIn Profile Link', selector: row => row.linkedinProfileLink ? (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>) : "N/A" , sortable: true, width: '300px', wrap: false },
   {
     name: 'Guardian Contact Number', selector: row => row.guardianContactNumber
     , sortable: true, width: '300px', wrap: false
@@ -707,33 +707,32 @@ export const studentTechinalNonTechnicalColumn = [
 
 
 export const certificateColumns = [
-  { name: 'Student ID', selector: row => row.certificateId, sortable: true, width: '200px', wrap: false },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: false },
-  { name: 'Certificate Name', selector: row => row.courseName, sortable: true, width: '300px', wrap: false },
-  { name: 'Certificate Type', selector: row => row.certificateType, sortable: true, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
-  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: false },
-  { name: 'Course', selector: row => row.courseName, sortable: true, width: '200px', wrap: false },
-  { name: 'Issuing Organization', selector: row => row.issuingOrganization, sortable: true, width: '200px', wrap: false },
-  { name: 'Issue Date', selector: row => row.issueDate, sortable: true, width: '200px', wrap: false },
-  { name: 'Validity Period', selector: row => row.validityPeriod, sortable: true, width: '200px', wrap: false },
-  { name: 'Graded Of Score', selector: row => row.gradeOrScore, sortable: true, width: '200px', wrap: false },
-  { name: 'Mode Of Learning', selector: row => row.modeOfLearning, sortable: true, width: '280px', wrap: false },
-  { name: 'Course Duration', selector: row => row.courseDuration, sortable: true, width: '200px', wrap: false },
-  { name: 'Rank Or Position', selector: row => row.rankOrPosition, sortable: true, width: '200px', wrap: false },
-  { name: 'Certificate Description', selector: row => row.certificateDescription, sortable: true, width: '300px', wrap: false },
-  { name: 'Relevance To Program Or Branch', selector: row => row.relevanceToProgramOrBranch, sortable: true, width: '350px', wrap: false },
+  { name: 'Student ID', selector: row => row.studentId || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Certificate Name', selector: row => row.courseName || "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Year', selector: row => row.year || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Course', selector: row => row.courseName || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Issuing Organization', selector: row => row.issuingOrganization || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Issue Date', selector: row => row.issueDate || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Validity Period', selector: row => row.validityPeriod || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Graded Of Score', selector: row => row.gradeOrScore || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Mode Of Learning', selector: row => row.modeOfLearning || "N/A", sortable: true, width: '280px', wrap: false },
+  { name: 'Course Duration', selector: row => row.courseDuration || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Rank Or Position', selector: row => row.rankOrPosition || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Certificate Description', selector: row => row.certificateDescription || "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Relevance To Program Or Branch', selector: row => row.relevanceToProgramOrBranch || "N/A", sortable: true, width: '350px', wrap: false },
 
 
   {
     name: 'Certificate Link',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a href={row.fileId} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-sm">
         View
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ) : "N/A", sortable: true, width: '200px', wrap: false
   },
 ];
 

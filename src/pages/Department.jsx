@@ -71,7 +71,7 @@ const Department = () => {
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -128,7 +128,7 @@ const Department = () => {
           setColumn([]);
           break;
       }
-      
+
       // Set exportable columns for the selected tab
       const tabColumns = exportableColumnsByTab[selectedTab] || [];
       setExportableColumns(tabColumns);
@@ -188,7 +188,7 @@ const Department = () => {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -217,14 +217,14 @@ const Department = () => {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -237,7 +237,7 @@ const Department = () => {
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
     if (selectedRows.length === 0) return null;
-    
+
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
@@ -251,11 +251,11 @@ const Department = () => {
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
     const filteredItems = universalSearch(filteredData, filterText);
-    
+
     return (
-      <div 
-        className="overflow-x-auto w-full" 
-        style={{ 
+      <div
+        className="overflow-x-auto w-full"
+        style={{
           overflowX: 'auto',
           overflowY: 'visible',
           WebkitOverflowScrolling: 'touch',
@@ -277,9 +277,9 @@ const Department = () => {
           }
         }}
       >
-        <DataTable 
-          data={filteredItems} 
-          columns={column} 
+        <DataTable
+          data={filteredItems}
+          columns={column}
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
@@ -319,13 +319,13 @@ const Department = () => {
       {/* Search Bar and Date Filter */}
       <div className="mb-6 flex gap-4 items-center flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <SearchBar 
-            placeholder={"Filter by ID, name, or department"} 
-            onChange={(e) => setFiltertext(e.target.value)} 
-            value={filterText} 
+          <SearchBar
+            placeholder={"Filter by ID, name, or department"}
+            onChange={(e) => setFiltertext(e.target.value)}
+            value={filterText}
           />
         </div>
-        <DateRangeFilter 
+        <DateRangeFilter
           onDateRangeChange={setFilteredData}
           data={data}
         />
@@ -335,16 +335,15 @@ const Department = () => {
       <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 mb-6 overflow-x-auto">
         <div className="flex flex-wrap gap-2 min-w-max">
           {tabs.map(({ label }) => (
-            <button 
-              key={label} 
+            <button
+              key={label}
               onClick={() => setTab(label)}
               className="whitespace-nowrap"
             >
-              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
-                tab === label
-                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}>
+              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${tab === label
+                ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
+                : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }`}>
                 {label}
               </div>
             </button>
@@ -361,93 +360,107 @@ const Department = () => {
           </div>
         ) : (
           <div className="p-4">
-          {/* Column Selector Modal */}
-          {showColumnSelector && exportableColumns.length > 0 && (
-            <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-                <button 
-                  onClick={() => setShowColumnSelector(false)}
-                  className="text-gray-600 hover:text-gray-900 font-bold text-xl"
-                >
-                  ×
-                </button>
+            {/* Column Selector Modal */}
+            {showColumnSelector && exportableColumns.length > 0 && (
+              <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+                  <button
+                    onClick={() => setShowColumnSelector(false)}
+                    className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="flex gap-2 mb-3">
+                  <button
+                    onClick={selectAllColumns}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+                  >
+                    Select All
+                  </button>
+                  <button
+                    onClick={deselectAllColumns}
+                    className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+                  >
+                    Deselect All
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+                  {exportableColumns.map(column => (
+                    <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedColumns.includes(column.key)}
+                        onChange={() => toggleColumnSelection(column.key)}
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                      <span className="text-sm">{column.label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-2 mb-3">
-                <button 
-                  onClick={selectAllColumns}
-                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
-                >
-                  Select All
-                </button>
-                <button 
-                  onClick={deselectAllColumns}
-                  className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
-                >
-                  Deselect All
-                </button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
-                {exportableColumns.map(column => (
-                  <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
-                    <input
-                      type="checkbox"
-                      checked={selectedColumns.includes(column.key)}
-                      onChange={() => toggleColumnSelection(column.key)}
-                      className="w-4 h-4 cursor-pointer"
-                    />
-                    <span className="text-sm">{column.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div 
-            className="overflow-x-auto w-full" 
-            style={{ 
-              overflowX: 'auto',
-              overflowY: 'visible',
-              WebkitOverflowScrolling: 'touch',
-              minWidth: '100%'
-            }}
-            onWheel={(e) => {
-              // Enable horizontal scroll with Shift + Mouse Wheel
-              if (e.shiftKey) {
-                e.preventDefault();
-                e.currentTarget.scrollLeft += e.deltaY;
-              }
-              // Also enable horizontal scroll when at horizontal edge
-              const element = e.currentTarget;
-              const isAtLeftEdge = element.scrollLeft === 0;
-              const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
-              if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
-                e.preventDefault();
-                element.scrollLeft += e.deltaY;
-              }
-            }}
-          >
-            {filterText.length == 0 ? 
-              <DataTable 
-                data={filteredData} 
-                columns={column} 
-                actions={actionsMemo}
-                selectableRows
-                onSelectedRowsChange={handleRowSelected}
-                contextActions={contextActions}
-                pagination
-                paginationPerPage={10}
-                paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
-                customStyles={{
-                  headCells: {
-                    style: {
-                      fontSize: '16px',
-                      fontWeight: '600',
+            )}
+
+            <div
+              className="overflow-x-auto w-full"
+              style={{
+                overflowX: 'auto',
+                overflowY: 'visible',
+                WebkitOverflowScrolling: 'touch',
+                minWidth: '100%'
+              }}
+              onWheel={(e) => {
+                // Enable horizontal scroll with Shift + Mouse Wheel
+                if (e.shiftKey) {
+                  e.preventDefault();
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }
+                // Also enable horizontal scroll when at horizontal edge
+                const element = e.currentTarget;
+                const isAtLeftEdge = element.scrollLeft === 0;
+                const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+                if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+                  e.preventDefault();
+                  element.scrollLeft += e.deltaY;
+                }
+              }}
+            >
+              {filterText.length == 0 ?
+                <DataTable
+                  data={filteredData}
+                  columns={column}
+                  actions={actionsMemo}
+                  selectableRows
+                  onSelectedRowsChange={handleRowSelected}
+                  contextActions={contextActions}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                  customStyles={{
+                    table: {
+                      style: {
+                        tableLayout: "fixed",
+                      },
                     },
-                  },
-                }}
-              /> : <FilteringComponent />}
-          </div>
+                    headCells: {
+                      style: {
+                        whiteSpace: "nowrap",
+                        fontSize: "18px",     // ⬆ Bigger header font
+                        fontWeight: "700",
+                      },
+                    },
+                    cells: {
+                      style: {
+                        whiteSpace: "nowrap",
+                        fontSize: "16px",     // ⬆ Bigger row font
+                        paddingTop: "12px",
+                        paddingBottom: "12px",
+                      },
+                    },
+                  }}
+                /> : <FilteringComponent />}
+            </div>
           </div>
         )}
       </div>
@@ -459,117 +472,270 @@ export default Department;
 
 
 export const CounsultancyProjectColumn = [
-  { name: 'Department Name', selector: row => row.departmentName, sortable: true },
-  { name: 'Agency Name', selector: row => row.agencyName, sortable: true },
-  { name: 'Date', selector: row => row.date, sortable: true },
-  { name: 'Duration', selector: row => row.duration, sortable: true },
-  { name: 'Description', selector: row => row.description, sortable: true },
-  { name: 'Funding', selector: row => row.funding, sortable: true },
+  { name: 'Department Name', selector: row => row.departmentName, sortable: true, width: '200px', wrap: true },
+  { name: 'Agency Name', selector: row => row.agencyName, sortable: true, width: '200px', wrap: true },
+  { name: 'Date', selector: row => row.date, sortable: true, width: '200px', wrap: true },
+  { name: 'Duration', selector: row => row.duration, sortable: true, width: '200px', wrap: true },
+  { name: 'Description', selector: row => row.description, sortable: true, width: '200px', wrap: true },
+  { name: 'Funding', selector: row => row.funding, sortable: true, width: '200px', wrap: true },
   { name: 'PDF', selector: row => row.pdf, cell: row => <a href={row.pdf} target="_blank" rel="noreferrer">View</a> },
-  { name: 'Title of Consultancy', selector: row => row.titleOfConsultancy, sortable: true },
-  { name: 'Client/Industry Partner', selector: row => row.clientOrIndustryPartner, sortable: true },
-  { name: 'Faculty Lead', selector: row => row.facultyLead, sortable: true },
-  { name: 'Amount Sanctioned', selector: row => row.amountSanctioned, sortable: true },
-  { name: 'Supporting Documents', selector: row => row.supportingDocs, cell: row => <a href={row.supportingDocs} target="_blank" rel="noreferrer">Download</a> },
+  { name: 'Title of Consultancy', selector: row => row.titleOfConsultancy, sortable: true, width: '300px', wrap: true },
+  { name: 'Client/Industry Partner', selector: row => row.clientOrIndustryPartner, sortable: true, width: '300px', wrap: true },
+  { name: 'Faculty Lead', selector: row => row.facultyLead, sortable: true, width: '200px', wrap: true },
+  { name: 'Amount Sanctioned', selector: row => row.amountSanctioned, sortable: true, width: '300px', wrap: true },
+  { name: 'Supporting Documents', selector: row => row.supportingDocs, sortable: true, width: '300px', wrap: true, cell: row => <a href={row.supportingDocs} target="_blank" rel="noreferrer">Download</a> },
 ];
 
 export const RDColumn = [
   {
     name: "Department Name",
     selector: row => row.departmentName,
-    sortable: true,
+    cell: row => {
+      if (!row.departmentName) return 'N/A';
+      if (typeof row.departmentName === 'object' && !Array.isArray(row.departmentName)) {
+        return Object.values(row.departmentName).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.departmentName);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Agency Name",
     selector: row => row.agencyName,
-    sortable: true,
+    cell: row => {
+      if (!row.agencyName) return 'N/A';
+      if (typeof row.agencyName === 'object' && !Array.isArray(row.agencyName)) {
+        return Object.values(row.agencyName).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.agencyName);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Date",
     selector: row => row.date,
-    sortable: true,
+    cell: row => row.date ? new Date(row.date).toLocaleDateString() : 'N/A',
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Duration",
     selector: row => row.duration,
-    sortable: true,
+    cell: row => {
+      if (!row.duration) return 'N/A';
+      if (typeof row.duration === 'object' && !Array.isArray(row.duration)) {
+        return Object.values(row.duration).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.duration);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Description",
     selector: row => row.description,
-    wrap: true,
+    cell: row => {
+      if (!row.description) return 'N/A';
+      if (typeof row.description === 'object' && !Array.isArray(row.description)) {
+        return Object.values(row.description).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.description);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Funding",
     selector: row => row.funding,
+    cell: row => {
+      if (!row.funding) return 'N/A';
+      if (typeof row.funding === 'object' && !Array.isArray(row.funding)) {
+        return Object.values(row.funding).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.funding);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
-    name: "PDF",
-    cell: row => (
-      <a href={row.pdf} target="_blank" rel="noopener noreferrer">
-        View PDF
-      </a>
-    ),
+    name: "PDF Document",
+    cell: row =>
+      row.pdfUrl ? (
+        <a
+          href={row.pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
+          View PDF
+        </a>
+      ) : (
+        "Not Uploaded"
+      ),
+    button: true,
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Project Title",
     selector: row => row.projectTitle,
-    wrap: true,
+    cell: row => {
+      if (!row.projectTitle) return 'N/A';
+      if (typeof row.projectTitle === 'object' && !Array.isArray(row.projectTitle)) {
+        return Object.values(row.projectTitle).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.projectTitle);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Funding Agency",
     selector: row => row.fundingAgency,
+    cell: row => {
+      if (!row.fundingAgency) return 'N/A';
+      if (typeof row.fundingAgency === 'object' && !Array.isArray(row.fundingAgency)) {
+        return Object.values(row.fundingAgency).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.fundingAgency);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
-    name: "Principal Investigator (PI)",
+    name: "Principal Investigator",
     selector: row => row.principalInvestigator,
+    cell: row => {
+      if (!row.principalInvestigator) return 'N/A';
+      if (typeof row.principalInvestigator === 'object' && !Array.isArray(row.principalInvestigator)) {
+        return Object.values(row.principalInvestigator).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.principalInvestigator);
+    },
+    sortable: true, width: '300px', wrap: false
   },
   {
     name: "Co-Investigator",
     selector: row => row.coInvestigator,
+    cell: row => {
+      if (!row.coInvestigator) return 'N/A';
+      if (Array.isArray(row.coInvestigator)) return row.coInvestigator.map(inv => inv.memberName || inv).join(', ');
+      if (typeof row.coInvestigator === 'object') return Object.values(row.coInvestigator).filter(v => v && typeof v === 'string').join(', ');
+      return String(row.coInvestigator);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
     name: "Budget",
     selector: row => row.budget,
+    cell: row => {
+      if (!row.budget) return 'N/A';
+      if (typeof row.budget === 'object' && !Array.isArray(row.budget)) {
+        return Object.values(row.budget).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.budget);
+    },
+    sortable: true, width: '200px', wrap: false
   },
   {
-    name: "Output/Patents/Publications",
+    name: "Output / Patents / Publications",
     selector: row => row.output,
-    wrap: true,
+    cell: row => {
+      if (!row.output) return 'N/A';
+      if (typeof row.output === 'object' && !Array.isArray(row.output)) {
+        return Object.values(row.output).filter(v => v && typeof v === 'string').join('');
+      }
+      return String(row.output);
+    },
+    sortable: true, width: '300px', wrap: false
   },
+];
 
-]
 export const MoUsColumn = [
-  { name: "Department Name", selector: row => row.departmentName, sortable: true },
-  { name: "Agency Name", selector: row => row.agencyName, sortable: true },
-  { name: "Date", selector: row => row.date, sortable: true },
-  { name: "Duration", selector: row => row.duration },
-  { name: "Description", selector: row => row.description, wrap: true },
-  { name: "Funding", selector: row => row.funding },
   {
-    name: "MOU PDF",
-    cell: row => (
-      <a href={row.mouPdfUrl} target="_blank" rel="noopener noreferrer">
-        View PDF
-      </a>
-    ),
-  },
-  { name: "Title of MoU", selector: row => row.titleOfMoU },
-  { name: "Industry/Organization Name", selector: row => row.organizationName },
-  { name: "Date of Signing", selector: row => row.dateOfSigning },
-  { name: "Validity Period", selector: row => row.validityPeriod },
-  { name: "Purpose/Objectives", selector: row => row.purposeObjectives, wrap: true },
-  { name: "Fund/Support Received", selector: row => row.fundSupportReceived },
-]
+    name: "Department Name",
+    selector: row => row.departmentName,
+    sortable: true, width: '260px', wrap: false
 
-export const EventGrantReceivedColumns=[
-  { name: "Event Title", selector: row => row.eventTitle, sortable: true },
-  { name: "Department Name", selector: row => row.departmentName, sortable: true },
-  { name: "Granting Agency", selector: row => row.grantingAgency },
-  { name: "Date of Approval", selector: row => row.dateOfApproval },
-  { name: "Duration", selector: row => row.duration },
-  { name: "Description", selector: row => row.description, wrap: true },
-  { name: "Funding", selector: row => row.funding },
+  },
+  {
+    name: "Agency Name",
+    selector: row => row.agencyName,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Date",
+    selector: row => new Date(row.date).toLocaleDateString(),
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Duration",
+    selector: row => row.duration,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Description",
+    selector: row => row.description,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Funding",
+    selector: row => row.funding || "N/A",
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "MoU PDF",
+    cell: row =>
+      row.mouPdfUrl ? (
+        <a
+          href={row.mouPdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
+          View PDF
+        </a>
+      ) : (
+        "Not Uploaded"
+      ),
+    button: true,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Title of MoU",
+    selector: row => row.titleOfMoU,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Industry/Organization Name",
+    selector: row => row.organizationName,
+    sortable: true, width: '300px', wrap: false
+  },
+  {
+    name: "Date of Signing",
+    selector: row => new Date(row.dateOfSigning).toLocaleDateString(),
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Validity Period",
+    selector: row => row.validityPeriod,
+    sortable: true, width: '200px', wrap: false
+  },
+  {
+    name: "Purpose/Objectives",
+    selector: row => row.purposeObjectives,
+    sortable: true, width: '300px', wrap: false
+  },
+  {
+    name: "Fund/Support Received",
+    selector: row => row.fundSupportReceived || "N/A",
+    sortable: true, width: '300px', wrap: false
+  },
+];
+
+
+
+export const EventGrantReceivedColumns = [
+  { name: "Event Title", selector: row => row.eventTitle, sortable: true, width: '200px', wrap: true },
+  { name: "Department Name", selector: row => row.departmentName, sortable: true, width: '200px', wrap: true },
+  { name: "Granting Agency", selector: row => row.grantingAgency, sortable: true, width: '200px', wrap: true },
+  { name: "Date of Approval", selector: row => row.dateOfApproval, sortable: true, width: '200px', wrap: true },
+  { name: "Duration", selector: row => row.duration, sortable: true, width: '200px', wrap: true },
+  { name: "Description", selector: row => row.description, sortable: true, width: '200px', wrap: true },
+  { name: "Funding", selector: row => row.funding, sortable: true, width: '200px', wrap: true },
   {
     name: "PDF",
     cell: row => (
@@ -577,9 +743,10 @@ export const EventGrantReceivedColumns=[
         View PDF
       </a>
     ),
+    sortable: true, width: '200px', wrap: true
   },
-  { name: "Grand Amount", selector: row => row.grantAmount },
-  { name: "Faculty Coordinator", selector: row => row.facultyCoordinator },
-  { name: "Purpose", selector: row => row.purpose, wrap: true },
-  { name: "Utilization Summary", selector: row => row.utilizationSummary, wrap: true },
+  { name: "Grand Amount", selector: row => row.grantAmount, sortable: true, width: '200px', wrap: true },
+  { name: "Faculty Coordinator", selector: row => row.facultyCoordinator, sortable: true, width: '300px', wrap: true },
+  { name: "Purpose", selector: row => row.purpose, sortable: true, width: '200px', wrap: true },
+  { name: "Utilization Summary", selector: row => row.utilizationSummary, sortable: true, width: '300px', wrap: true },
 ];

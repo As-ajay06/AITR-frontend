@@ -147,7 +147,7 @@ const Faculty = () => {
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -281,7 +281,7 @@ const Faculty = () => {
           setColumn([]);
           break;
       }
-      
+
       // Set exportable columns for the selected tab
       const tabColumns = exportableColumnsByTab[selectedTab] || [];
       setExportableColumns(tabColumns);
@@ -342,7 +342,7 @@ const Faculty = () => {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -371,14 +371,14 @@ const Faculty = () => {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -391,7 +391,7 @@ const Faculty = () => {
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
     if (selectedRows.length === 0) return null;
-    
+
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
@@ -405,11 +405,11 @@ const Faculty = () => {
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
     const filteredItems = universalSearch(filteredData, filterText);
-    
+
     return (
-      <div 
-        className="overflow-x-auto w-full" 
-        style={{ 
+      <div
+        className="overflow-x-auto w-full"
+        style={{
           overflowX: 'auto',
           overflowY: 'visible',
           WebkitOverflowScrolling: 'touch',
@@ -431,9 +431,9 @@ const Faculty = () => {
           }
         }}
       >
-        <DataTable 
-          data={filteredItems} 
-          columns={column} 
+        <DataTable
+          data={filteredItems}
+          columns={column}
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
@@ -473,13 +473,13 @@ const Faculty = () => {
       {/* Search Bar and Date Filter */}
       <div className="mb-6 flex gap-4 items-center flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <SearchBar 
-            placeholder={"Filter by ID, name, or department"} 
-            onChange={(e) => setFiltertext(e.target.value)} 
-            value={filterText} 
+          <SearchBar
+            placeholder={"Filter by ID, name, or department"}
+            onChange={(e) => setFiltertext(e.target.value)}
+            value={filterText}
           />
         </div>
-        <DateRangeFilter 
+        <DateRangeFilter
           onDateRangeChange={setFilteredData}
           data={data}
         />
@@ -489,16 +489,15 @@ const Faculty = () => {
       <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 mb-6 overflow-x-auto">
         <div className="flex flex-wrap gap-2 min-w-max">
           {tabs.map(({ label }) => (
-            <button 
-              key={label} 
+            <button
+              key={label}
               onClick={() => setTab(label)}
               className="whitespace-nowrap"
             >
-              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
-                tab === label
+              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${tab === label
                   ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}>
+                }`}>
                 {label}
               </div>
             </button>
@@ -519,7 +518,7 @@ const Faculty = () => {
             <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-                <button 
+                <button
                   onClick={() => setShowColumnSelector(false)}
                   className="text-gray-600 hover:text-gray-900 font-bold text-xl"
                 >
@@ -527,13 +526,13 @@ const Faculty = () => {
                 </button>
               </div>
               <div className="flex gap-2 mb-3">
-                <button 
+                <button
                   onClick={selectAllColumns}
                   className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
                 >
                   Select All
                 </button>
-                <button 
+                <button
                   onClick={deselectAllColumns}
                   className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
                 >
@@ -555,10 +554,10 @@ const Faculty = () => {
               </div>
             </div>
           )}
-          
-          <div 
-            className="overflow-x-auto w-full" 
-            style={{ 
+
+          <div
+            className="overflow-x-auto w-full"
+            style={{
               overflowX: 'auto',
               overflowY: 'visible',
               WebkitOverflowScrolling: 'touch',
@@ -580,10 +579,10 @@ const Faculty = () => {
               }
             }}
           >
-            { filterText.length == 0 ? 
-              <DataTable 
-                data={filteredData} 
-                columns={column} 
+            {filterText.length == 0 ?
+              <DataTable
+                data={filteredData}
+                columns={column}
                 actions={actionsMemo}
                 selectableRows
                 onSelectedRowsChange={handleRowSelected}
@@ -592,14 +591,28 @@ const Faculty = () => {
                 paginationPerPage={10}
                 paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
                 customStyles={{
+                  table: {
+                    style: {
+                      tableLayout: "fixed",
+                    },
+                  },
                   headCells: {
                     style: {
-                      fontSize: '16px',
-                      fontWeight: '600',
+                      whiteSpace: "nowrap",
+                      fontSize: "18px",     // ⬆ Bigger header font
+                      fontWeight: "700",
+                    },
+                  },
+                  cells: {
+                    style: {
+                      whiteSpace: "nowrap",
+                      fontSize: "16px",     // ⬆ Bigger row font
+                      paddingTop: "12px",
+                      paddingBottom: "12px",
                     },
                   },
                 }}
-              /> : <FilteringComponent /> }
+              /> : <FilteringComponent />}
           </div>
         </div>
         }
@@ -619,79 +632,78 @@ export const facultyProfileColumn = [
     name: 's.no',
     selector: row => row.id,
     sortable: true,
-    width: '80px',
+    width: '200px',
     cell: (row, index) => index + 1
   },
   {
     name: 'Name',
     selector: row => row.name,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Email',
     selector: row => row.email,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Department',
     selector: row => row.department,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Mobile No',
     selector: row => row.mobileNumber,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Experience (Years)',
     selector: row => row.teachingExperience,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
 
   },
   {
     name: 'Designation',
     selector: row => row.designation,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true
   },
 ];
 
 export const facultyResearchPaperColumn = [
   {
-    name: 'ID',
-    selector: row => row.facultyId,
-    sortable: true,
-    center: true
+    name: 'Faculty ID',
+    selector: row => row._id || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Faculty Name',
-    selector: row => row.facultyName,
+    selector: row => row.facultyName || "N/A",
     sortable: true
   },
   {
     name: 'Title of Paper',
     selector: row => row.titleOfPaper,
-    sortable: true,
-    wrap: true
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Publication Date',
-    selector: row => row.publicationDate,
-    format: row => new Date(row.publicationDate).toLocaleDateString()
+    selector: row => row.publicationDate || "N/A",
+    format: row => new Date(row.publicationDate).toLocaleDateString(),
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Journal/Conference Name',
-    selector: row => row.journalOrConferenceName,
-    wrap: true
+    selector: row => row.journalOrConferenceName || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Co-Author',
-    selector: row => row.coAuthors,
-    wrap: true
+    selector: row => row.coAuthors || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Indexing',
-    selector: row => row.indexing,
-    wrap: true
+    selector: row => row.indexing || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Paper PDF',
@@ -705,11 +717,13 @@ export const facultyResearchPaperColumn = [
       >
         View PDF
       </a>
-    )
+    ),
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'ISSN Number',
-    selector: row => row.issnNumber
+    selector: row => row.issnNumber || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'DOI Link',
@@ -723,21 +737,25 @@ export const facultyResearchPaperColumn = [
       >
         DOI
       </a>
-    )
+    ),
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Authors',
-    selector: row => row.authors,
+    selector: row => row.authors || "N/A",
     cell: row =>
-      Array.isArray(row.authors) ? row.authors.join(', ') : row.authors
+      Array.isArray(row.authors) ? row.authors.join(', ') : row.authors,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'ISSN/ISBN',
-    selector: row => row.issnOrIsbn
+    selector: row => row.issnOrIsbn,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Department',
-    selector: row => row.department
+    selector: row => row.department,
+    sortable: true, width: '300px', wrap: true
   }
 ];
 
@@ -750,42 +768,42 @@ export const facultyAwardsColumns = [
   {
     name: 'Recipient Name',
     selector: row => row.recipientName,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
     selector: row => row.department,
-    sortable: true
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Award Name',
     selector: row => row.awardName,
-    sortable: true
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Issuing Organization',
-    selector: row => row.issuingOrganization,
-    sortable: true
+    selector: row => row.issuingOrganization || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Date',
     selector: row => new Date(row.date).toLocaleDateString(),
-    sortable: true
+    sortable: true, width: '150px', wrap: true
   },
   {
     name: 'Category',
     selector: row => row.category,
-    sortable: true
+    sortable: true, width: '180px', wrap: true
   },
   {
     name: 'Event Name',
     selector: row => row.eventName,
-    sortable: true
+    sortable: true, width: '240px', wrap: true
   },
   {
     name: 'Description/Purpose',
     selector: row => row.description,
-    wrap: true
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Certificate PDF',
@@ -798,12 +816,13 @@ export const facultyAwardsColumns = [
       >
         View
       </a>
-    )
+    ),
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Award',
     selector: row => row.titleOfAward,
-    sortable: true
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Level',
@@ -813,18 +832,18 @@ export const facultyAwardsColumns = [
 ];
 
 export const facultyDevlopmentColumn = [
-  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
-  { name: 'department', selector: row => row.department, wrap: true },
-  { name: 'FDP title', selector: row => row.fdpTitle },
-  { name: 'Organising Institute', selector: row => row.organizingInstitute },
+  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '200px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true, width: '280px', wrap: true },
+  { name: 'department', selector: row => row.department, sortable: true, width: '200px', wrap: true },
+  { name: 'FDP title', selector: row => row.fdpTitle, sortable: true, width: '200px', wrap: true },
+  { name: 'Organising Institute', selector: row => row.organizingInstitute, sortable: true, width: '300px', wrap: true },
 
-  { name: 'Start Date', selector: row => row.startDate },
-  { name: 'End Date', selector: row => row.endDate },
-  { name: 'Program Type', selector: row => row.programType },
-  { name: 'Mode', selector: row => row.mode },
-  { name: 'Location', selector: row => row.location },
-  { name: 'No of days', selector: row => row.numberOfDays },
+  { name: 'Start Date', selector: row => row.startDate, sortable: true, width: '200px', wrap: true },
+  { name: 'End Date', selector: row => row.endDate, sortable: true, width: '200px', wrap: true },
+  { name: 'Program Type', selector: row => row.programType, sortable: true, width: '300px', wrap: true },
+  { name: 'Mode', selector: row => row.mode, sortable: true, width: '100px', wrap: true },
+  { name: 'Location', selector: row => row.location, sortable: true, width: '200px', wrap: true },
+  { name: 'No of days', selector: row => row.numberOfDays, sortable: true, width: '180px', wrap: true },
 
   {
     name: 'Certificate',
@@ -838,20 +857,21 @@ export const facultyDevlopmentColumn = [
         View
       </a>
     ),
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
 export const patentPublished = [
-  { name: 'faculty Id', selector: row => row.facultyId, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
-  { name: 'Department', selector: row => row.department, wrap: true },
-  { name: 'Title', selector: row => row.title },
-  { name: 'Applicant', selector: row => row.applicant },
-  { name: 'Application Number', selector: row => row.applicationNumber, wrap: true },
-  { name: 'Application Date', selector: row => row.applicationDate },
-  { name: 'Status', selector: row => row.status },
-  { 
-    name: 'Co-Inventors', 
+  { name: 'faculty Id', selector: row => row.facultyId, sortable: true, width: '300px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true, width: '300px', wrap: true },
+  { name: 'Department', selector: row => row.department, sortable: true, width: '300px', wrap: true },
+  { name: 'Title', selector: row => row.title, sortable: true, width: '300px', wrap: true },
+  { name: 'Applicant', selector: row => row.applicant, sortable: true, width: '300px', wrap: true },
+  { name: 'Application Number', selector: row => row.applicationNumber, sortable: true, width: '300px', wrap: true },
+  { name: 'Application Date', selector: row => row.applicationDate, sortable: true, width: '300px', wrap: true },
+  { name: 'Status', selector: row => row.status, sortable: true, width: '300px', wrap: true },
+  {
+    name: 'Co-Inventors',
     selector: row => row.coInventors,
     cell: row => {
       if (!row.coInventors) return 'N/A';
@@ -859,10 +879,10 @@ export const patentPublished = [
       if (typeof row.coInventors === 'object') return Object.values(row.coInventors).filter(v => v).join(', ');
       return String(row.coInventors);
     },
-    wrap: true
+    sortable: true, width: '300px', wrap: true
   },
-  { name: 'Country', selector: row => row.country },
-  { name: 'Category', selector: row => row.category },
+  { name: 'Country', selector: row => row.country, sortable: true, width: '300px', wrap: true },
+  { name: 'Category', selector: row => row.category, sortable: true, width: '300px', wrap: true },
   {
     name: 'Certificate',
     cell: row => (
@@ -877,10 +897,11 @@ export const patentPublished = [
         </a>
       ) : 'N/A'
     ),
+    sortable: true, width: '300px', wrap: true
   },
-  { name: 'Patent Title', selector: row => row.patentTitle, wrap: true },
-  { 
-    name: 'Inventors', 
+  { name: 'Patent Title', selector: row => row.patentTitle, sortable: true, width: '300px', wrap: true },
+  {
+    name: 'Inventors',
     selector: row => row.inventors,
     cell: row => {
       if (!row.inventors) return 'N/A';
@@ -888,10 +909,10 @@ export const patentPublished = [
       if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
       return String(row.inventors);
     },
-    wrap: true
+    sortable: true, width: '300px', wrap: true
   },
-  { name: 'Publication Date', selector: row => row.publicationDate },
-  { name: 'Abstract', selector: row => row.abstract, wrap: true },
+  { name: 'Publication Date', selector: row => row.publicationDate, sortable: true, width: '300px', wrap: true },
+  { name: 'Abstract', selector: row => row.abstract, sortable: true, width: '300px', wrap: true },
 ];
 
 
@@ -899,8 +920,7 @@ export const patentGrantedColumns = [
   {
     name: 'Patent Title',
     selector: row => row.patentTitle,
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Inventors',
@@ -911,28 +931,27 @@ export const patentGrantedColumns = [
       if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
       return String(row.inventors);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Grant Number',
     selector: row => row.grantNumber,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Date of Grant',
     selector: row => (row.dateOfGrant),
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Country of Grant',
     selector: row => row.countryOfGrant,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Application Number',
     selector: row => row.applicationNumber,
-    sortable: true,
+    sortable: true, width: '300px', wrap: true,
   }
 ];
 
@@ -1101,7 +1120,7 @@ export const academicQualificationColumns = [
     cell: row => {
       const certLink = row.certificateUrl || row.fileId;
       if (!certLink) return 'N/A';
-      
+
       const url = row.fileId ? `http://localhost:3000/file/${row.fileId}` : certLink;
       return (
         <a
@@ -1164,6 +1183,7 @@ export const phdSupervisionColumns = [
       const date = row.status === 'Completed' ? row.completionDate : row.registrationDate;
       return date ? new Date(date).toLocaleDateString() : 'N/A';
     },
+    sortable: true, width: '340px', wrap: true
   },
 ];
 
