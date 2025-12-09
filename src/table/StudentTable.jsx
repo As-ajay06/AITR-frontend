@@ -41,7 +41,7 @@ const columns = [
   { name: 'CGPA', selector: row => row.cgpa, width: '200px', wrap: false },
   { name: 'Date Of Birth', selector: row => row.dateOfBirth, width: '200px', wrap: false },
   { name: 'Gender', selector: row => row.gender, width: '200px', wrap: false },
-  { name: 'Category', selector: row => row.catogory, width: '200px', wrap: false },
+  { name: 'Category', selector: row => row.category, width: '200px', wrap: false },
   { name: 'Year Of Admission', selector: row => row.yearOfAdmission, width: '200px', wrap: false },
   { name: 'Status', selector: row => row.status, width: '200px', wrap: false },
   {
@@ -50,10 +50,12 @@ const columns = [
     width: '220px',
     wrap: false,
     cell: row => (
+      row.githubLink ? (
       <a href={row.githubLink} target='_blank' rel="noopener noreferrer">
         {row.githubLink}
       </a>
-    )
+    ) : "N/A"
+  )
   },
   {
     name: 'LinkedIn Profile Link',
@@ -68,8 +70,8 @@ const columns = [
       ) : "N/A"
     )
   },
-  { name: 'Guardian Contact Number', selector: row => row.gaurdianContactNumber, width: '340px', wrap: false },
-  { name: 'Guardian Name', selector: row => row.gaurdianName, width: '200px', wrap: false },
+  { name: 'Guardian Contact Number', selector: row => row.guardianContactNumber, width: '340px', wrap: false },
+  { name: 'Guardian Name', selector: row => row.guardianName, width: '200px', wrap: false },
   { name: 'Address', selector: row => row.address, width: '300px', wrap: false },
 
   {

@@ -25,7 +25,7 @@ const columns = [
   { name: 'Hackathon Name', selector: row => row.hackathonName },
   { name: 'Organiser', selector: row => row.organizer },
   {
-    name: 'Team Details', selector: row => row.teamDetails
+    name: 'Team Details', selector: row => row.teamDetails || "N/A"
     // (row.teamDetails.map(
     //   (item, index) =>
     //   (<div
@@ -42,7 +42,7 @@ const columns = [
   { name: 'Team Size', selector: row => row.teamSize },
   { name: 'Mentor Name', selector: row => row.mentorName },
   { name: 'Venue', selector: row => row.venue },
-  { name: 'Problem Statement', selector: row => row.problemStatement, wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , wrap: true },
   {
     name: 'Technolgy used', selector: row => row.technologyUsed
     // (row.technologyUsed.map(

@@ -32,7 +32,7 @@ function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
           <InputBox label="facultyId" name="facultyId" register={register} required />
           <InputBox label="name" name="name" register={register} required />
           <InputBox label="email" name="email" register={register} required type="email" />
-          <InputBox label="Highest qualification" name="qualification" register={register} required />
+          <InputBox label="Highest qualification" name="highestQualification" register={register} required />
           <SelectBox label="department" name={"department"} options={departments} register={register} />
           <InputBox label="mobile_Number" name={"mobileNumber"} register={register} required type="tel" />
           <InputBox label="category" name={"category"} register={register} required />

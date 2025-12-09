@@ -30,9 +30,11 @@ function AddHigherStudies() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
+    console.log(data);
+
     try {
     
-      const url = "http://localhost:3000/api/v1/students/higher-study"
+      // const url = "http://localhost:3000/api/v1/students/higher-study"
       const response = await axios.post(url
         , {
           courseName: data.courseName,
@@ -42,6 +44,7 @@ function AddHigherStudies() {
           country: data.country,
           programDuration: data.progarmaDuration,
           admissionYear: data.admissionYear,
+          admissionDate: data.admissionDate
         }
       )
       console.log(response)

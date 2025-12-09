@@ -14,8 +14,8 @@ const exportableColumns = [
   { key: 'name', label: 'Name' },
   { key: 'email', label: 'Email' },
   { key: 'department', label: 'Department' },
-  { key: 'mobile_no', label: 'Mobile No' },
-  { key: 'years_Of_Experience', label: 'Experience (Years)' },
+  { key: 'mobileNumber', label: 'Mobile No' },
+  { key: 'teachingExperience', label: 'Experience (Years)' },
   { key: 'designation', label: 'Designation' },
 ];
 
@@ -26,6 +26,11 @@ const columns = [
     sortable: true,
     width: '80px',
     cell: (row, index) => index + 1
+  },
+  {
+    name: 'Faculty Id',
+    selector: row => row.facultyId,
+    sortable: true,
   },
   {
     name: 'Name',
@@ -44,14 +49,25 @@ const columns = [
   },
   {
     name: 'Mobile No',
-    selector: row => row.mobile_no,
+    selector: row => row.mobileNumber,
     sortable: true,
   },
   {
-    name: 'Experience (Years)',
-    selector: row => row.years_Of_Experience,
+    name: 'Highest Qualification',
+    selector: row => row.highestQualification || "N/A" ,
     sortable: true,
 
+  },
+  {
+    name: 'Experience (Years)',
+    selector: row => row.teachingExperience,
+    sortable: true,
+
+  },
+  {
+    name: 'Department',
+    selector: row => row.department,
+    sortable: true,
   },
   {
     name: 'Designation',

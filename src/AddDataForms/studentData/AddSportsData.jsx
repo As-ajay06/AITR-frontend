@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { BASE_URL } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -306,7 +307,7 @@ export const studentSportsEventColumns = [
     name: "Certificate PDF",
     cell: row =>
       row.fileId ? (
-        <a href={row.certificatePDF} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+        <a href={`${BASE_URL}/file/${row.fileId}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
           View Certificate
         </a>
       ) : (

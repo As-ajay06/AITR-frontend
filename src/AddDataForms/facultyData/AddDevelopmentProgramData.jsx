@@ -35,7 +35,6 @@ function AddDevelopmentProgramData() {
 
     const formData = new FormData();
     if (data.file && data.file[0]) {
-      console.log("this is file", data.file[0])
       formData.append("file", data.file[0]);
     }
     try {

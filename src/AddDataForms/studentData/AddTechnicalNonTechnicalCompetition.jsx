@@ -4,6 +4,7 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import TechnicalNonTechnicalCompetition from '../../Forms/StudentForms/TechnicalNonTechnicalCompetition';
 import { convertArrayOfObjectsToCSV } from '../../utils/convertArrayOfObjectsToCSV';
+import { BASE_URL } from '../../../config/config';
 
 // Define available columns for export
 const exportableColumns = [
@@ -65,13 +66,18 @@ function AddTechnicalNonTechnicalCompetition() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    if (data.file && data.file[0]) {
-      formData.append("file", data.file[0]);
-    }
+    console.log(data);
     try {
-      const res = await axios.post("http://localhost:3000/file", formData)
-      console.log(res.data)
+
+      let fileId = null;
+      const formData = new FormData();
+      if (data.file && data.file[0]) {
+        formData.append("file", data.file[0]);
+        const res = await axios.post("http://localhost:3000/file", formData)
+        console.log(res.data);
+        fileId = res.data.fileId;
+      }
+
       // todo: correct the url
       const url = "http://localhost:3000/api/v1/students/technicalNontechnical"
       const response = await axios.post(url
@@ -99,10 +105,9 @@ function AddTechnicalNonTechnicalCompetition() {
           positionSecured: data.positionSecured,
           projectGithubLink: data.projectGithubLink,
           projectDescription: data.projectDescription,
-          certificatePdf: data.certificatePdf,
           eventMode: data.eventMode,
           achievement: data.achievement,
-          fileId: res.data.fileId,
+          fileId: "sdfsdfsdf",
         }
       )
       console.log(response.data)
@@ -272,8 +277,8 @@ export default AddTechnicalNonTechnicalCompetition;
 
 export const TechnicalNonTechnicalCompetitionColumn = [
   {
-    name: "ID",
-    selector: row => row.id,
+    name: "Student ID",
+    selector: row => row._id,
     sortable: true,
   },
   {
@@ -298,7 +303,7 @@ export const TechnicalNonTechnicalCompetitionColumn = [
   },
   {
     name: "certificate",
-    selector: row => row.certificatePdf,
+    selector: row => <a href={`${BASE_URL}/file/${row.fileId}`} >view certificate</a>,
     sortable: true,
 
   }, {

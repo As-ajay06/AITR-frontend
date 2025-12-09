@@ -24,9 +24,9 @@ const columns = [
   { name: 'Institute', selector: row => row.instituteName },
   { name: 'City', selector: row => row.city },
   { name: 'Country', selector: row => row.country },
-  { name: 'Duration (months)', selector: row => row.duration },
+  { name: 'Duration (months)', selector: row => row.programDuration },
   { name: 'Admission Year', selector: row => row.admissionYear },
-  { name: 'Admission Date', selector: row => row.admissionDate },
+  { name: 'Admission Date', selector: row => row.admissionDate || "N/A" },
 ];
 
 const HigherStudiesTable = ({ data }) => {

@@ -28,47 +28,47 @@ const exportableColumns = [
 const columns = [
   {
     name: 'ID',
-    selector: row => row.recipientId,
+    selector: row => row.recipientId || "N/A",
     sortable: true
   },
   {
     name: 'Recipient Name',
-    selector: row => row.recipientName,
+    selector: row => row.recipientName || "N/A",
     sortable: true
   },
   {
     name: 'Department',
-    selector: row => row.department,
+    selector: row => row.department || "N/A",
     sortable: true
   },
   {
     name: 'Award Name',
-    selector: row => row.awardName,
+    selector: row => row.awardName || "N/A",
     sortable: true
   },
   {
     name: 'Issuing Organization',
-    selector: row => row.issuingOrganization,
+    selector: row => row.issuingOrganization || "N/A",
     sortable: true
   },
   {
     name: 'Date',
-    selector: row => new Date(row.date).toLocaleDateString(),
+    selector: row => new Date(row.date).toLocaleDateString() || "N/A",
     sortable: true
   },
   {
     name: 'Category',
-    selector: row => row.category,
+    selector: row => row.category || "N/A",
     sortable: true
   },
   {
     name: 'Event Name',
-    selector: row => row.eventName,
+    selector: row => row.eventName || "N/A",
     sortable: true
   },
   {
     name: 'Description/Purpose',
-    selector: row => row.description,
+    selector: row => row.description || "N/A",
     wrap: true
   },
   {

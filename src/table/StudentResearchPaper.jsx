@@ -42,8 +42,8 @@ const columns = [
       </a>
     ), sortable: true, width: '400px', wrap: false
   },
-  { name: 'Publication Date', selector: row => row.publicationDate , sortable: true, width: '400px', wrap: false },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true , sortable: true, width: '400px', wrap: false },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() , sortable: true, width: '400px', wrap: false },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '400px', wrap: false },
   { name: 'title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '400px', wrap: false },
 ];
 

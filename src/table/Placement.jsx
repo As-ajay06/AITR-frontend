@@ -5,6 +5,7 @@ import { DataFilterComponent } from '../components/DataFilterComponent';
 import { useTableExport } from '../hooks/useTableExport';
 import TableExportControls from '../components/TableExportControls';
 import ColumnSelectorModal from '../components/ColumnSelectorModal';
+import { BASE_URL } from '../../config/config';
 
 // Define available columns for export with their keys
 const exportableColumns = [
@@ -37,7 +38,7 @@ const columns = [
     name: 'Offer letter',
     cell: row => (
       <a
-        href={`http://localhost:3000/file/${row.fileId}`}
+        href={`${BASE_URL}/file/${row.fileId}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-600 underline"

@@ -13,20 +13,32 @@ const columns = [
   { name: 'Student Name', selector: row => row.studentName, sortable: true },
   { name: 'Enrollment Number', selector: row => row.enrollmentNumber },
   { name: 'Certificate Name', selector: row => row.courseName },
-  { name: 'Certificate Type', selector: row => row.certificateType || "N/A" },
   { name: 'Branch', selector: row => row.branch },
   { name: 'Batch', selector: row => row.batch },
   { name: 'Year', selector: row => row.year },
   { name: 'Course', selector: row => row.courseName },
   { name: 'Issuing Organization', selector: row => row.issuingOrganization, wrap: true },
   { name: 'issue Date', selector: row => row.issueDate },
-  { name: 'Validity Period', selector: row => row.validityPeriod },
+  { name: 'Validity Period', selector: row => row.validityPeriod ? (
+      <p>{row.validityPeriod}</p>
+    ) : "N/A"
+    },
   { name: 'Graded of Score', selector: row => row.gradeOrScore },
   { name: 'Mode Of Learning', selector: row => row.modeOfLearning },
   { name: 'Course Duration', selector: row => row.courseDuration },
-  { name: 'Rank or Position', selector: row => row.rankOrPosition },
+  {
+    name: 'Rank or Position', selector: row => (row.rankOrPosition ? (
+      <p>{row.rankOrPosition}</p>
+    ) : "N/A"
+    )
+  },
   { name: 'Certificate Description', selector: row => row.certificateDescription },
-  { name: 'relevance To Program Or Branch', selector: row => row.relevanceToProgramOrBranch },
+  {
+    name: 'relevance To Program Or Branch', selector: row => (row.relevanceToProgramOrBranch ? (
+      <p>{row.relevanceToProgramOrBranch}</p>
+    ) : "N/A"
+    )
+  },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -61,7 +73,7 @@ const StudentCertificatesTable = ({ data }) => {
     );
   }, [filterText, resetPaginationToggle, handleClear]);
 
-  
+
 
   function downloadCSV(data) {
     const link = document.createElement('a');

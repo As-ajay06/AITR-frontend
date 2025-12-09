@@ -63,7 +63,7 @@ const columns = [
       ) : 'N/A'
     )
   },
-  { name: 'Patent Title', selector: row => row.patentTitle, wrap: true },
+  { name: 'Patent Title', selector: row => row.patentTitle || "N/A", wrap: true },
   { 
     name: 'Inventors', 
     selector: row => row.inventors,
@@ -75,8 +75,8 @@ const columns = [
     },
     wrap: true
   },
-  { name: 'Publication Date', selector: row => row.publicationDate },
-  { name: 'Abstract', selector: row => row.abstract, wrap: true },
+  { name: 'Publication Date', selector: row => row.publicationDate || "N/A"},
+  { name: 'Abstract', selector: row => row.abstract || "N/A", wrap: true },
 
 
 ];
@@ -90,7 +90,7 @@ const PatentTable = ({ data }) => {
     selectedRows,
     showColumnSelector,
     selectedColumns,
-    setShowColumnSelector,
+    setShowColumnSelector,  
     handleRowSelected,
     toggleColumnSelection,
     selectAllColumns,

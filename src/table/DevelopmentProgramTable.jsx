@@ -25,21 +25,21 @@ const exportableColumns = [
 // Columns
 const columns = [
   { name: 'ID', selector: row => row.facultyId, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
-  { name: 'department', selector: row => row.department, wrap: true },
-  { name: 'FDP title', selector: row => row.fdpTitle },
-  { name: 'Program Name', selector: row => row.programName },
+  { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true },
+  { name: 'department', selector: row => row.department || "N/A", wrap: true },
+  { name: 'FDP title', selector: row => row.fdpTitle || "N/A"},
+  { name: 'Program Name', selector: row => row.programName || "N/A"},
   { name: 'Organising Institute', selector: row => row.organizingInstitute },
 
-  { name: 'Start Date', selector: row => row.startDate },
-  { name: 'End Date', selector: row => row.endDate },
-  { name: 'Program Type', selector: row => row.programType },
-  { name: 'Mode', selector: row => row.mode },
-  { name: 'Location', selector: row => row.location },
-  { name: 'No of days', selector: row => row.numberOfDays },
+  { name: 'Start Date', selector: row => row.startDate || "N/A" },
+  { name: 'End Date', selector: row => row.endDate || "N/A"},
+  { name: 'Program Type', selector: row => row.programType || "N/A" },
+  { name: 'Mode', selector: row => row.mode || "N/A"},
+  { name: 'Location', selector: row => row.location || "N/A"},
+  { name: 'No of days', selector: row => row.numberOfDays || "N/A"},
   {
     name: 'Certificate PDF',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a
         href={`http://localhost:3000/file/${row.fileId}`}
         target="_blank"
@@ -48,7 +48,7 @@ const columns = [
       >
         View
       </a>
-    )
+    ) : "N/A"
   },
 ];
 
