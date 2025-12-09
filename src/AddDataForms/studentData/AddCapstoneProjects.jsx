@@ -30,8 +30,9 @@ function AddCapstoneProjects() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/v1/student/capstone');
-      setData(res.data.projects); // Adjust key from backend
+      const res = await axios.get('http://localhost:3000/api/v1/students/projects');
+      console.log(res.data)
+      setData(res.data.projectWorks); // Adjust key from backend
     } catch (err) {
       console.error("Error fetching capstone projects:", err);
     }

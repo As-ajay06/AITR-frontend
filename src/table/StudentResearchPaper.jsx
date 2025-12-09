@@ -23,12 +23,12 @@ const exportableColumns = [
 const columns = [
   { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: false },
   { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: false },
-  { name: 'Co-Authors', selector: row => row.coAuthors , sortable: true, width: '200px', wrap: false},
-  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: false },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '200px', wrap: false },
+  { name: 'Co-Authors', selector: row => row.coAuthors , sortable: true, width: '300px', wrap: false},
+  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn, sortable: true, width: '300px', wrap: false },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: false },
+  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '300px', wrap: false },
   { name: 'indexing', selector: row => row.indexing[0] , sortable: true, width: '200px', wrap: false },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '200px', wrap: false },
+  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '400px', wrap: false },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -40,11 +40,11 @@ const columns = [
       >
         View
       </a>
-    )
+    ), sortable: true, width: '400px', wrap: false
   },
-  { name: 'Publication Date', selector: row => row.publicationDate },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true },
-  { name: 'title Of Paper', selector: row => row.titleOfPaper },
+  { name: 'Publication Date', selector: row => row.publicationDate , sortable: true, width: '400px', wrap: false },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true , sortable: true, width: '400px', wrap: false },
+  { name: 'title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '400px', wrap: false },
 ];
 
 

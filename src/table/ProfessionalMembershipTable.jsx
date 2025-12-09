@@ -111,7 +111,7 @@ const ProfessionalMembershipTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
+      
 
       <DataTable
         title="Professional Memberships"

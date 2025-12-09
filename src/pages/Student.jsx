@@ -802,16 +802,16 @@ export const studentInternshipColumn = [
 ];
 
 export const researchPaperColumns = [
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: false },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '300px', wrap: false },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: false },
   { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
   { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: false },
-  { name: 'DOI/ISBN', selector: row => row.doiOrIsbn, sortable: true, width: '200px', wrap: false },
-  { name: 'Title of Paper', selector: row => row.titleOfPaper, sortable: true, width: '200px', wrap: false },
-  { name: 'Publication Date', selector: row => row.publicationDate, sortable: true, width: '200px', wrap: false },
-  { name: 'Journal/Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '200px', wrap: false },
-  { name: 'Co-Author', selector: row => row.coAuthors, sortable: true, width: '200px', wrap: false },
-  { name: 'Indexing (SCOPUS, SCI, etc)', selector: row => row.indexing, sortable: true, width: '200px', wrap: false },
+  { name: 'DOI/ISBN', selector: row => row.doiOrIsbn, sortable: true, width: '300px', wrap: false },
+  { name: 'Title of Paper', selector: row => row.titleOfPaper, sortable: true, width: '300px', wrap: false },
+  { name: 'Publication Date', selector: row => row.publicationDate, sortable: true, width: '300px', wrap: false },
+  { name: 'Journal/Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '300px', wrap: false },
+  { name: 'Co-Author', selector: row => row.coAuthors, sortable: true, width: '300px', wrap: false },
+  { name: 'Indexing (SCOPUS, SCI, etc)', selector: row => row.indexing, sortable: true, width: '400px', wrap: false },
   {
     name: 'Paper PDF',
     cell: row => (
@@ -820,7 +820,7 @@ export const researchPaperColumns = [
       </a>
     ), sortable: true, width: '200px', wrap: false
   },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide, sortable: true, width: '200px', wrap: false },
+  { name: 'Faculty Guide', selector: row => row.facultyGuide, sortable: true, width: '300px', wrap: false },
 ];
 
 
