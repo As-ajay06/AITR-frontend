@@ -113,7 +113,7 @@ function ResearchPaperTable({ data: propData }) {
             ))}
           </div>
         </div>
-      )}
+  
 
       <DataTable
         title={"Faculty Reseach paper"}

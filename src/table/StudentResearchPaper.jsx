@@ -21,14 +21,14 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Batch', selector: row => row.batch },
-  { name: 'Branch', selector: row => row.branch },
-  { name: 'Co-Authors', selector: row => row.coAuthors },
-  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn, wrap: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, wrap: true },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide },
-  { name: 'indexing', selector: row => row.indexing[0] },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName },
+  { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: false },
+  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: false },
+  { name: 'Co-Authors', selector: row => row.coAuthors , sortable: true, width: '200px', wrap: false},
+  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn, sortable: true, width: '200px', wrap: false },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: false },
+  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '200px', wrap: false },
+  { name: 'indexing', selector: row => row.indexing[0] , sortable: true, width: '200px', wrap: false },
+  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '200px', wrap: false },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -138,7 +138,6 @@ const StudentResearchPaper = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
 
       <DataTable
         title="Student Research Publications"
