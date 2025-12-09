@@ -140,7 +140,6 @@ const PlacementTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
 
       <DataTable
         title="Student Placement Records"

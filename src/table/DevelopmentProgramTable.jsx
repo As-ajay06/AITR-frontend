@@ -143,7 +143,6 @@ const DevelopmentProgramTable = ({ data }) => {
             ))}
           </div>
         </div>
-      )}
 
       <DataTable
         title={"Devlopment Program"}
