@@ -65,7 +65,7 @@ const Institute = () => {
   const [column, setColumn] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState('');
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -141,7 +141,7 @@ const Institute = () => {
           setColumn([]);
           break;
       }
-      
+
       // Set exportable columns for the selected tab
       const tabColumns = exportableColumnsByTab[selectedTab] || [];
       setExportableColumns(tabColumns);
@@ -201,7 +201,7 @@ const Institute = () => {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -230,14 +230,14 @@ const Institute = () => {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150' 
+      <button
+        className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -250,7 +250,7 @@ const Institute = () => {
   // Context Actions - Shows export button in selection bar
   const contextActions = React.useMemo(() => {
     if (selectedRows.length === 0) return null;
-    
+
     return (
       <button
         className='px-3 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white text-sm duration-150'
@@ -264,11 +264,11 @@ const Institute = () => {
   const FilteringComponent = () => {
     // Universal Search - searches in all fields automatically
     const filteredItems = universalSearch(filteredData, filterText);
-    
+
     return (
-      <div 
-        className="overflow-x-auto w-full" 
-        style={{ 
+      <div
+        className="overflow-x-auto w-full"
+        style={{
           overflowX: 'auto',
           overflowY: 'visible',
           WebkitOverflowScrolling: 'touch',
@@ -290,9 +290,9 @@ const Institute = () => {
           }
         }}
       >
-        <DataTable 
-          data={filteredItems} 
-          columns={column} 
+        <DataTable
+          data={filteredItems}
+          columns={column}
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
@@ -301,10 +301,24 @@ const Institute = () => {
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
           customStyles={{
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
+            },
             headCells: {
               style: {
-                fontSize: '16px',
-                fontWeight: '600',
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
+            },
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
               },
             },
           }}
@@ -332,13 +346,13 @@ const Institute = () => {
       {/* Search Bar and Date Filter */}
       <div className="mb-6 flex gap-4 items-center flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <SearchBar 
-            placeholder={"Filter by ID, name, or department"} 
-            onChange={(e) => setFiltertext(e.target.value)} 
-            value={filterText} 
+          <SearchBar
+            placeholder={"Filter by ID, name, or department"}
+            onChange={(e) => setFiltertext(e.target.value)}
+            value={filterText}
           />
         </div>
-        <DateRangeFilter 
+        <DateRangeFilter
           onDateRangeChange={setFilteredData}
           data={data}
         />
@@ -348,16 +362,15 @@ const Institute = () => {
       <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-4 mb-6 overflow-x-auto">
         <div className="flex flex-wrap gap-2 min-w-max">
           {tabs.map(({ label }) => (
-            <button 
-              key={label} 
+            <button
+              key={label}
               onClick={() => setTab(label)}
               className="whitespace-nowrap"
             >
-              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
-                tab === label
+              <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${tab === label
                   ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}>
+                }`}>
                 {label}
               </div>
             </button>
@@ -374,93 +387,93 @@ const Institute = () => {
           </div>
         ) : (
           <div className="p-4">
-          {/* Column Selector Modal */}
-          {showColumnSelector && exportableColumns.length > 0 && (
-            <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-                <button 
-                  onClick={() => setShowColumnSelector(false)}
-                  className="text-gray-600 hover:text-gray-900 font-bold text-xl"
-                >
-                  ×
-                </button>
+            {/* Column Selector Modal */}
+            {showColumnSelector && exportableColumns.length > 0 && (
+              <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+                  <button
+                    onClick={() => setShowColumnSelector(false)}
+                    className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="flex gap-2 mb-3">
+                  <button
+                    onClick={selectAllColumns}
+                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+                  >
+                    Select All
+                  </button>
+                  <button
+                    onClick={deselectAllColumns}
+                    className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+                  >
+                    Deselect All
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+                  {exportableColumns.map(column => (
+                    <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedColumns.includes(column.key)}
+                        onChange={() => toggleColumnSelection(column.key)}
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                      <span className="text-sm">{column.label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-2 mb-3">
-                <button 
-                  onClick={selectAllColumns}
-                  className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
-                >
-                  Select All
-                </button>
-                <button 
-                  onClick={deselectAllColumns}
-                  className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
-                >
-                  Deselect All
-                </button>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
-                {exportableColumns.map(column => (
-                  <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
-                    <input
-                      type="checkbox"
-                      checked={selectedColumns.includes(column.key)}
-                      onChange={() => toggleColumnSelection(column.key)}
-                      className="w-4 h-4 cursor-pointer"
-                    />
-                    <span className="text-sm">{column.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div 
-            className="overflow-x-auto w-full" 
-            style={{ 
-              overflowX: 'auto',
-              overflowY: 'visible',
-              WebkitOverflowScrolling: 'touch',
-              minWidth: '100%'
-            }}
-            onWheel={(e) => {
-              // Enable horizontal scroll with Shift + Mouse Wheel
-              if (e.shiftKey) {
-                e.preventDefault();
-                e.currentTarget.scrollLeft += e.deltaY;
-              }
-              // Also enable horizontal scroll when at horizontal edge
-              const element = e.currentTarget;
-              const isAtLeftEdge = element.scrollLeft === 0;
-              const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
-              if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
-                e.preventDefault();
-                element.scrollLeft += e.deltaY;
-              }
-            }}
-          >
-            {filterText.length == 0 ? 
-              <DataTable 
-                data={filteredData} 
-                columns={column} 
-                actions={actionsMemo}
-                selectableRows
-                onSelectedRowsChange={handleRowSelected}
-                contextActions={contextActions}
-                pagination
-                paginationPerPage={10}
-                paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
-                customStyles={{
-                  headCells: {
-                    style: {
-                      fontSize: '16px',
-                      fontWeight: '600',
+            )}
+
+            <div
+              className="overflow-x-auto w-full"
+              style={{
+                overflowX: 'auto',
+                overflowY: 'visible',
+                WebkitOverflowScrolling: 'touch',
+                minWidth: '100%'
+              }}
+              onWheel={(e) => {
+                // Enable horizontal scroll with Shift + Mouse Wheel
+                if (e.shiftKey) {
+                  e.preventDefault();
+                  e.currentTarget.scrollLeft += e.deltaY;
+                }
+                // Also enable horizontal scroll when at horizontal edge
+                const element = e.currentTarget;
+                const isAtLeftEdge = element.scrollLeft === 0;
+                const isAtRightEdge = element.scrollLeft + element.clientWidth >= element.scrollWidth - 1;
+                if ((isAtLeftEdge && e.deltaY < 0) || (isAtRightEdge && e.deltaY > 0)) {
+                  e.preventDefault();
+                  element.scrollLeft += e.deltaY;
+                }
+              }}
+            >
+              {filterText.length == 0 ?
+                <DataTable
+                  data={filteredData}
+                  columns={column}
+                  actions={actionsMemo}
+                  selectableRows
+                  onSelectedRowsChange={handleRowSelected}
+                  contextActions={contextActions}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20, 30, 50, 100]}
+                  customStyles={{
+                    headCells: {
+                      style: {
+                        fontSize: '16px',
+                        fontWeight: '600',
+                      },
                     },
-                  },
-                }}
-              /> : <FilteringComponent />}
-          </div>
+                  }}
+                /> : <FilteringComponent />}
+            </div>
           </div>
         )}
       </div>
@@ -534,15 +547,16 @@ export const EventGrantColumns = [
   },
 ];
 export const EventOrganziedColumns = [
-  { name: "EVENT NAME", selector: row => row.eventName, sortable: true },
-  { name: "TYPE OF THE EVENT", selector: row => row.eventType },
-  { name: "AGENCY NAME", selector: row => row.agencyName },
-  { name: "CATEGORY", selector: row => row.category },
-  { name: "NUMBER OF PARTICIPANTS", selector: row => row.numberOfParticipants },
-  { name: "DATE", selector: row => row.date },
-  { name: "DURATION", selector: row => row.duration },
-  { name: "DISCRIPTION", selector: row => row.discription, wrap: true }, // use description if your data has correct spelling
-  { name: "FUNDING", selector: row => row.funding },
+  { name: "EVENT NAME", selector: row => row.eventName, sortable: true, width: '200px', wrap: true },
+  { name: "TYPE OF THE EVENT", selector: row => row.eventType, sortable: true, width: '240px', wrap: true },
+  { name: "AGENCY NAME", selector: row => row.agencyName, sortable: true, width: '200px', wrap: true },
+  { name: "CATEGORY", selector: row => row.category, sortable: true, width: '200px', wrap: true },
+  { name: "NUMBER OF PARTICIPANTS", selector: row => "N/A", sortable: true, width: '300px', wrap: true },
+  // row.numberOfParticipants
+  { name: "DATE", selector: row => row.date, sortable: true, width: '200px', wrap: true },
+  { name: "DURATION", selector: row => row.duration, sortable: true, width: '200px', wrap: true },
+  { name: "DISCRIPTION", selector: row => row.discription, sortable: true, width: '200px', wrap: true }, // use description if your data has correct spelling
+  { name: "FUNDING", selector: row => row.funding, sortable: true, width: '240px', wrap: true },
   {
     name: "PDF",
     cell: row => (
@@ -550,6 +564,7 @@ export const EventOrganziedColumns = [
         View PDF
       </a>
     ),
+    sortable: true, width: '100px', wrap: true
   },
 ];
 
