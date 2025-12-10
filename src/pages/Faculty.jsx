@@ -6,6 +6,7 @@ import api from '../utils/axiosInstance';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
 import { universalSearch } from '../utils/universalSearch';
+import { BASE_URL } from '../../config/config';
 
 // Define exportable columns for each tab
 const exportableColumnsByTab = {
@@ -838,8 +839,8 @@ export const facultyDevlopmentColumn = [
   { name: 'FDP title', selector: row => row.fdpTitle, sortable: true, width: '200px', wrap: true },
   { name: 'Organising Institute', selector: row => row.organizingInstitute, sortable: true, width: '300px', wrap: true },
 
-  { name: 'Start Date', selector: row => row.startDate, sortable: true, width: '200px', wrap: true },
-  { name: 'End Date', selector: row => row.endDate, sortable: true, width: '200px', wrap: true },
+  { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Program Type', selector: row => row.programType, sortable: true, width: '300px', wrap: true },
   { name: 'Mode', selector: row => row.mode, sortable: true, width: '100px', wrap: true },
   { name: 'Location', selector: row => row.location, sortable: true, width: '200px', wrap: true },
@@ -991,9 +992,9 @@ export const professionalCertificationEarned = [
   {
     name: 'Certificate',
     cell: row => (
-      row.certificateUrl ? (
+      row.fileId ? (
         <a
-          href={row.certificateUrl}
+          href={`${BASE_URL}/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
@@ -1197,9 +1198,18 @@ export const researchProjectGuided = [
   { name: 'title Of Paper', selector: row => row.titleOfPaper },
   { name: 'Publication Date', selector: row => row.publicationDate },
   { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName },
-  { name: 'cCo Authors', selector: row => row.coAuthors },
+  { name: 'Co Authors', selector: row => row.coAuthors },
   { name: 'indexing', selector: row => row.indexing },
-  { name: 'PDF', selector: row => row.fileId },
+  { name: 'PDF', 
+    selector: row => row.fileId ? (
+      <a
+      href={`${BASE_URL}/file/${row.fileId}`}
+      >
+        view
+      </a>
+    ) : "N/A",
+    width: "100px"
+    },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
 ];
 
@@ -1238,14 +1248,15 @@ export const invitedTalksColumn = [
     selector: row => row.fileId,
     cell: row => (
       <a
-        href={row.certificateUrl}
+        href={`${BASE_URL}/file/${row.certificateUrl}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-600 underline"
       >
         View
       </a>
-    )
+    ) ,
+    width: "200px"
   }
 ];
 
