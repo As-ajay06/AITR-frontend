@@ -24,19 +24,19 @@ const exportableColumns = [
 
 // Columns
 const columns = [
-  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true },
-  { name: 'department', selector: row => row.department || "N/A", wrap: true },
-  { name: 'FDP title', selector: row => row.fdpTitle || "N/A"},
-  { name: 'Program Name', selector: row => row.programName || "N/A"},
-  { name: 'Organising Institute', selector: row => row.organizingInstitute },
+  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '200px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'department', selector: row => row.department || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'FDP title', selector: row => row.fdpTitle || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Program Name', selector: row => row.programName || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'Organising Institute', selector: row => row.organizingInstitute , sortable: true, width: '200px', wrap: true },
 
-  { name: 'Start Date', selector: row => row.startDate || "N/A" },
-  { name: 'End Date', selector: row => row.endDate || "N/A"},
-  { name: 'Program Type', selector: row => row.programType || "N/A" },
-  { name: 'Mode', selector: row => row.mode || "N/A"},
-  { name: 'Location', selector: row => row.location || "N/A"},
-  { name: 'No of days', selector: row => row.numberOfDays || "N/A"},
+  { name: 'Start Date', selector: row => row.startDate || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'End Date', selector: row => row.endDate || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Program Type', selector: row => row.programType || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Mode', selector: row => row.mode || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'Location', selector: row => row.location || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'No of days', selector: row => row.numberOfDays || "N/A" , sortable: true, width: '200px', wrap: true},
   {
     name: 'Certificate PDF',
     cell: row => row.fileId ? (
@@ -156,10 +156,24 @@ const DevelopmentProgramTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

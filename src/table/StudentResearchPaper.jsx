@@ -151,10 +151,24 @@ const StudentResearchPaper = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

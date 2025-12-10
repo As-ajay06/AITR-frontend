@@ -127,10 +127,24 @@ function ResearchPaperTable({ data: propData }) {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}
@@ -145,35 +159,33 @@ export const researchPaperColumns = [
   {
     name: 'ID',
     selector: row => row.facultyId,
-    sortable: true,
-    center: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Publication Date',
     selector: row => row.publicationDate,
-    sortable: true,
-    center: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Paper',
     selector: row => row.titleOfPaper,
-    sortable: true,
-    wrap: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Publication Date',
     selector: row => row.publicationDate,
-    format: row => new Date(row.publicationDate).toLocaleDateString()
+    format: row => new Date(row.publicationDate).toLocaleDateString(),
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Journal/Conference Name',
     selector: row => row.journalOrConferenceName,
-    wrap: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Co-Author',
@@ -235,18 +247,18 @@ export const researchPaperColumns = [
 
 
 export const ResearchPaperPublication = [
-  { name: 'Student Name', selector: row => row.studentName, sortable: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, wrap: true },
-  { name: 'Branch', selector: row => row.branch },
-  { name: 'Batch', selector: row => row.batch },
-  { name: 'doiOrIsbn', selector: row => row.doiOrIsbn, wrap: true },
-  { name: 'title Of Paper', selector: row => row.titleOfPaper },
-  { name: 'Publication Date', selector: row => row.publicationDate },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName },
-  { name: 'cCo Authors', selector: row => row.coAuthors },
-  { name: 'indexing', selector: row => row.indexing },
-  { name: 'Certificate PDF', selector: row => row.fileId },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: true },
+  { name: 'doiOrIsbn', selector: row => row.doiOrIsbn, sortable: true, width: '200px', wrap: true },
+  { name: 'title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '200px', wrap: true },
+  { name: 'Publication Date', selector: row => row.publicationDate , sortable: true, width: '200px', wrap: true },
+  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName , sortable: true, width: '200px', wrap: true },
+  { name: 'cCo Authors', selector: row => row.coAuthors , sortable: true, width: '200px', wrap: true },
+  { name: 'indexing', selector: row => row.indexing , sortable: true, width: '200px', wrap: true },
+  { name: 'Certificate PDF', selector: row => row.fileId , sortable: true, width: '200px', wrap: true},
+  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '200px', wrap: true },
 ];
 
 // todo : here we are deleting faculty reaseach paper

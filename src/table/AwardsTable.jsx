@@ -29,47 +29,47 @@ const columns = [
   {
     name: 'ID',
     selector: row => row.recipientId || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Recipient Name',
     selector: row => row.recipientName || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
     selector: row => row.department || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Award Name',
     selector: row => row.awardName || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Issuing Organization',
     selector: row => row.issuingOrganization || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Date',
     selector: row => new Date(row.date).toLocaleDateString() || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Category',
     selector: row => row.category || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Event Name',
     selector: row => row.eventName || "N/A",
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Description/Purpose',
     selector: row => row.description || "N/A",
-    wrap: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Certificate PDF',
@@ -82,17 +82,18 @@ const columns = [
       >
         View
       </a>
-    )
+    ),
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Award',
     selector: row => row.titleOfAward,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Level',
     selector: row => row.level,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -167,10 +168,24 @@ const AwardTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

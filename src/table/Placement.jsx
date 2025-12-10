@@ -22,18 +22,18 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.placementId, sortable: true, width: '70px' },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true },
-  { name: 'Company Name', selector: row => row.companyName },
-  { name: 'Company Location', selector: row => row.companyLocation },
+  { name: 'ID', selector: row => row.placementId, sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: true },
+  { name: 'Company Name', selector: row => row.companyName , sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation , sortable: true, width: '200px', wrap: true },
 
-  { name: 'Job Role', selector: row => row.roleOffered },
-  { name: 'Branch', selector: row => row.branch },
-  { name: 'Year', selector: row => row.year },
+  { name: 'Job Role', selector: row => row.roleOffered , sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year , sortable: true, width: '200px', wrap: true },
 
-  { name: 'Placement Type', selector: row => row.placementType },
-  { name: 'Package', selector: row => row.package },
-  { name: 'Joining Date', selector: row => row.joiningDate },
+  { name: 'Placement Type', selector: row => row.placementType , sortable: true, width: '200px', wrap: true },
+  { name: 'Package', selector: row => row.package , sortable: true, width: '200px', wrap: true },
+  { name: 'Joining Date', selector: row => row.joiningDate , sortable: true, width: '200px', wrap: true},
   {
     name: 'Offer letter',
     cell: row => (
@@ -45,7 +45,8 @@ const columns = [
       >
         View
       </a>
-    )
+    ),
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -154,10 +155,24 @@ const PlacementTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}
