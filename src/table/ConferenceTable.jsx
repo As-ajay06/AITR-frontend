@@ -26,21 +26,21 @@ const exportableColumns = [
 
 // Columns
 const columns = [
-  { name: 'ID', selector: row => row.Id, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.Faculty_Name, sortable: true },
-  { name: 'Conference Name', selector: row => row.Conference_Name },
-  { name: 'Paper Title', selector: row => row.Paper_Title, wrap: true },
-  { name: 'Presentation Date', selector: row => row.Presentation_Date },
-  { name: 'Conference Type', selector: row => row.Conference_Type },
-  { name: 'Location', selector: row => row.Conference_Location },
-  { name: 'Mode', selector: row => row.Conference_Mode },
-  { name: 'Publication Status', selector: row => row.Publication_Status },
-  { name: 'Journal Name', selector: row => row.Journal_Name },
-  { name: 'ISSN Number', selector: row => row.Issn_Number },
-  { name: 'Indexing', selector: row => row.Indexing },
+  { name: 'ID', selector: row => row.Id || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.Faculty_Name || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Conference Name', selector: row => row.Conference_Name || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Paper Title', selector: row => row.Paper_Title || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Presentation Date', selector: row => new Date(row.Presentation_Date).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Conference Type', selector: row => row.Conference_Type || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Location', selector: row => row.Conference_Location || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Mode', selector: row => row.Conference_Mode || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Publication Status', selector: row => row.Publication_Status || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Journal Name', selector: row => row.Journal_Name || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'ISSN Number', selector: row => row.Issn_Number || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Indexing', selector: row => row.Indexing || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate PDF',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a
         href={`http://localhost:3000/file/${row.fileId}`}
         target="_blank"
@@ -49,7 +49,8 @@ const columns = [
       >
         View
       </a>
-    )
+    ) : "N/A",
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -120,10 +121,24 @@ const ConferenceTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

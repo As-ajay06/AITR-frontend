@@ -750,7 +750,7 @@ export const studentPlacementColumns = [
 
   { name: 'Placement Type', selector: row => row.placementType, sortable: true, width: '200px', wrap: false },
   { name: 'Package', selector: row => row.package, sortable: true, width: '200px', wrap: false },
-  { name: 'Joining Date', selector: row => row.joiningDate, sortable: true, width: '200px', wrap: false },
+  { name: 'Joining Date', selector: row => new Date(row.joiningDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: false },
   {
     name: 'Offer Letter',
     cell: row => (

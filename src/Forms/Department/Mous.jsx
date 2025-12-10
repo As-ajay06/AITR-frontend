@@ -303,31 +303,33 @@ export default Mous;
 export const mouColumns = [
   {
     name: "Department Name",
-    selector: row => row.departmentName,
-    sortable: true,
+    selector: row => row.departmentName ,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Agency Name",
     selector: row => row.agencyName,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Date",
     selector: row => new Date(row.date).toLocaleDateString(),
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Duration",
     selector: row => row.duration,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Description",
     selector: row => row.description,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Funding",
     selector: row => row.funding || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "MoU PDF",
@@ -349,26 +351,31 @@ export const mouColumns = [
   {
     name: "Title of MoU",
     selector: row => row.titleOfMoU,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Industry/Organization Name",
     selector: row => row.organizationName,
+    sortable: true, width: '340px', wrap: true
   },
   {
     name: "Date of Signing",
     selector: row => new Date(row.dateOfSigning).toLocaleDateString(),
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Validity Period",
     selector: row => row.validityPeriod,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Purpose/Objectives",
     selector: row => row.purposeObjectives,
-    wrap: true,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Fund/Support Received",
     selector: row => row.fundSupportReceived || "N/A",
+    sortable: true, width: '340px', wrap: true
   },
 ];

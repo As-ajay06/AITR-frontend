@@ -293,7 +293,7 @@ export const patentColumn = [
   {
     name: 'Patent Title',
     selector: row => row.patentTitle,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     wrap: true,
   },
   {
@@ -305,28 +305,27 @@ export const patentColumn = [
       if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
       return String(row.inventors);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', 
   },
   {
     name: 'Grant Number',
     selector: row => row.grantNumber,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Date of Grant',
     selector: row => (row.dateOfGrant),
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Country of Grant',
     selector: row => row.countryOfGrant,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Application Number',
     selector: row => row.applicationNumber,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px'
   }
 ]
 

@@ -19,14 +19,14 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Course Name', selector: row => row.courseName },
-  { name: 'Scholarship', selector: row => row.scholarship || 'N/A' },
-  { name: 'Institute', selector: row => row.instituteName },
-  { name: 'City', selector: row => row.city },
-  { name: 'Country', selector: row => row.country },
-  { name: 'Duration (months)', selector: row => row.programDuration },
-  { name: 'Admission Year', selector: row => row.admissionYear },
-  { name: 'Admission Date', selector: row => row.admissionDate || "N/A" },
+  { name: 'Course Name', selector: row => row.courseName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Scholarship', selector: row => row.scholarship || 'N/A' , sortable: true, width: '200px', wrap: true },
+  { name: 'Institute', selector: row => row.instituteName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'City', selector: row => row.city || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Duration (months)', selector: row => row.programDuration || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Admission Year', selector: row => row.admissionYear || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Admission Date', selector: row => new Date(row.admissionDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 const HigherStudiesTable = ({ data }) => {
@@ -132,10 +132,24 @@ const HigherStudiesTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

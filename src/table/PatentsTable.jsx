@@ -27,27 +27,27 @@ const exportableColumns = [
 
 // Column Definitions
 const columns = [
-  { name: 'Faculty Id', selector: row => row.facultyId, sortable: true, width: '70px' },
-  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true },
-  { name: 'Department', selector: row => row.department, wrap: true },
-  { name: 'Title', selector: row => row.title },
-  { name: 'Applicant', selector: row => row.applicant },
-  { name: 'Application Number', selector: row => row.applicationNumber, wrap: true },
-  { name: 'Application Date', selector: row => row.applicationDate },
-  { name: 'Status', selector: row => row.status },
+  { name: 'Faculty Id', selector: row => row.facultyId, sortable: true, width: '200px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true, width: '200px', wrap: true },
+  { name: 'Department', selector: row => row.department, sortable: true, width: '200px', wrap: true },
+  { name: 'Title', selector: row => row.title , sortable: true, width: '200px', wrap: true },
+  { name: 'Applicant', selector: row => row.applicant , sortable: true, width: '200px', wrap: true },
+  { name: 'Application Number', selector: row => row.applicationNumber, sortable: true, width: '200px', wrap: true },
+  { name: 'Application Date', selector: row => row.applicationDate , sortable: true, width: '200px', wrap: true },
+  { name: 'Status', selector: row => row.status , sortable: true, width: '200px', wrap: true },
   { 
     name: 'Co-Inventors', 
     selector: row => row.coInventors,
+    sortable: true, width: '200px', wrap: true ,
     cell: row => {
       if (!row.coInventors) return 'N/A';
       if (Array.isArray(row.coInventors)) return row.coInventors.join(', ');
       if (typeof row.coInventors === 'object') return Object.values(row.coInventors).filter(v => v).join(', ');
       return String(row.coInventors);
     },
-    wrap: true
   },
-  { name: 'Country', selector: row => row.country },
-  { name: 'Category', selector: row => row.category },
+  { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Category', selector: row => row.category || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -61,22 +61,23 @@ const columns = [
           View
         </a>
       ) : 'N/A'
-    )
+    ),
+    sortable: true, width: '200px', wrap: true
   },
-  { name: 'Patent Title', selector: row => row.patentTitle || "N/A", wrap: true },
+  { name: 'Patent Title', selector: row => row.patentTitle || "N/A", sortable: true, width: '200px', wrap: true },
   { 
     name: 'Inventors', 
-    selector: row => row.inventors,
+    selector: row => row.inventors || "N/A" ,
+    sortable: true, width: '200px', wrap: true , 
     cell: row => {
       if (!row.inventors) return 'N/A';
       if (Array.isArray(row.inventors)) return row.inventors.join(', ');
       if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
       return String(row.inventors);
     },
-    wrap: true
   },
-  { name: 'Publication Date', selector: row => row.publicationDate || "N/A"},
-  { name: 'Abstract', selector: row => row.abstract || "N/A", wrap: true },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A" ,  sortable: true, width: '200px', wrap: true },
+  { name: 'Abstract', selector: row => row.abstract || "N/A", sortable: true, width: '200px', wrap: true },
 
 
 ];
@@ -147,10 +148,24 @@ const PatentTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

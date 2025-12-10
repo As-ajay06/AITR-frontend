@@ -29,50 +29,50 @@ const columns = [
   },
   {
     name: 'Faculty Id',
-    selector: row => row.facultyId,
-    sortable: true,
+    selector: row => row.facultyId || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Name',
-    selector: row => row.name,
-    sortable: true,
+    selector: row => row.name || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Email',
-    selector: row => row.email,
-    sortable: true,
+    selector: row => row.email || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
-    selector: row => row.department,
-    sortable: true,
+    selector: row => row.department || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Mobile No',
-    selector: row => row.mobileNumber,
-    sortable: true,
+    selector: row => row.mobileNumber || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Highest Qualification',
     selector: row => row.highestQualification || "N/A" ,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
 
   },
   {
     name: 'Experience (Years)',
-    selector: row => row.teachingExperience,
-    sortable: true,
+    selector: row => row.teachingExperience || "N/A",
+    sortable: true, width: '240px', wrap: true
 
   },
   {
     name: 'Department',
-    selector: row => row.department,
-    sortable: true,
+    selector: row => row.department || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Designation',
-    selector: row => row.designation,
-    sortable: true,
+    selector: row => row.designation || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -142,10 +142,24 @@ function FacultyTable({ data }) {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

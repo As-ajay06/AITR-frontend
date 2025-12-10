@@ -334,30 +334,33 @@ export const facultyTalkColumns = [
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Talk/Session',
     selector: row => row.titleOfTalk,
-    wrap: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Event Name',
     selector: row => row.eventName,
-    wrap: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Organizing Body',
-    selector: row => row.organizingBody
+    selector: row => row.organizingBody,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Date',
     selector: row => row.date,
-    format: row => new Date(row.date).toLocaleDateString()
+    format: row => new Date(row.date).toLocaleDateString(),
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Nature of Engagement',
-    selector: row => row.natureOfEngagement // Keynote / Panelist / Speaker
+    selector: row => row.natureOfEngagement,// Keynote / Panelist / Speaker
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Certificate PDF',

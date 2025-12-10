@@ -267,6 +267,28 @@ function AddTechnicalNonTechnicalCompetition() {
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          customStyles={{
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
+            },
+            headCells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
+            },
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              },
+            },
+          }}
         />
       </div>
     </div>
@@ -279,103 +301,102 @@ export const TechnicalNonTechnicalCompetitionColumn = [
   {
     name: "Student ID",
     selector: row => row._id,
-    sortable: true,
+    width: '300px', wrap: true
   },
   {
     name: "Student Name",
     selector: row => row.studentName,
-    sortable: true
+    width: '300px', wrap: true
   },
   {
     name: "Acheivement",
     selector: row => row.achievement,
-    sortable: true,
+    width: '300px', wrap: true
   },
   {
     name: "Batch",
     selector: row => row.batch,
-    wrap: true,
+    width: '300px', wrap: true
   },
   {
     name: "Branch",
     selector: row => row.branch,
-    sortable: true,
+    width: '300px', wrap: true
   },
   {
     name: "certificate",
     selector: row => <a href={`${BASE_URL}/file/${row.fileId}`} >view certificate</a>,
-    sortable: true,
+    width: '300px', wrap: true
 
   }, {
     name: "Competition Id",
     selector: row => row.competitionId,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Competiontion Name",
     selector: row => row.competitionName,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Date",
     selector: row => row.date,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Enrollment Number",
     selector: row => row.enrollmentNumber,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Event mode",
     selector: row => row.eventMode,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Level",
     selector: row => row.level,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Mentor name",
     selector: row => row.mentorName,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Organizer",
     selector: row => row.organizer,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Position secured",
     selector: row => row.positionSecured,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Prize Money",
     selector: row => row.prizeMoney,
-    sortable: true,
+    width: '300px', wrap: true
   },
   {
     name: "Problem Statement",
     selector: row => row.problemStatement,
-    sortable: true,
+    width: '300px', wrap: true
 
   },
   {
     name: "Project Description",
     selector: row => row.projectDescription,
-    sortable: true,
-    wrap: true, // enables multi-line text
+    width: '300px', wrap: true
   },
   {
     name: "Project GitHub Link",
@@ -385,12 +406,12 @@ export const TechnicalNonTechnicalCompetitionColumn = [
         {row.projectGithubLink}
       </a>
     ),
-    sortable: false,
+    sortable: true,
   },
   {
     name: "Sponsoring Agency",
     selector: row => row.sponsoringAgency,
-    sortable: true,
+    width: '300px', wrap: true
   },
   {
     name: "Team Name",
@@ -420,6 +441,6 @@ export const TechnicalNonTechnicalCompetitionColumn = [
       ) : (
         "N/A"
       ),
-    sortable: false,
+    sortable: true,
   },
 ];

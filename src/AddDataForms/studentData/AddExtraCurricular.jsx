@@ -241,6 +241,28 @@ function AddExtraCurricular() {
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          customStyles={{
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
+            },
+            headCells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
+            },
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              },
+            },
+          }}
         />
       </div>
     </div>
@@ -254,48 +276,57 @@ export const studentExtraCurricularColumns = [
   {
     name: "ID",
     selector: row => row.eventParticipationId,
-    sortable: true,
+    width: '200px', wrap: false
   },
   {
     name: "Student Name",
     selector: row => row.studentName,
-    sortable: true,
+    width: '200px', wrap: false
   },
   {
     name: "Enrollment Number",
     selector: row => row.enrollmentNumber,
+    width: '200px', wrap: false
   },
   {
     name: "Branch",
     selector: row => row.branch,
+    width: '200px', wrap: false
   },
   {
     name: "Batch",
     selector: row => row.batch,
+    width: '200px', wrap: false
   },
   {
     name: "Year",
     selector: row => row.year,
+    width: '200px', wrap: false
   },
   {
     name: "Event Name",
     selector: row => row.eventName,
+    width: '200px', wrap: false
   },
   {
     name: "Event Date",
     selector: row => new Date(row.eventDate).toLocaleDateString(),
+    width: '200px', wrap: false
   },
   {
     name: "Event Level",
     selector: row => row.eventLevel,
+    width: '200px', wrap: false
   },
   {
     name: "Event Location",
     selector: row => row.eventLocation,
+    width: '200px', wrap: false
   },
   {
     name: "Position",
     selector: row => row.position,
+    width: '200px', wrap: false
   },
   {
     name: "Certificate PDF",
@@ -313,15 +344,17 @@ export const studentExtraCurricularColumns = [
       ) : (
         "N/A"
       ),
-    sortable: false,
+    width: '200px', wrap: false
   },
   {
     name: "Organizer",
     selector: row => row.organizer,
+    width: '200px', wrap: false
   },
   {
     name: "Coach Name",
     selector: row => row.coachName,
+    width: '200px', wrap: false
   },
 ];
 

@@ -21,17 +21,17 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: false },
-  { name: 'Co-Authors', selector: row => row.coAuthors , sortable: true, width: '300px', wrap: false},
-  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn, sortable: true, width: '300px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: false },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '300px', wrap: false },
-  { name: 'indexing', selector: row => row.indexing[0] , sortable: true, width: '200px', wrap: false },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '400px', wrap: false },
+  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Co-Authors', selector: row => row.coAuthors || "N/A", sortable: true, width: '300px', wrap: false},
+  { name: 'doi Or Isbn', selector: row => row.doiOrIsbn || "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Faculty Guide', selector: row => row.facultyGuide || "N/A" , sortable: true, width: '300px', wrap: false },
+  { name: 'indexing', selector: row => row.indexing[0] || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName || "N/A", sortable: true, width: '400px', wrap: false },
   {
     name: 'Certificate PDF',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a
         href={`http://localhost:3000/file/${row.fileId}`}
         target="_blank"
@@ -40,7 +40,7 @@ const columns = [
       >
         View
       </a>
-    ), sortable: true, width: '400px', wrap: false
+    ) : "N/A", sortable: true, width: '400px', wrap: false
   },
   { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() , sortable: true, width: '400px', wrap: false },
   { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '400px', wrap: false },
@@ -151,10 +151,24 @@ const StudentResearchPaper = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

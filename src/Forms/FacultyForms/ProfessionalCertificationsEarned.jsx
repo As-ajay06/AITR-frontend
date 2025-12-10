@@ -282,34 +282,32 @@ export const certificationColumns = [
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Certification Name',
     selector: row => row.certificationName,
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Issuing Body',
     selector: row => row.issuingBody,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Level',
     selector: row => row.certificationLevel,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Validity Period',
     selector: row => row.validityPeriod,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Field/Domain',
     selector: row => row.domain,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Certificate',

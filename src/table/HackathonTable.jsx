@@ -36,15 +36,15 @@ const columns = [
     // )
     // ), wrap: true
   },
-  { name: 'Result', selector: row => row.result },
-  { name: 'Event Date', selector: row => row.eventDate },
-  { name: 'Team Name', selector: row => row.teamName },
-  { name: 'Team Size', selector: row => row.teamSize },
-  { name: 'Mentor Name', selector: row => row.mentorName },
-  { name: 'Venue', selector: row => row.venue },
-  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , wrap: true },
+  { name: 'Result', selector: row => row.result || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A" , width: '200px', wrap: true },
+  { name: 'Team Name', selector: row => row.teamName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Venue', selector: row => row.venue || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , sortable: true, width: '200px', wrap: true },
   {
-    name: 'Technolgy used', selector: row => row.technologyUsed
+    name: 'Technolgy used', selector: row => row.technologyUsed || "N/A", sortable: true, width: '200px', wrap: true
     // (row.technologyUsed.map(
     //   (item, index) =>
     //   (<div
@@ -55,8 +55,8 @@ const columns = [
     // )
     // ), wrap: true
   },
-  { name: 'Prize Money', selector: row => row.prizeMoney },
-  { name: 'Position Secured', selector: row => row.positionSecured },
+  { name: 'Prize Money', selector: row => row.prizeMoney || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 
@@ -165,10 +165,24 @@ export const HackathonTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

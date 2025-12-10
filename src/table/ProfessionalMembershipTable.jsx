@@ -15,10 +15,10 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Organization Name', selector: row => row.organizationName },
-  { name: 'Membership ID', selector: row => row.membershipId },
-  { name: 'Date of Joining', selector: row => row.dateOfJoining },
-  { name: 'Membership Status', selector: row => row.membershipStatus },
+  { name: 'Organization Name', selector: row => row.organizationName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Membership ID', selector: row => row.membershipId || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Date of Joining', selector: row => new Date(row.dateOfJoining).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Membership Status', selector: row => row.membershipStatus || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 const ProfessionalMembershipTable = ({ data }) => {
@@ -125,10 +125,24 @@ const ProfessionalMembershipTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

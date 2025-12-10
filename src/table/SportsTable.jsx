@@ -21,15 +21,15 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.Id, width: '60px' },
-  { name: 'Student Name', selector: row => row.Student_Name },
-  { name: 'Sport Name', selector: row => row.Sport_Name },
-  { name: 'Achievement', selector: row => row.Achievement },
-  { name: 'Event Date', selector: row => row.Event_Date },
-  { name: 'Event Name', selector: row => row.Event_Name },
-  { name: 'Event Level', selector: row => row.Event_Level },
-  { name: 'Event Location', selector: row => row.Event_Location },
-  { name: 'Position', selector: row => row.Position },
+  { name: 'ID', selector: row => row.Id || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.Student_Name || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Sport Name', selector: row => row.Sport_Name || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Achievement', selector: row => row.Achievement || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.Event_Date).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Name', selector: row => row.Event_Name  || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Level', selector: row => row.Event_Level || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Location', selector: row => row.Event_Location || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Position', selector: row => row.Position || "N/A", sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate',
     cell: row => (
@@ -37,8 +37,9 @@ const columns = [
         View
       </a>
     ),
+    sortable: true, width: '200px', wrap: true
   },
-  { name: 'Coach Name', selector: row => row.Coach_Name },
+  { name: 'Coach Name', selector: row => row.Coach_Name , sortable: true, width: '200px', wrap: true },
 ];
 
 const SportsTable = ({ data }) => {
@@ -106,10 +107,24 @@ const SportsTable = ({ data }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}

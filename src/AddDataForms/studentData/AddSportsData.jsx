@@ -256,52 +256,62 @@ export const studentSportsEventColumns = [
   {
     name: "ID",
     selector: row => row.sportsEventId,
-    sortable: true
+    width: '300px', wrap: false
   },
   {
     name: "Student Name",
     selector: row => row.studentName,
-    sortable: true
+    width: '300px', wrap: false
   },
   {
     name: "Enrollment Number",
-    selector: row => row.enrollmentNumber
+    selector: row => row.enrollmentNumber,
+    width: '300px', wrap: false
   },
   {
     name: "Branch",
-    selector: row => row.branch
+    selector: row => row.branch,
+    width: '300px', wrap: false
   },
   {
     name: "Batch",
-    selector: row => row.batch
+    selector: row => row.batch,
+    width: '300px', wrap: false
   },
   {
     name: "Year",
-    selector: row => row.year
+    selector: row => row.year,
+    width: '300px', wrap: false
   },
   {
     name: "Sports Name",
-    selector: row => row.sportsName
+    selector: row => row.sportsName,
+    width: '300px', wrap: false
   },
   {
     name: "Event Date",
-    selector: row => new Date(row.eventDate).toLocaleDateString()
+    selector: row => new Date(row.eventDate).toLocaleDateString(),
+    width: '300px', wrap: false
   },
   {
     name: "Event Name",
-    selector: row => row.eventName
+    selector: row => row.eventName,
+    width: '300px', wrap: false
   },
   {
     name: "Event Level",
-    selector: row => row.eventLevel
+    selector: row => row.eventLevel,
+    width: '300px', wrap: false
   },
   {
     name: "Event Location",
-    selector: row => row.eventLocation
+    selector: row => row.eventLocation,
+    width: '300px', wrap: false
   },
   {
     name: "Position",
-    selector: row => row.position
+    selector: row => row.position,
+    width: '300px', wrap: false
   },
   {
     name: "Certificate PDF",
@@ -312,15 +322,18 @@ export const studentSportsEventColumns = [
         </a>
       ) : (
         "N/A"
-      )
+      ),
+      width: '300px', wrap: false
   },
   {
     name: "Coach Name",
-    selector: row => row.coachName
+    selector: row => row.coachName,
+    width: '300px', wrap: false
   },
   {
     name: "Organizer",
-    selector: row => row.organizer
+    selector: row => row.organizer,
+    width: '300px', wrap: false
   },
 ];
 

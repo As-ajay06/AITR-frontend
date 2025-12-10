@@ -218,6 +218,28 @@ function AddStartups() {
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          customStyles={{
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
+            },
+            headCells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
+            },
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              },
+            },
+          }}
         />
       </div>
     </div>
@@ -230,22 +252,22 @@ export const startupColumns = [
   {
     name: "Startup Name",
     selector: row => row.startupName,
-    sortable: true,
+    width: '300px', wrap: false
   },
   {
     name: "Domain",
     selector: row => row.domain,
-    sortable: true,
+    width: '300px', wrap: false
   },
   {
     name: "Incubation Support",
     selector: row => row.incubationSupport || "None",
-    wrap: true,
+    width: '300px', wrap: false
   },
   {
     name: "Current Status",
     selector: row => row.currentStatus,
-    sortable: true,
+    width: '300px', wrap: false
   },
   {
     name: "Website/Link",
@@ -263,5 +285,6 @@ export const startupColumns = [
       ) : (
         "N/A"
       ),
+      width: '300px', wrap: false
   },
 ];

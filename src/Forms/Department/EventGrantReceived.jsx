@@ -310,33 +310,37 @@ export const eventGrantColumns = [
   {
     name: "Event Title",
     selector: row => row.eventTitle,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Department Name",
     selector: row => row.departmentName,
-    sortable: true,
+    sortable: true, width: '240px', wrap: true
   },
   {
     name: "Granting Agency",
     selector: row => row.grantingAgency,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Date of Approval",
     selector: row => new Date(row.dateOfApproval).toLocaleDateString(),
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Duration",
     selector: row => row.duration,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Description",
     selector: row => row.description,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Funding",
     selector: row => row.funding || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Proposal PDF",
@@ -357,19 +361,22 @@ export const eventGrantColumns = [
   },
   {
     name: "Grant Amount",
-    selector: row => row.grantAmount,
+    selector: row => row.grantAmount || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Faculty Coordinator",
-    selector: row => row.facultyCoordinator,
+    selector: row => row.facultyCoordinator || "N/A" ,
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Purpose",
-    selector: row => row.purpose,
+    selector: row => row.purpose || "N/A" ,
+    sortable: true, width: '150px', wrap: true
   },
   {
     name: "Utilization Summary",
     selector: row => row.utilizationSummary || "N/A",
-    wrap: true,
+    sortable: true, width: '300px', wrap: true
   },
 ];

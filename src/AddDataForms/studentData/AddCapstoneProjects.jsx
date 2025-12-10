@@ -20,7 +20,7 @@ function AddCapstoneProjects() {
   const { register, handleSubmit, reset } = useForm();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -116,7 +116,7 @@ function AddCapstoneProjects() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -145,14 +145,14 @@ function AddCapstoneProjects() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -176,7 +176,7 @@ function AddCapstoneProjects() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -184,13 +184,13 @@ function AddCapstoneProjects() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -212,14 +212,36 @@ function AddCapstoneProjects() {
             </div>
           </div>
         )}
-        
-        <DataTable 
+
+        <DataTable
           title="Capstone Projects"
           columns={CapstoneprojectColumns}
           data={data}
           actions={actionsMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          customStyles={{
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
+            },
+            headCells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
+            },
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              },
+            },
+          }}
         />
       </div>
     </div>
@@ -232,28 +254,32 @@ export const CapstoneprojectColumns = [
   {
     name: "Project Title",
     selector: row => row.projectTitle,
-    sortable: true,
+    width: '200px', wrap: false
   },
   {
     name: "Team Members",
     selector: row => row.teamMembers?.join(", "),
-    wrap: true,
+    width: '200px', wrap: false
   },
   {
     name: "Guide Name",
     selector: row => row.guideName,
+    width: '200px', wrap: false
   },
   {
     name: "Semester",
     selector: row => row.semester,
+    width: '200px', wrap: false
   },
   {
     name: "Industry Mentor",
     selector: row => row.industryMentor || "N/A",
+    width: '200px', wrap: false
   },
   {
     name: "Project Outcome",
     selector: row => row.outcome,
+    width: '200px', wrap: false
   },
 ];
 

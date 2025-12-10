@@ -314,7 +314,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.departmentName);
     },
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Agency Name",
@@ -326,12 +326,13 @@ export const rdInitiativesColumns = [
       }
       return String(row.agencyName);
     },
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Date",
     selector: row => row.date,
     cell: row => row.date ? new Date(row.date).toLocaleDateString() : 'N/A',
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Duration",
@@ -343,6 +344,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.duration);
     },
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Description",
@@ -354,7 +356,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.description);
     },
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Funding",
@@ -366,13 +368,14 @@ export const rdInitiativesColumns = [
       }
       return String(row.funding);
     },
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "PDF Document",
     cell: row =>
       row.pdfUrl ? (
         <a
-          href={row.pdfUrl}
+          href={`http://localhost/file/${row.pdfUrl}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
@@ -383,6 +386,7 @@ export const rdInitiativesColumns = [
         "Not Uploaded"
       ),
     button: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Project Title",
@@ -394,8 +398,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.projectTitle);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '220px', wrap: true
   },
   {
     name: "Funding Agency",
@@ -407,6 +410,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.fundingAgency);
     },
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Principal Investigator",
@@ -418,6 +422,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.principalInvestigator);
     },
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Co-Investigator",
@@ -428,6 +433,7 @@ export const rdInitiativesColumns = [
       if (typeof row.coInvestigator === 'object') return Object.values(row.coInvestigator).filter(v => v && typeof v === 'string').join(', ');
       return String(row.coInvestigator);
     },
+    sortable: true, width: '230px', wrap: true
   },
   {
     name: "Budget",
@@ -439,6 +445,7 @@ export const rdInitiativesColumns = [
       }
       return String(row.budget);
     },
+    sortable: true, width: '180px', wrap: true
   },
   {
     name: "Output / Patents / Publications",
@@ -450,6 +457,6 @@ export const rdInitiativesColumns = [
       }
       return String(row.output);
     },
-    wrap: true,
+    sortable: true, width: '400px', wrap: true
   },
 ];

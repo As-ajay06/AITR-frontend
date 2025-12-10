@@ -30,25 +30,25 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row._id, sortable: true, width: '60px' },
-  { name: 'Student Name', selector: row => row.studentName },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber },
-  { name: 'Company Name', selector: row => row.companyName },
-  { name: 'Role', selector: row => row.internshipRole || "N/A" },
-  { name: 'Internship Type', selector: row => row.internshipType || "N/A" },
-  { name: 'Stipend', selector: row => row.stipend || "N/A"},
-  { name: 'Duration', selector: row => row.duration || "N/A" },
-  { name: 'Department', selector: row => row.department || "N/A"},
-  { name: 'Mentor Name', selector: row => row.mentorName || "N/A"},
-  { name: 'Mentor Email', selector: row => row.mentorEmail || "N/A"},
-  { name: 'Technologies Used', selector: row => row.technologyUsed || "N/A"},
-  { name: 'Project Name', selector: row => row.projectName || "N/A"},
-  { name: 'Project Description', selector: row => row.projectDescription || "N/A", wrap: true },
-  { name: 'Skills Gained', selector: row => row.skillsGained || "N/A"},
-  { name: 'Company Location', selector: row => row.companyLocation || "N/A"},
-  { name: 'Internship Status', selector: row => row.internshipStatus || "N/A"},
-  { name: 'Start Date', selector: row => row.startDate || "N/A"},
-  { name: 'End Date', selector: row => row.endDate || "N/A"},
+  { name: 'ID', selector: row => row._id || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Company Name', selector: row => row.companyName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Role', selector: row => row.internshipRole || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Internship Type', selector: row => row.internshipType || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Stipend', selector: row => row.stipend || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Duration', selector: row => row.duration || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Department', selector: row => row.department || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Mentor Email', selector: row => row.mentorEmail || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Technologies Used', selector: row => row.technologyUsed || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Project Name', selector: row => row.projectName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Project Description', selector: row => row.projectDescription || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Skills Gained', selector: row => row.skillsGained || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Internship Status', selector: row => row.internshipStatus || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Offer Letter',
     cell: row => (
@@ -56,6 +56,7 @@ const columns = [
         View
       </a>
     ),
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -165,10 +166,24 @@ export const InternshipTable = ({ data: propData }) => {
         selectableRows
         onSelectedRowsChange={handleRowSelected}
         customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
           headCells: {
             style: {
-              fontSize: '16px',
-              fontWeight: '600',
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
             },
           },
         }}
