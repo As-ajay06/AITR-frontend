@@ -634,7 +634,7 @@ export const studentProfileColumns = [
   { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: false },
   { name: 'Course', selector: row => row.course, sortable: true, width: '200px', wrap: false },
   { name: 'CGPA', selector: row => row.cgpa, sortable: true, width: '200px', wrap: false },
-  { name: 'Date Of Birth', selector: row => row.dateOfBirth, sortable: true, width: '200px', wrap: false },
+  { name: 'Date Of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString(), sortable: true, width: '200px', wrap: false },
   { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: false },
   { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: false },
   { name: 'Year Of Admission', selector: row => row.yearOfAdmission, sortable: true, width: '300px', wrap: false },
@@ -672,7 +672,7 @@ export const studentTechinalNonTechnicalColumn = [
   { name: 'Email', selector: row => row.email },
   { name: 'Year', selector: row => row.year },
   { name: 'Competition Name', selector: row => row.competitionName, sortable: true, width: '200px', wrap: false },
-  { name: 'Date', selector: row => row.date, sortable: true, width: '200px', wrap: false },
+  { name: 'Date', selector: row => new Date(row.date).toLocaleDateString(), sortable: true, width: '200px', wrap: false },
   { name: 'Team Name', selector: row => row.teamName, sortable: true, width: '200px', wrap: false },
   { name: 'Team Size', selector: row => row.teamSize, sortable: true, width: '200px', wrap: false },
   { name: 'Mentor Name', selector: row => row.mentorName, sortable: true, width: '200px', wrap: false },
@@ -691,16 +691,16 @@ export const studentTechinalNonTechnicalColumn = [
 
   {
     name: 'Certificate',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a
-        href={row.fileId}
+        href={`${BASE_URL}/file/${row.fileId}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-600 underline text-sm"
       >
         View
       </a>
-    ),
+    ) : "N/A" ,
   },
 ];
 
@@ -719,7 +719,7 @@ export const certificateColumns = [
   { name: 'Issuing Organization', selector: row => row.issuingOrganization || "N/A", sortable: true, width: '200px', wrap: false },
   { name: 'Issue Date', selector: row => new Date(row.issueDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
   { name: 'Validity Period', selector: row => row.validityPeriod || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Graded Of Score', selector: row => row.gradeOrScore || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Graded Of Score', selector: row => row.gradeOrScore || "N/A", sortable: true, width: '250px', wrap: false },
   { name: 'Mode Of Learning', selector: row => row.modeOfLearning || "N/A", sortable: true, width: '280px', wrap: false },
   { name: 'Course Duration', selector: row => row.courseDuration || "N/A", sortable: true, width: '200px', wrap: false },
   { name: 'Rank Or Position', selector: row => row.rankOrPosition || "N/A", sortable: true, width: '200px', wrap: false },
