@@ -753,16 +753,16 @@ export const studentPlacementColumns = [
   { name: 'Joining Date', selector: row => new Date(row.joiningDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: false },
   {
     name: 'Offer Letter',
-    cell: row => (
+    cell: row => row.fileId ? (
       <a
-        href={row.fileId}
+        href={`${BASE_URL}/file/${row.fileId}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-600 underline text-sm"
       >
         View
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ) : "N/A" , sortable: true, width: '200px', wrap: false
   },
 ];
 
@@ -814,7 +814,7 @@ export const researchPaperColumns = [
   {
     name: 'Paper PDF',
     cell: row => (
-      <a href={row.paperPdfLink} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
+      <a href={`${BASE_URL}/file/${row.fileId}`} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
         View
       </a>
     ), sortable: true, width: '200px', wrap: false
@@ -978,7 +978,7 @@ export const studentSportsEventColumns = [
     name: "Certificate PDF",
     cell: row =>
       row.fileId ? (
-        <a href={row.certificatePDF} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+        <a href={`${BASE_URL}/file/${row.fileId}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
           View Certificate
         </a>
       ) : (
@@ -1107,11 +1107,7 @@ export const CapstoneprojectColumns = [
     selector: row => row.industryMentor || "N/A",
     sortable: true, width: '200px', wrap: false
   },
-  {
-    name: "Project Outcome",
-    selector: row => row.projectOutcome,
-    sortable: true, width: '200px', wrap: false
-  },
+  
 ];
 
 export const startupColumns = [
