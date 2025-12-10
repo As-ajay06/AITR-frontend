@@ -36,15 +36,15 @@ const columns = [
     // )
     // ), wrap: true
   },
-  { name: 'Result', selector: row => row.result , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Date', selector: row => row.eventDate , sortable: true, width: '200px', wrap: true },
-  { name: 'Team Name', selector: row => row.teamName , sortable: true, width: '200px', wrap: true },
-  { name: 'Team Size', selector: row => row.teamSize , sortable: true, width: '200px', wrap: true },
-  { name: 'Mentor Name', selector: row => row.mentorName , sortable: true, width: '200px', wrap: true },
-  { name: 'Venue', selector: row => row.venue , sortable: true, width: '200px', wrap: true },
+  { name: 'Result', selector: row => row.result || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A" , width: '200px', wrap: true },
+  { name: 'Team Name', selector: row => row.teamName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Venue', selector: row => row.venue || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , sortable: true, width: '200px', wrap: true },
   {
-    name: 'Technolgy used', selector: row => row.technologyUsed , sortable: true, width: '200px', wrap: true
+    name: 'Technolgy used', selector: row => row.technologyUsed || "N/A", sortable: true, width: '200px', wrap: true
     // (row.technologyUsed.map(
     //   (item, index) =>
     //   (<div
@@ -55,8 +55,8 @@ const columns = [
     // )
     // ), wrap: true
   },
-  { name: 'Prize Money', selector: row => row.prizeMoney , sortable: true, width: '200px', wrap: true },
-  { name: 'Position Secured', selector: row => row.positionSecured , sortable: true, width: '200px', wrap: true },
+  { name: 'Prize Money', selector: row => row.prizeMoney || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 

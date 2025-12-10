@@ -283,29 +283,28 @@ export const membershipColumns = [
     {
         name: 'Faculty Name',
         selector: row => row.facultyName,
-        sortable: true,
+        sortable: true, width: '200px', wrap: true, width: '200px', wrap: true
     },
     {
         name: 'Organization Name',
         selector: row => row.organizationName,
-        sortable: true,
-        wrap: true,
+       sortable: true, width: '200px', wrap: true, 
     },
     {
         name: 'Membership Type',
         selector: row => row.membershipType,
-        sortable: true,
+        sortable: true, width: '200px', wrap: true,
     },
     {
         name: 'Membership ID',
         selector: row => row.membershipId,
-        sortable: true,
+        sortable: true, width: '200px', wrap: true,
     },
     {
         name: 'Date of Joining',
         selector: row => row.dateOfJoining,
         format: row => new Date(row.dateOfJoining).toLocaleDateString(),
-        sortable: true,
+        sortable: true, width: '200px', wrap: true,
     },
     {
         name: 'Current Status',
@@ -316,6 +315,6 @@ export const membershipColumns = [
                 {row.currentStatus}
             </span>
         ),
-        sortable: true,
+        sortable: true, width: '200px', wrap: true,
     }
 ];

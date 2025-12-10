@@ -66,19 +66,17 @@ export const publicationColumns = [
   {
     name: 'ID',
     selector: row => row.facultyId,
-    sortable: true,
-    center: true
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Paper',
     selector: row => row.titleOfPaper,
-    sortable: true,
-    wrap: true
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Publication Date',
@@ -88,17 +86,17 @@ export const publicationColumns = [
   {
     name: 'Journal/Conference Name',
     selector: row => row.journalOrConferenceName,
-    wrap: true
+    wrap: true,sortable: true, width: '200px'
   },
   {
     name: 'Co-Author',
     selector: row => row.coAuthors,
-    wrap: true
+    wrap: true,sortable: true, width: '200px'
   },
   {
     name: 'Indexing',
     selector: row => row.indexing,
-    wrap: true
+    wrap: true,sortable: true, width: '200px'
   },
   {
     name: 'Paper PDF',

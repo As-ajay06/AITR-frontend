@@ -30,10 +30,10 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row._id, sortable: true, width: '200px', wrap: true },
-  { name: 'Student Name', selector: row => row.studentName , sortable: true, width: '200px', wrap: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber , sortable: true, width: '200px', wrap: true },
-  { name: 'Company Name', selector: row => row.companyName , sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row._id || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Company Name', selector: row => row.companyName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Role', selector: row => row.internshipRole || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Internship Type', selector: row => row.internshipType || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Stipend', selector: row => row.stipend || "N/A" , sortable: true, width: '200px', wrap: true },
@@ -47,8 +47,8 @@ const columns = [
   { name: 'Skills Gained', selector: row => row.skillsGained || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Company Location', selector: row => row.companyLocation || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Internship Status', selector: row => row.internshipStatus || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Start Date', selector: row => row.startDate || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'End Date', selector: row => row.endDate || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Offer Letter',
     cell: row => (

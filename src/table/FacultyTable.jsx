@@ -29,27 +29,27 @@ const columns = [
   },
   {
     name: 'Faculty Id',
-    selector: row => row.facultyId,
+    selector: row => row.facultyId || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Name',
-    selector: row => row.name,
+    selector: row => row.name || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Email',
-    selector: row => row.email,
+    selector: row => row.email || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
-    selector: row => row.department,
+    selector: row => row.department || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Mobile No',
-    selector: row => row.mobileNumber,
+    selector: row => row.mobileNumber || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
@@ -60,18 +60,18 @@ const columns = [
   },
   {
     name: 'Experience (Years)',
-    selector: row => row.teachingExperience,
-    sortable: true, width: '200px', wrap: true
+    selector: row => row.teachingExperience || "N/A",
+    sortable: true, width: '240px', wrap: true
 
   },
   {
     name: 'Department',
-    selector: row => row.department,
+    selector: row => row.department || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Designation',
-    selector: row => row.designation,
+    selector: row => row.designation || "N/A",
     sortable: true, width: '200px', wrap: true
   },
 ];

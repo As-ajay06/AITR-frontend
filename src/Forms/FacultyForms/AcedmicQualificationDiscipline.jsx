@@ -296,8 +296,7 @@ export const academicQualificationColumns = [
       }
       return String(row.facultyName);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Highest Degree',
@@ -309,8 +308,7 @@ export const academicQualificationColumns = [
       }
       return String(row.highestDegree);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'University/Institute',
@@ -322,8 +320,7 @@ export const academicQualificationColumns = [
       }
       return String(row.universityOrInstitute);
     },
-    sortable: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Specialization',
@@ -335,7 +332,7 @@ export const academicQualificationColumns = [
       }
       return String(row.specialization);
     },
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Year of Completion',
@@ -347,7 +344,7 @@ export const academicQualificationColumns = [
       }
       return String(row.yearOfCompletion);
     },
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Certificate',

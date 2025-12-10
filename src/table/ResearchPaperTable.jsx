@@ -247,18 +247,18 @@ export const researchPaperColumns = [
 
 
 export const ResearchPaperPublication = [
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: true },
-  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: true },
-  { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: true },
-  { name: 'doiOrIsbn', selector: row => row.doiOrIsbn, sortable: true, width: '200px', wrap: true },
-  { name: 'title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '200px', wrap: true },
-  { name: 'Publication Date', selector: row => row.publicationDate , sortable: true, width: '200px', wrap: true },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName , sortable: true, width: '200px', wrap: true },
-  { name: 'cCo Authors', selector: row => row.coAuthors , sortable: true, width: '200px', wrap: true },
-  { name: 'indexing', selector: row => row.indexing , sortable: true, width: '200px', wrap: true },
-  { name: 'Certificate PDF', selector: row => row.fileId , sortable: true, width: '200px', wrap: true},
-  { name: 'Faculty Guide', selector: row => row.facultyGuide , sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'doiOrIsbn', selector: row => row.doiOrIsbn || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'title Of Paper', selector: row => row.titleOfPaper || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Publication Date', selector: row => row.publicationDate || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Co Authors', selector: row => row.coAuthors || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'indexing', selector: row => row.indexing || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Certificate PDF', selector: row => row.fileId || "N/A", sortable: true, width: '200px', wrap: true},
+  { name: 'Faculty Guide', selector: row => row.facultyGuide || "N/A", sortable: true, width: '200px', wrap: true },
 ];
 
 // todo : here we are deleting faculty reaseach paper

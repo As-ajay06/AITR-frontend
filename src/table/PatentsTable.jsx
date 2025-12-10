@@ -46,8 +46,8 @@ const columns = [
       return String(row.coInventors);
     },
   },
-  { name: 'Country', selector: row => row.country , sortable: true, width: '200px', wrap: true },
-  { name: 'Category', selector: row => row.category , sortable: true, width: '200px', wrap: true },
+  { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Category', selector: row => row.category || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -67,7 +67,7 @@ const columns = [
   { name: 'Patent Title', selector: row => row.patentTitle || "N/A", sortable: true, width: '200px', wrap: true },
   { 
     name: 'Inventors', 
-    selector: row => row.inventors,
+    selector: row => row.inventors || "N/A" ,
     sortable: true, width: '200px', wrap: true , 
     cell: row => {
       if (!row.inventors) return 'N/A';
@@ -76,7 +76,7 @@ const columns = [
       return String(row.inventors);
     },
   },
-  { name: 'Publication Date', selector: row => row.publicationDate || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A" ,  sortable: true, width: '200px', wrap: true },
   { name: 'Abstract', selector: row => row.abstract || "N/A", sortable: true, width: '200px', wrap: true },
 
 

@@ -21,15 +21,15 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.Id, sortable: true, width: '200px', wrap: true },
-  { name: 'Student Name', selector: row => row.Student_Name , sortable: true, width: '200px', wrap: true },
-  { name: 'Sport Name', selector: row => row.Sport_Name , sortable: true, width: '200px', wrap: true },
-  { name: 'Achievement', selector: row => row.Achievement , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Date', selector: row => row.Event_Date , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Name', selector: row => row.Event_Name , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Level', selector: row => row.Event_Level , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Location', selector: row => row.Event_Location , sortable: true, width: '200px', wrap: true },
-  { name: 'Position', selector: row => row.Position , sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row.Id || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.Student_Name || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Sport Name', selector: row => row.Sport_Name || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Achievement', selector: row => row.Achievement || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.Event_Date).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Name', selector: row => row.Event_Name  || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Level', selector: row => row.Event_Level || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Location', selector: row => row.Event_Location || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Position', selector: row => row.Position || "N/A", sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate',
     cell: row => (

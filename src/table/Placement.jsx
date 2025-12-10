@@ -22,18 +22,18 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.placementId, sortable: true, width: '200px', wrap: true },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: true },
-  { name: 'Company Name', selector: row => row.companyName , sortable: true, width: '200px', wrap: true },
-  { name: 'Company Location', selector: row => row.companyLocation , sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row.placementId || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Company Name', selector: row => row.companyName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation || "N/A", sortable: true, width: '200px', wrap: true },
 
-  { name: 'Job Role', selector: row => row.roleOffered , sortable: true, width: '200px', wrap: true },
-  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: true },
-  { name: 'Year', selector: row => row.year , sortable: true, width: '200px', wrap: true },
+  { name: 'Job Role', selector: row => row.roleOffered || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year || "N/A", sortable: true, width: '200px', wrap: true },
 
-  { name: 'Placement Type', selector: row => row.placementType , sortable: true, width: '200px', wrap: true },
-  { name: 'Package', selector: row => row.package , sortable: true, width: '200px', wrap: true },
-  { name: 'Joining Date', selector: row => row.joiningDate , sortable: true, width: '200px', wrap: true},
+  { name: 'Placement Type', selector: row => row.placementType || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Package', selector: row => row.package || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Joining Date', selector: row => new Date(row.joiningDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true},
   {
     name: 'Offer letter',
     cell: row => (

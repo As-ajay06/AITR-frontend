@@ -30,20 +30,20 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Student ID', selector: row => row.studentId, sortable: true, width: '200px', wrap: false },
-  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment No.', selector: row => row.enrollmentNumber, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, width: '200px', wrap: false },
-  { name: 'Batch', selector: row => row.batch, width: '200px', wrap: false },
-  { name: 'Email', selector: row => row.email, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year, width: '200px', wrap: false },
-  { name: 'Course', selector: row => row.course, width: '200px', wrap: false },
-  { name: 'CGPA', selector: row => row.cgpa, width: '200px', wrap: false },
-  { name: 'Date Of Birth', selector: row => row.dateOfBirth, width: '200px', wrap: false },
-  { name: 'Gender', selector: row => row.gender, width: '200px', wrap: false },
-  { name: 'Category', selector: row => row.category, width: '200px', wrap: false },
-  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, width: '200px', wrap: false },
-  { name: 'Status', selector: row => row.status, width: '200px', wrap: false },
+  { name: 'Student ID', selector: row => row.studentId || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'Student Name', selector: row => row.name || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Enrollment No.', selector: row => row.enrollmentNumber || "N/A", width: '200px', wrap: false },
+  { name: 'Branch', selector: row => row.branch || "N/A", width: '200px', wrap: false },
+  { name: 'Batch', selector: row => row.batch || "N/A", width: '200px', wrap: false },
+  { name: 'Email', selector: row => row.email || "N/A", width: '200px', wrap: false },
+  { name: 'Year', selector: row => row.year || "N/A", width: '200px', wrap: false },
+  { name: 'Course', selector: row => row.course || "N/A", width: '200px', wrap: false },
+  { name: 'CGPA', selector: row => row.cgpa || "N/A", width: '200px', wrap: false },
+  { name: 'Date Of Birth', selector: row => row.dateOfBirth || "N/A", width: '200px', wrap: false },
+  { name: 'Gender', selector: row => row.gender || "N/A", width: '200px', wrap: false },
+  { name: 'Category', selector: row => row.category || "N/A", width: '200px', wrap: false },
+  { name: 'Year Of Admission', selector: row => row.yearOfAdmission || "N/A", width: '200px', wrap: false },
+  { name: 'Status', selector: row => row.status || "N/A", width: '200px', wrap: false },
   {
     name: 'Github Link',
     selector: row => row.githubLink,
@@ -70,13 +70,12 @@ const columns = [
       ) : "N/A"
     )
   },
-  { name: 'Guardian Contact Number', selector: row => row.guardianContactNumber, width: '340px', wrap: false },
-  { name: 'Guardian Name', selector: row => row.guardianName, width: '200px', wrap: false },
-  { name: 'Address', selector: row => row.address, width: '300px', wrap: false },
+  { name: 'Guardian Contact Number' , selector: row => row.guardianContactNumber || "N/A", width: '340px', wrap: false },
+  { name: 'Guardian Name', selector: row => row.guardianName || "N/A", width: '200px', wrap: false },
+  { name: 'Address', selector: row => row.address || "N/A", width: '300px', wrap: false },
 
   {
     name: "Download PDF",
-    selector: row => row.fileId,
     width: '180px',
     wrap: false,
     cell: row =>

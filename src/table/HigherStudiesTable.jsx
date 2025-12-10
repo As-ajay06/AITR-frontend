@@ -19,14 +19,14 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Course Name', selector: row => row.courseName , sortable: true, width: '200px', wrap: true },
+  { name: 'Course Name', selector: row => row.courseName || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Scholarship', selector: row => row.scholarship || 'N/A' , sortable: true, width: '200px', wrap: true },
-  { name: 'Institute', selector: row => row.instituteName , sortable: true, width: '200px', wrap: true },
-  { name: 'City', selector: row => row.city , sortable: true, width: '200px', wrap: true },
-  { name: 'Country', selector: row => row.country , sortable: true, width: '200px', wrap: true },
-  { name: 'Duration (months)', selector: row => row.programDuration , sortable: true, width: '200px', wrap: true },
-  { name: 'Admission Year', selector: row => row.admissionYear , sortable: true, width: '200px', wrap: true },
-  { name: 'Admission Date', selector: row => row.admissionDate || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Institute', selector: row => row.instituteName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'City', selector: row => row.city || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Duration (months)', selector: row => row.programDuration || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Admission Year', selector: row => row.admissionYear || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Admission Date', selector: row => new Date(row.admissionDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 const HigherStudiesTable = ({ data }) => {

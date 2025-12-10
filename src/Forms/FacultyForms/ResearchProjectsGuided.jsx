@@ -312,13 +312,12 @@ export const projectColumns = [
     {
         name: 'Project Title',
         selector: row => row.projectTitle,
-        sortable: true,
-        wrap: true
+        sortable: true, width: '200px', wrap: true,
     },
     {
         name: 'Level',
         selector: row => row.level,
-        sortable: true,
+        sortable: true, width: '200px', wrap: true,
         center: true
     },
     {
@@ -327,12 +326,11 @@ export const projectColumns = [
         cell: row => Array.isArray(row.studentNames)
             ? row.studentNames.join(', ')
             : row.studentNames,
-        wrap: true
+            sortable: true, width: '200px', wrap: true
     },
     {
         name: 'Outcome',
         selector: row => row.outcome,
-        sortable: true,
-        wrap: true
+        sortable: true, width: '200px', wrap: true,
     }
 ];

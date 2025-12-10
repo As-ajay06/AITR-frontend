@@ -9,16 +9,16 @@ import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV'
 
 
 const columns = [
-  { name: 'ID', selector: row => row.certificateId, sortable: true, width: '200px', wrap: true },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '300px', wrap: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber , sortable: true, width: '260px', wrap: true },
-  { name: 'Certificate Name', selector: row => row.courseName , sortable: true, width: '240px', wrap: true },
-  { name: 'Branch', selector: row => row.branch , sortable: true, width: '200px', wrap: true },
-  { name: 'Batch', selector: row => row.batch , sortable: true, width: '200px', wrap: true },
-  { name: 'Year', selector: row => row.year , sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row.certificateId || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A" , sortable: true, width: '300px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A" , sortable: true, width: '260px', wrap: true },
+  { name: 'Certificate Name', selector: row => row.courseName || "N/A" , sortable: true, width: '240px', wrap: true },
+  { name: 'Branch', selector: row => row.branch || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Course', selector: row => row.courseName , sortable: true, width: '200px', wrap: true },
   { name: 'Issuing Organization', selector: row => row.issuingOrganization, sortable: true, width: '200px', wrap: false },
-  { name: 'issue Date', selector: row => row.issueDate , sortable: true, width: '200px', wrap: false },
+  { name: 'issue Date', selector: row => new Date(row.issueDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: false },
   {
     name: 'Validity Period', selector: row => row.validityPeriod ? (
       <p>{row.validityPeriod}</p>

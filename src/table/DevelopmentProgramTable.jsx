@@ -24,15 +24,15 @@ const exportableColumns = [
 
 // Columns
 const columns = [
-  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row.facultyId || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'department', selector: row => row.department || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'FDP title', selector: row => row.fdpTitle || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Program Name', selector: row => row.programName || "N/A" , sortable: true, width: '200px', wrap: true},
-  { name: 'Organising Institute', selector: row => row.organizingInstitute , sortable: true, width: '200px', wrap: true },
+  { name: 'Organising Institute', selector: row => row.organizingInstitute || "N/A" , sortable: true, width: '200px', wrap: true },
 
-  { name: 'Start Date', selector: row => row.startDate || "N/A" , sortable: true, width: '200px', wrap: true},
-  { name: 'End Date', selector: row => row.endDate || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Program Type', selector: row => row.programType || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Mode', selector: row => row.mode || "N/A" , sortable: true, width: '200px', wrap: true},
   { name: 'Location', selector: row => row.location || "N/A" , sortable: true, width: '200px', wrap: true},

@@ -295,25 +295,25 @@ export const phdSupervisionColumns = [
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     wrap: true,
   },
   {
     name: 'PhD Scholar Name',
     selector: row => row.phdScholarName,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     wrap: true,
   },
   {
     name: 'University Affiliation',
     selector: row => row.universityAffiliation,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     wrap: true,
   },
   {
     name: 'Status',
     selector: row => row.status,
-    sortable: true,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     cell: row => (
       <span className={`px-2 py-1 rounded-full text-white text-xs ${row.status === 'Completed' ? 'bg-green-600' : 'bg-yellow-500'
         }`}>

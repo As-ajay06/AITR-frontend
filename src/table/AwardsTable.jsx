@@ -34,7 +34,7 @@ const columns = [
   {
     name: 'Recipient Name',
     selector: row => row.recipientName || "N/A",
-    sortable: true, width: '200px', wrap: true
+    sortable: true, width: '250px', wrap: true
   },
   {
     name: 'Department',
@@ -49,7 +49,7 @@ const columns = [
   {
     name: 'Issuing Organization',
     selector: row => row.issuingOrganization || "N/A",
-    sortable: true, width: '200px', wrap: true
+    sortable: true, width: '250px', wrap: true
   },
   {
     name: 'Date',
@@ -69,7 +69,7 @@ const columns = [
   {
     name: 'Description/Purpose',
     selector: row => row.description || "N/A",
-    sortable: true, width: '200px', wrap: true
+    sortable: true, width: '240px', wrap: true
   },
   {
     name: 'Certificate PDF',

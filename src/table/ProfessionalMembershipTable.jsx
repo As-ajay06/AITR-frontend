@@ -15,10 +15,10 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Organization Name', selector: row => row.organizationName , sortable: true, width: '200px', wrap: true },
-  { name: 'Membership ID', selector: row => row.membershipId , sortable: true, width: '200px', wrap: true },
-  { name: 'Date of Joining', selector: row => row.dateOfJoining , sortable: true, width: '200px', wrap: true },
-  { name: 'Membership Status', selector: row => row.membershipStatus , sortable: true, width: '200px', wrap: true },
+  { name: 'Organization Name', selector: row => row.organizationName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Membership ID', selector: row => row.membershipId || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Date of Joining', selector: row => new Date(row.dateOfJoining).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Membership Status', selector: row => row.membershipStatus || "N/A" , sortable: true, width: '200px', wrap: true },
 ];
 
 const ProfessionalMembershipTable = ({ data }) => {

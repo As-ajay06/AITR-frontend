@@ -307,26 +307,26 @@ export default ConsultancyProject;
 export const consultancyColumns = [
   {
     name: "Department Name",
-    selector: row => row.departmentName,
-    sortable: true,
+    selector: row => row.departmentName || "N/A",
+    sortable: true, width: '240px', wrap: true
   },
   {
     name: "Agency Name",
-    selector: row => row.agencyName,
-    sortable: true,
+    selector: row => row.agencyName || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Date",
     selector: row => new Date(row.date).toLocaleDateString(),
-    sortable: true,
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Duration",
-    selector: row => row.duration,
+    selector: row => row.duration || "N/A",
   },
   {
     name: "Description",
-    selector: row => row.description,
+    selector: row => row.description || "N/A",
     wrap: true,
   },
   {
@@ -352,20 +352,23 @@ export const consultancyColumns = [
   },
   {
     name: "Title of Consultancy",
-    selector: row => row.titleOfConsultancy,
-    sortable: true,
+    selector: row => row.titleOfConsultancy || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Client/Industry Partner",
-    selector: row => row.clientOrIndustryPartner,
+    selector: row => row.clientOrIndustryPartner || "N/A",
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Faculty Lead",
-    selector: row => row.facultyLead,
+    selector: row => row.facultyLead || "N/A",
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Amount Sanctioned",
     selector: row => row.amountSanctioned || "N/A",
+    sortable: true, width: '240px', wrap: true
   },
   {
     name: "Supporting Documents",
