@@ -764,7 +764,8 @@ export const facultyAwardsColumns = [
   {
     name: 'ID',
     selector: row => row.recipientId,
-    sortable: true
+    sortable: true,
+    width: '180px', wrap: true
   },
   {
     name: 'Recipient Name',
