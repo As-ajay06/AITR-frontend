@@ -283,7 +283,7 @@ export const membershipColumns = [
     {
         name: 'Faculty Name',
         selector: row => row.facultyName,
-        sortable: true, width: '200px', wrap: true, width: '200px', wrap: true
+        sortable: true, width: '200px', wrap: true,
     },
     {
         name: 'Organization Name',

@@ -813,8 +813,32 @@ export const researchPaperColumns = [
   { name: 'Title of Paper', selector: row => row.titleOfPaper, sortable: true, width: '300px', wrap: false },
   { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A", sortable: true, width: '300px', wrap: false },
   { name: 'Journal/Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '300px', wrap: false },
-  { name: 'Co-Author', selector: row => row.coAuthors || "N/A" , sortable: true, width: '300px', wrap: false },
-  { name: 'Indexing (SCOPUS, SCI, etc)', selector: row => row.indexing, sortable: true, width: '400px', wrap: false },
+  { 
+    name: 'Co-Author', 
+    selector: row => {
+      if (!row.coAuthors) return "N/A";
+      if (Array.isArray(row.coAuthors)) {
+        return row.coAuthors.map(author => author?.memberName || author).filter(Boolean).join(', ') || "N/A";
+      }
+      return row.coAuthors || "N/A";
+    }, 
+    sortable: true, 
+    width: '300px', 
+    wrap: false 
+  },
+  { 
+    name: 'Indexing (SCOPUS, SCI, etc)', 
+    selector: row => {
+      if (!row.indexing) return "N/A";
+      if (Array.isArray(row.indexing)) {
+        return row.indexing.join(', ') || "N/A";
+      }
+      return row.indexing || "N/A";
+    }, 
+    sortable: true, 
+    width: '400px', 
+    wrap: false 
+  },
   {
     name: 'Certificate',
     cell: row => row.fileId ? (
@@ -829,7 +853,19 @@ export const researchPaperColumns = [
     ) : "N/A",
     sortable: true, width: '200px', wrap: false
   },
-  { name: 'Faculty Guide', selector: row => row.facultyGuide, sortable: true, width: '300px', wrap: false },
+  { 
+    name: 'Faculty Guide', 
+    selector: row => {
+      if (!row.facultyGuide) return "N/A";
+      if (Array.isArray(row.facultyGuide)) {
+        return row.facultyGuide.map(guide => guide?.memberName || guide).filter(Boolean).join(', ') || "N/A";
+      }
+      return row.facultyGuide || "N/A";
+    }, 
+    sortable: true, 
+    width: '300px', 
+    wrap: false 
+  },
 ];
 
 
@@ -1100,7 +1136,13 @@ export const CapstoneprojectColumns = [
   },
   {
     name: "Team Members",
-    selector: row => row.teamMembers?.join(", "),
+    selector: row => {
+      if (!row.teamMembers) return "N/A";
+      if (Array.isArray(row.teamMembers)) {
+        return row.teamMembers.map(member => typeof member === 'object' ? member?.memberName || member : member).filter(Boolean).join(', ') || "N/A";
+      }
+      return row.teamMembers || "N/A";
+    },
     sortable: true, width: '200px', wrap: false,
   },
   {
@@ -1115,7 +1157,13 @@ export const CapstoneprojectColumns = [
   },
   {
     name: "Industry Mentor",
-    selector: row => row.industryMentor || "N/A",
+    selector: row => {
+      if (!row.industryMentor) return "N/A";
+      if (Array.isArray(row.industryMentor)) {
+        return row.industryMentor.map(mentor => mentor?.memberName || mentor).filter(Boolean).join(', ') || "N/A";
+      }
+      return row.industryMentor || "N/A";
+    },
     sortable: true, width: '200px', wrap: false
   },
 

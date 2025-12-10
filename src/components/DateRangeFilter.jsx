@@ -7,7 +7,11 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
   const [endDate, setEndDate] = useState('');
 
   const applyFilter = (start, end) => {
-    if (!start || !end) return;
+    // Allow filtering with just start date, just end date, or both
+    if (!start && !end) {
+      onDateRangeChange([...data]);
+      return;
+    }
     
     console.log('🔍 Filtering:', { start, end, totalItems: data.length });
     
@@ -23,14 +27,37 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
     }
     
     const filtered = data.filter(item => {
-      // Check all possible date fields in the item
+      // Check all possible date fields in the item - covering all sections
       const dateFields = [
-        'date', 'dateOfApproval', 'dateOfSigning', 'publicationDate',
-        'placementDate', 'startDate', 'endDate', 'issueDate',
-        'admissionDate', 'dateOfJoining', 'dateOfGrant', 'applicationDate',
-        'yearOfCompletion', 'yearOfAdmission', 'createdAt', 'updatedAt',
-        'dateOfBirth', 'joiningDate', 'eventDate', 'registrationDate',
-        'completionDate', 'eventDate', 'admissionDate'
+        // Common fields
+        'date', 'createdAt', 'updatedAt',
+        // Profile section
+        'dateOfBirth', 'yearOfAdmission',
+        // Certification section
+        'issueDate',
+        // Technical/Non-technical Competitions
+        'date',
+        // Placement section
+        'placementDate', 'joiningDate',
+        // Internship section
+        'startDate', 'endDate',
+        // Research Paper section
+        'publicationDate',
+        // Sports section
+        'eventDate',
+        // Extra Curricular section
+        'eventDate',
+        // Hackathons section
+        'eventDate',
+        // Higher Studies section
+        'admissionDate', 'admissionYear',
+        // Professional Memberships section
+        'dateOfJoining',
+        // Project Work section (if any dates exist)
+        'startDate', 'endDate',
+        // Other possible fields
+        'dateOfApproval', 'dateOfSigning', 'dateOfGrant', 'applicationDate',
+        'registrationDate', 'completionDate', 'yearOfCompletion'
       ];
 
       for (const field of dateFields) {
@@ -84,12 +111,23 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
                 original: item[field], 
                 parsed: itemDateStr, 
                 start, 
-                end,
-                inRange: itemDateStr >= start && itemDateStr <= end
+                end
               });
               
-              // Compare dates: itemDateStr should be >= start AND <= end
-              if (itemDateStr >= start && itemDateStr <= end) {
+              // Compare dates based on what's provided:
+              // - If only start: itemDateStr >= start
+              // - If only end: itemDateStr <= end
+              // - If both: itemDateStr >= start AND itemDateStr <= end
+              let matches = true;
+              
+              if (start && itemDateStr < start) {
+                matches = false;
+              }
+              if (end && itemDateStr > end) {
+                matches = false;
+              }
+              
+              if (matches) {
                 console.log('✅ Match found:', { field, itemDateStr, originalValue: item[field] });
                 return true;
               }
@@ -117,7 +155,8 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
   };
 
   useEffect(() => {
-    if (startDate && endDate) {
+    // Apply filter whenever startDate or endDate changes (or both)
+    if (startDate || endDate) {
       applyFilter(startDate, endDate);
     } else if (!startDate && !endDate && data.length > 0) {
       // Force update with a new array reference
@@ -137,7 +176,7 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
 
   const handleEndDateChange = (e) => {
     const date = e.target.value;
-    if (startDate && date < startDate) {
+    if (startDate && date && date < startDate) {
       alert('End date must be after start date');
       return;
     }
@@ -158,8 +197,15 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
         className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
       >
         <Calendar size={18} />
-        {startDate && endDate ? (
-          <span>{startDate} to {endDate}</span>
+        {startDate || endDate ? (
+          <span>
+            {startDate && endDate 
+              ? `${startDate} to ${endDate}`
+              : startDate 
+                ? `From ${startDate}`
+                : `Until ${endDate}`
+            }
+          </span>
         ) : (
           <span>Filter by Date</span>
         )}
@@ -224,10 +270,16 @@ const DateRangeFilter = ({ onDateRangeChange, data = [] }) => {
                 />
               </div>
               
-              {startDate && endDate && (
+              {(startDate || endDate) && (
                 <div className="pt-2 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
-                    Filtering from <span className="font-semibold text-blue-600">{startDate}</span> to <span className="font-semibold text-blue-600">{endDate}</span>
+                    {startDate && endDate ? (
+                      <>Filtering from <span className="font-semibold text-blue-600">{startDate}</span> to <span className="font-semibold text-blue-600">{endDate}</span></>
+                    ) : startDate ? (
+                      <>Showing items from <span className="font-semibold text-blue-600">{startDate}</span> onwards</>
+                    ) : (
+                      <>Showing items until <span className="font-semibold text-blue-600">{endDate}</span></>
+                    )}
                   </p>
                 </div>
               )}

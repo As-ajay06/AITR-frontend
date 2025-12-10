@@ -995,7 +995,7 @@ export const professionalCertificationEarned = [
     cell: row => (
       row.fileId ? (
         <a
-          href={`${BASE_URL}/file/${row.fileId}`}
+          href={`http://localhost:3000/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
