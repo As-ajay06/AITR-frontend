@@ -496,8 +496,8 @@ const Faculty = () => {
               className="whitespace-nowrap"
             >
               <div className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${tab === label
-                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
+                : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                 }`}>
                 {label}
               </div>
@@ -763,48 +763,48 @@ export const facultyResearchPaperColumn = [
 export const facultyAwardsColumns = [
   {
     name: 'ID',
-    selector: row => row.recipientId,
+    selector: row => row.recipientId || "N/A",
     sortable: true,
     width: '180px', wrap: true
   },
   {
     name: 'Recipient Name',
-    selector: row => row.recipientName,
+    selector: row => row.recipientName || "N/A",
     sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
-    selector: row => row.department,
+    selector: row => row.department || "N/A",
     sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Award Name',
-    selector: row => row.awardName,
+    selector: row => row.awardName || "N/A",
     sortable: true, width: '300px', wrap: true
   },
   {
-    name: 'Issuing Organization',
+    name: 'Issuing Organization' ,
     selector: row => row.issuingOrganization || "N/A",
     sortable: true, width: '300px', wrap: true
   },
   {
     name: 'Date',
-    selector: row => new Date(row.date).toLocaleDateString(),
+    selector: row => new Date(row.date).toLocaleDateString() || "N/A",
     sortable: true, width: '150px', wrap: true
   },
   {
     name: 'Category',
-    selector: row => row.category,
+    selector: row => row.category || "N/A",
     sortable: true, width: '180px', wrap: true
   },
   {
     name: 'Event Name',
-    selector: row => row.eventName,
+    selector: row => row.eventName || "N/A",
     sortable: true, width: '240px', wrap: true
   },
   {
     name: 'Description/Purpose',
-    selector: row => row.description,
+    selector: row => row.description || "N/A",
     sortable: true, width: '300px', wrap: true
   },
   {
@@ -823,7 +823,7 @@ export const facultyAwardsColumns = [
   },
   {
     name: 'Title of Award',
-    selector: row => row.titleOfAward,
+    selector: row => row.titleOfAward || "N/A",
     sortable: true, width: '300px', wrap: true
   },
   {
@@ -834,7 +834,7 @@ export const facultyAwardsColumns = [
 ];
 
 export const facultyDevlopmentColumn = [
-  { name: 'ID', selector: row => row.facultyId, sortable: true, width: '200px', wrap: true },
+  { name: 'ID', selector: row => row.facultyId || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Faculty Name', selector: row => row.facultyName, sortable: true, width: '280px', wrap: true },
   { name: 'department', selector: row => row.department, sortable: true, width: '200px', wrap: true },
   { name: 'FDP title', selector: row => row.fdpTitle, sortable: true, width: '200px', wrap: true },
@@ -842,10 +842,10 @@ export const facultyDevlopmentColumn = [
 
   { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
-  { name: 'Program Type', selector: row => row.programType, sortable: true, width: '300px', wrap: true },
-  { name: 'Mode', selector: row => row.mode, sortable: true, width: '100px', wrap: true },
-  { name: 'Location', selector: row => row.location, sortable: true, width: '200px', wrap: true },
-  { name: 'No of days', selector: row => row.numberOfDays, sortable: true, width: '180px', wrap: true },
+  { name: 'Program Type', selector: row => row.programType || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Mode', selector: row => row.mode || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Location', selector: row => row.location || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'No of days', selector: row => row.numberOfDays || "N/A", sortable: true, width: '180px', wrap: true },
 
   {
     name: 'Certificate',
@@ -864,14 +864,14 @@ export const facultyDevlopmentColumn = [
 ];
 
 export const patentPublished = [
-  { name: 'faculty Id', selector: row => row.facultyId, sortable: true, width: '300px', wrap: true },
-  { name: 'Faculty Name', selector: row => row.facultyName, sortable: true, width: '300px', wrap: true },
-  { name: 'Department', selector: row => row.department, sortable: true, width: '300px', wrap: true },
-  { name: 'Title', selector: row => row.title, sortable: true, width: '300px', wrap: true },
-  { name: 'Applicant', selector: row => row.applicant, sortable: true, width: '300px', wrap: true },
-  { name: 'Application Number', selector: row => row.applicationNumber, sortable: true, width: '300px', wrap: true },
-  { name: 'Application Date', selector: row => row.applicationDate, sortable: true, width: '300px', wrap: true },
-  { name: 'Status', selector: row => row.status, sortable: true, width: '300px', wrap: true },
+  { name: 'Faculty Id', selector: row => row.facultyId || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Department', selector: row => row.department || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Title', selector: row => row.title || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Applicant', selector: row => row.applicant || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Application Number', selector: row => row.applicationNumber || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Application Date', selector: row => row.applicationDate || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Status', selector: row => row.status || "N/A", sortable: true, width: '300px', wrap: true },
   {
     name: 'Co-Inventors',
     selector: row => row.coInventors,
@@ -901,43 +901,59 @@ export const patentPublished = [
     ),
     sortable: true, width: '300px', wrap: true
   },
-  { name: 'Patent Title', selector: row => row.patentTitle, sortable: true, width: '300px', wrap: true },
+  { name: 'Patent Title', selector: row => row.patentTitle || "N/A", sortable: true, width: '300px', wrap: true },
   {
     name: 'Inventors',
     selector: row => row.inventors,
     cell: row => {
-      if (!row.inventors) return 'N/A';
-      if (Array.isArray(row.inventors)) return row.inventors.join(', ');
-      if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
-      return String(row.inventors);
+      if (!row.inventors) return "N/A";
+
+      const charArray = row.inventors[0]; // the inner array of characters
+      if (!Array.isArray(charArray)) return "N/A";
+
+      const raw = charArray.join(""); // make one full string
+      // remove brackets [] and single quotes '
+      const cleaned = raw
+        .replace(/[\[\]']/g, "")
+        .trim();
+
+      return cleaned;
     },
     sortable: true, width: '300px', wrap: true
   },
-  { name: 'Publication Date', selector: row => row.publicationDate, sortable: true, width: '300px', wrap: true },
-  { name: 'Abstract', selector: row => row.abstract, sortable: true, width: '300px', wrap: true },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString(), sortable: true, width: '300px', wrap: true },
+  { name: 'Abstract', selector: row => row.abstract || "N/A", sortable: true, width: '300px', wrap: true },
 ];
 
 
 export const patentGrantedColumns = [
   {
     name: 'Patent Title',
-    selector: row => row.patentTitle,
+    selector: row => row.patentTitle || "N/A",
     sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Inventors',
-    selector: row => row.inventors,
+    selector: row => row.inventors || "N/A",
     cell: row => {
-      if (!row.inventors) return 'N/A';
-      if (Array.isArray(row.inventors)) return row.inventors.join(', ');
-      if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
-      return String(row.inventors);
+      if (!row.inventors) return "N/A";
+
+      const charArray = row.inventors[0]; // the inner array of characters
+      if (!Array.isArray(charArray)) return "N/A";
+
+      const raw = charArray.join(""); // make one full string
+      // remove brackets [] and single quotes '
+      const cleaned = raw
+        .replace(/[\[\]']/g, "")
+        .trim();
+
+      return cleaned;
     },
     sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Grant Number',
-    selector: row => row.grantNumber,
+    selector: row => row.grantNumber || "N/A",
     sortable: true, width: '200px', wrap: true,
   },
   {
@@ -947,12 +963,12 @@ export const patentGrantedColumns = [
   },
   {
     name: 'Country of Grant',
-    selector: row => row.countryOfGrant,
+    selector: row => row.countryOfGrant || "N/A",
     sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Application Number',
-    selector: row => row.applicationNumber,
+    selector: row => row.applicationNumber || "N/A",
     sortable: true, width: '300px', wrap: true,
   }
 ];
@@ -966,28 +982,28 @@ export const professionalCertificationEarned = [
   },
   {
     name: 'Certification Name',
-    selector: row => row.certificationName,
+    selector: row => row.certificationName || "N/A",
     sortable: true,
     wrap: true,
   },
   {
     name: 'Issuing Body',
-    selector: row => row.issuingBody,
+    selector: row => row.issuingBody || "N/A",
     sortable: true,
   },
   {
     name: 'Level',
-    selector: row => row.certificationLevel,
+    selector: row => row.certificationLevel || "N/A",
     sortable: true,
   },
   {
     name: 'Validity Period',
-    selector: row => row.validityPeriod,
+    selector: row => row.validityPeriod || "N/A",
     sortable: true,
   },
   {
     name: 'Field/Domain',
-    selector: row => row.domain,
+    selector: row => row.domain || "N/A",
     sortable: true,
   },
   {
@@ -995,7 +1011,7 @@ export const professionalCertificationEarned = [
     cell: row => (
       row.fileId ? (
         <a
-          href={`http://localhost:3000/file/${row.fileId}`}
+          href={`${BASE_URL}/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
@@ -1015,23 +1031,23 @@ export const professionalCertificationEarned = [
 export const membershipColumn = [
   {
     name: 'Faculty Name',
-    selector: row => row.facultyName,
+    selector: row => row.facultyName || "N/A",
     sortable: true,
   },
   {
     name: 'Organization Name',
-    selector: row => row.organizationName,
+    selector: row => row.organizationName || "N/A",
     sortable: true,
     wrap: true,
   },
   {
     name: 'Membership Type',
-    selector: row => row.membershipType,
+    selector: row => row.membershipType || "N/A",
     sortable: true,
   },
   {
     name: 'Membership ID',
-    selector: row => row.membershipId,
+    selector: row => row.membershipId || "N/A",
     sortable: true,
   },
   {
@@ -1123,7 +1139,7 @@ export const academicQualificationColumns = [
       const certLink = row.certificateUrl || row.fileId;
       if (!certLink) return 'N/A';
 
-      const url = row.fileId ? `http://localhost:3000/file/${row.fileId}` : certLink;
+      const url = row.fileId ? `${BASE_URL}/file/${row.fileId}` : certLink;
       return (
         <a
           href={url}
@@ -1201,16 +1217,17 @@ export const researchProjectGuided = [
   { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName },
   { name: 'Co Authors', selector: row => row.coAuthors },
   { name: 'indexing', selector: row => row.indexing },
-  { name: 'PDF', 
+  {
+    name: 'PDF',
     selector: row => row.fileId ? (
       <a
-      href={`${BASE_URL}/file/${row.fileId}`}
+        href={`${BASE_URL}/file/${row.fileId}`}
       >
         view
       </a>
     ) : "N/A",
     width: "100px"
-    },
+  },
   { name: 'Faculty Guide', selector: row => row.facultyGuide },
 ];
 
@@ -1256,7 +1273,7 @@ export const invitedTalksColumn = [
       >
         View
       </a>
-    ) ,
+    ),
     width: "200px"
   }
 ];

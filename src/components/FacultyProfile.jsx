@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import useGetFacultyProfile from '../hooks/useGetFacultyProfile';
 import { useParams } from 'react-router-dom'
+import { BASE_URL } from '../../config/config';
 
 function FacultyProfile() {
   // To display all of the faculty info for given params
@@ -79,11 +80,11 @@ function FacultyProfile() {
                 <p><strong>Number of Days:</strong> {data.facultyDevlopment.numberOfDays}</p>
                 <p><strong>Outcome Highlights:</strong> {data.facultyDevlopment.outcomeHighlights}</p>
 
-                {data.facultyDevlopment.certificatePdfUrl && (
+                {data.facultyDevlopment.fileId && (
                   <p>
                     <strong>Certificate:</strong>{" "}
                     <a
-                      href={`/${data.facultyDevlopment.certificatePdfUrl}`}
+                      href={`${BASE_URL}/file/${data.facultyDevlopment.fileId}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 underline"
@@ -110,7 +111,7 @@ function FacultyProfile() {
                       <p>
                         <strong>Certificate Link:</strong>{" "}
                         <a
-                          href={`/${cert.certificatePdfUrl}`}
+                          href={`${BASE_URL}/file/${cert.certificatePdfUrl}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 underline"
@@ -182,11 +183,11 @@ function FacultyProfile() {
 
                 <p><strong>Abstract:</strong> {data.patentGuided.abstract}</p>
 
-                {data.patentGuided.certificatePdfUrl && (
+                {data.patentGuided.fileId && (
                   <p>
                     <strong>Certificate:</strong>{" "}
                     <a
-                      href={`/${data.patentGuided.certificatePdfUrl}`}
+                      href={`${BASE_URL}/file/${data.patentGuided.fileId}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 underline"

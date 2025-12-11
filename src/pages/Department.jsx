@@ -6,6 +6,7 @@ import api from '../utils/axiosInstance';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
 import { universalSearch } from '../utils/universalSearch';
+import { BASE_URL } from '../../config/config';
 
 // Define exportable columns for each tab
 const exportableColumnsByTab = {
@@ -472,18 +473,48 @@ export default Department;
 
 
 export const CounsultancyProjectColumn = [
-  { name: 'Department Name', selector: row => row.departmentName, sortable: true, width: '200px', wrap: true },
+  { name: 'Department Name', selector: row => row.departmentName, sortable: true, width: '250px', wrap: true },
   { name: 'Agency Name', selector: row => row.agencyName, sortable: true, width: '200px', wrap: true },
-  { name: 'Date', selector: row => row.date, sortable: true, width: '200px', wrap: true },
+  { name: 'Date', selector: row => new Date(row.date).toLocaleString(), sortable: true, width: '200px', wrap: true },
   { name: 'Duration', selector: row => row.duration, sortable: true, width: '200px', wrap: true },
   { name: 'Description', selector: row => row.description, sortable: true, width: '200px', wrap: true },
   { name: 'Funding', selector: row => row.funding, sortable: true, width: '200px', wrap: true },
-  { name: 'PDF', selector: row => row.pdf, cell: row => <a href={row.pdf} target="_blank" rel="noreferrer">View</a> },
+  {
+    name: "PDF Document",
+    cell: row =>
+      row.fileId ? (
+        <a
+          href={`${BASE_URL}/file/${row.fileId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
+          View PDF
+        </a>
+      ) : (
+        "Not Uploaded"
+      ),
+    button: true,
+    sortable: true, width: '200px', wrap: true
+  },
   { name: 'Title of Consultancy', selector: row => row.titleOfConsultancy, sortable: true, width: '300px', wrap: true },
   { name: 'Client/Industry Partner', selector: row => row.clientOrIndustryPartner, sortable: true, width: '300px', wrap: true },
   { name: 'Faculty Lead', selector: row => row.facultyLead, sortable: true, width: '200px', wrap: true },
   { name: 'Amount Sanctioned', selector: row => row.amountSanctioned, sortable: true, width: '300px', wrap: true },
-  { name: 'Supporting Documents', selector: row => row.supportingDocs, sortable: true, width: '300px', wrap: true, cell: row => <a href={row.supportingDocs} target="_blank" rel="noreferrer">Download</a> },
+  {
+    name: 'Supporting Documents', selector: row => row.fileId ,
+      cell : row => row.fileId ? (
+        <a
+          href={`${BASE_URL}/file/${row.fileId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline"
+        >
+          View PDF
+        </a>
+      ) : "N/A" || "N/A" ,
+    sortable: true, width: '300px', wrap: true
+  },
 ];
 
 export const RDColumn = [
@@ -497,7 +528,7 @@ export const RDColumn = [
       }
       return String(row.departmentName);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Agency Name",
@@ -509,13 +540,13 @@ export const RDColumn = [
       }
       return String(row.agencyName);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Date",
     selector: row => row.date,
     cell: row => row.date ? new Date(row.date).toLocaleDateString() : 'N/A',
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Duration",
@@ -527,7 +558,7 @@ export const RDColumn = [
       }
       return String(row.duration);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Description",
@@ -539,7 +570,7 @@ export const RDColumn = [
       }
       return String(row.description);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '450px', wrap: true
   },
   {
     name: "Funding",
@@ -551,14 +582,14 @@ export const RDColumn = [
       }
       return String(row.funding);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "PDF Document",
     cell: row =>
-      row.pdfUrl ? (
+      row.fileId ? (
         <a
-          href={row.pdfUrl}
+          href={`${BASE_URL}/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
@@ -569,7 +600,7 @@ export const RDColumn = [
         "Not Uploaded"
       ),
     button: true,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Project Title",
@@ -581,7 +612,7 @@ export const RDColumn = [
       }
       return String(row.projectTitle);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Funding Agency",
@@ -593,7 +624,7 @@ export const RDColumn = [
       }
       return String(row.fundingAgency);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Principal Investigator",
@@ -605,7 +636,7 @@ export const RDColumn = [
       }
       return String(row.principalInvestigator);
     },
-    sortable: true, width: '300px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Co-Investigator",
@@ -616,7 +647,7 @@ export const RDColumn = [
       if (typeof row.coInvestigator === 'object') return Object.values(row.coInvestigator).filter(v => v && typeof v === 'string').join(', ');
       return String(row.coInvestigator);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Budget",
@@ -628,7 +659,7 @@ export const RDColumn = [
       }
       return String(row.budget);
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Output / Patents / Publications",
@@ -640,7 +671,7 @@ export const RDColumn = [
       }
       return String(row.output);
     },
-    sortable: true, width: '300px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
 ];
 
@@ -648,40 +679,40 @@ export const MoUsColumn = [
   {
     name: "Department Name",
     selector: row => row.departmentName,
-    sortable: true, width: '260px', wrap: false
+    sortable: true, width: '260px', wrap: true
 
   },
   {
     name: "Agency Name",
     selector: row => row.agencyName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Date",
     selector: row => new Date(row.date).toLocaleDateString(),
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
-    name: "Duration",
+    name: "Duration (in years)",
     selector: row => row.duration,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '250px', wrap: true
   },
   {
     name: "Description",
     selector: row => row.description,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Funding",
     selector: row => row.funding || "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "MoU PDF",
     cell: row =>
-      row.mouPdfUrl ? (
+      row.fileId ? (
         <a
-          href={row.mouPdfUrl}
+          href={`${BASE_URL}/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline"
@@ -692,37 +723,37 @@ export const MoUsColumn = [
         "Not Uploaded"
       ),
     button: true,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Title of MoU",
     selector: row => row.titleOfMoU,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Industry/Organization Name",
     selector: row => row.organizationName,
-    sortable: true, width: '300px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Date of Signing",
     selector: row => new Date(row.dateOfSigning).toLocaleDateString(),
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Validity Period",
     selector: row => row.validityPeriod,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Purpose/Objectives",
     selector: row => row.purposeObjectives,
-    sortable: true, width: '300px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
   {
     name: "Fund/Support Received",
     selector: row => row.fundSupportReceived || "N/A",
-    sortable: true, width: '300px', wrap: false
+    sortable: true, width: '300px', wrap: true
   },
 ];
 
@@ -731,18 +762,18 @@ export const MoUsColumn = [
 export const EventGrantReceivedColumns = [
   { name: "Event Title", selector: row => row.eventTitle, sortable: true, width: '200px', wrap: true },
   { name: "Department Name", selector: row => row.departmentName, sortable: true, width: '200px', wrap: true },
-  { name: "Granting Agency", selector: row => row.grantingAgency, sortable: true, width: '200px', wrap: true },
-  { name: "Date of Approval", selector: row => row.dateOfApproval, sortable: true, width: '200px', wrap: true },
-  { name: "Duration", selector: row => row.duration, sortable: true, width: '200px', wrap: true },
+  { name: "Granting Agency", selector: row => row.grantingAgency, sortable: true, width: '250px', wrap: true },
+  { name: "Date of Approval", selector: row => new Date(row.dateOfApproval).toLocaleDateString(), sortable: true, width: '250px', wrap: true },
+  { name: "Duration", selector: row => row.duration, sortable: true, width: '250px', wrap: true },
   { name: "Description", selector: row => row.description, sortable: true, width: '200px', wrap: true },
   { name: "Funding", selector: row => row.funding, sortable: true, width: '200px', wrap: true },
   {
     name: "PDF",
-    cell: row => (
-      <a href={row.pdf} target="_blank" rel="noopener noreferrer">
+    cell: row => row.fileId ? (
+      <a href={`${BASE_URL}/file/${row.fileId}`} target="_blank" rel="noopener noreferrer">
         View PDF
       </a>
-    ),
+    ) : "N/A",
     sortable: true, width: '200px', wrap: true
   },
   { name: "Grand Amount", selector: row => row.grantAmount, sortable: true, width: '200px', wrap: true },
