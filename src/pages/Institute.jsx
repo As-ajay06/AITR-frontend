@@ -6,6 +6,7 @@ import api from '../utils/axiosInstance';
 import DataTable from 'react-data-table-component';
 import { convertArrayOfObjectsToCSV } from '../utils/convertArrayOfObjectsToCSV';
 import { universalSearch } from '../utils/universalSearch';
+import { BASE_URL } from '../../config/config';
 
 // Define exportable columns for each tab
 const exportableColumnsByTab = {
@@ -485,7 +486,7 @@ export default Institute;
 
 export const MouColumns = [
   { name: "Agency Name", selector: row => row.agencyName, sortable: true },
-  { name: "Date", selector: row => row.date, sortable: true },
+  { name: "Date", selector: row => new Date(row.date).toLocaleDateString() , sortable: true },
   { name: "Duration", selector: row => row.duration },
   { name: "Description", selector: row => row.description, wrap: true },
   { name: "Funding", selector: row => row.funding },
@@ -501,7 +502,7 @@ export const MouColumns = [
 
 export const ConsultancyColumns = [
   { name: "Agency Name", selector: row => row.agencyName, sortable: true },
-  { name: "Date", selector: row => row.date, sortable: true },
+  { name: "Date", selector: row => new Date(row.date).toLocaleDateString() , sortable: true },
   { name: "Duration", selector: row => row.duration },
   { name: "Description", selector: row => row.description, wrap: true },
   { name: "Funding", selector: row => row.funding },
@@ -515,30 +516,30 @@ export const ConsultancyColumns = [
   },
 ];
 export const RDColumns = [
-  { name: "AGENCY NAME", selector: row => row.agencyName, sortable: true },
-  { name: "DATE", selector: row => row.date, sortable: true },
-  { name: "DURATION", selector: row => row.duration },
-  { name: "DISCRIPTION", selector: row => row.description, wrap: true }, // spelling as per your header
-  { name: "FUNDING", selector: row => row.funding },
+  { name: "Agency Name", selector: row => row.agencyName, sortable: true },
+  { name: "Date", selector: row => new Date(row.date).toLocaleDateString(), sortable: true },
+  { name: "Duration", selector: row => row.duration },
+  { name: "Discription", selector: row => row.description, wrap: true }, // spelling as per your header
+  { name: "Funding", selector: row => row.funding },
   {
-    name: "PDF",
-    cell: row => (
-      <a href={row.pdf} target="_blank" rel="noopener noreferrer">
+    name: "Document",
+    cell: row => row.fileId (
+      <a href={`${BASE_URL}/file/${row.fileId}`} target="_blank" rel="noopener noreferrer">
         View PDF
       </a>
     ),
   },
 ];
 export const EventGrantColumns = [
-  { name: "EVENT NAME", selector: row => row.eventName, sortable: true },
-  { name: "TYPE OF THE EVENT", selector: row => row.eventType },
-  { name: "AGENCY NAME", selector: row => row.agencyName },
-  { name: "DATE", selector: row => new Date(row.date).toLocaleDateString() },
-  { name: "DURATION", selector: row => row.duration },
-  { name: "DISCRIPTION", selector: row => row.description, wrap: true }, // keeping your spelling
-  { name: "FUNDING", selector: row => row.funding },
+  { name: "Event Name", selector: row => row.eventName || "N/A", sortable: true },
+  { name: "Type of the Event", selector: row => row.eventType || "N/A" },
+  { name: "Agency Name", selector: row => row.agencyName || "N/A" },
+  { name: "Date", selector: row => new Date(row.date).toLocaleDateString() || "N/A"} ,
+  { name: "Duratin", selector: row => row.duration || "N/A"},
+  { name: "Discription", selector: row => row.description || "N/A", wrap: true }, // keeping your spelling
+  { name: "Funding", selector: row => row.funding || "N/A"},
   {
-    name: "PDF",
+    name: "Certificate",
     cell: row => (
       <a href={row.pdf} target="_blank" rel="noopener noreferrer">
         View PDF
@@ -547,18 +548,18 @@ export const EventGrantColumns = [
   },
 ];
 export const EventOrganziedColumns = [
-  { name: "EVENT NAME", selector: row => row.eventName, sortable: true, width: '200px', wrap: true },
-  { name: "TYPE OF THE EVENT", selector: row => row.eventType, sortable: true, width: '240px', wrap: true },
-  { name: "AGENCY NAME", selector: row => row.agencyName, sortable: true, width: '200px', wrap: true },
-  { name: "CATEGORY", selector: row => row.category, sortable: true, width: '200px', wrap: true },
-  { name: "NUMBER OF PARTICIPANTS", selector: row => "N/A", sortable: true, width: '300px', wrap: true },
+  { name: "Event Name", selector: row => row.eventName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: "Type of the Event", selector: row => row.eventType || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: "Agency Name", selector: row => row.agencyName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: "Category", selector: row => row.category || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: "Number of Participants", selector: row => row.numberOfParticipants || "N/A", sortable: true, width: '300px', wrap: true },
   // row.numberOfParticipants
-  { name: "DATE", selector: row => new Date(row.date).toLocaleString() , sortable: true, width: '200px', wrap: true },
-  { name: "DURATION", selector: row => row.duration, sortable: true, width: '200px', wrap: true },
-  { name: "DISCRIPTION", selector: row => row.discription, sortable: true, width: '200px', wrap: true }, // use description if your data has correct spelling
-  { name: "FUNDING", selector: row => row.funding, sortable: true, width: '240px', wrap: true },
+  { name: "Date", selector: row => new Date(row.date).toLocaleString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: "Duration", selector: row => row.duration || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: "Discription", selector: row => row.discription || "N/A", sortable: true, width: '200px', wrap: true }, // use description if your data has correct spelling
+  { name: "Funding", selector: row => row.funding || "N/A", sortable: true, width: '240px', wrap: true },
   {
-    name: "PDF",
+    name: "Certificate",
     cell: row => (
       <a href={row.pdf} target="_blank" rel="noopener noreferrer">
         View PDF
