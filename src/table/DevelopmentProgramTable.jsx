@@ -29,14 +29,14 @@ const columns = [
   { name: 'department', selector: row => row.department || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'FDP title', selector: row => row.fdpTitle || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Program Name', selector: row => row.programName || "N/A" , sortable: true, width: '200px', wrap: true},
-  { name: 'Organising Institute', selector: row => row.organizingInstitute || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Organising Institute', selector: row => row.organizingInstitute || "N/A" , sortable: true, width: '300px', wrap: true },
 
   { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true},
   { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Program Type', selector: row => row.programType || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Mode', selector: row => row.mode || "N/A" , sortable: true, width: '200px', wrap: true},
   { name: 'Location', selector: row => row.location || "N/A" , sortable: true, width: '200px', wrap: true},
-  { name: 'No of days', selector: row => row.numberOfDays || "N/A" , sortable: true, width: '200px', wrap: true},
+  { name: 'No of days', selector: row => row.numberOfDays || "N/A" , sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate PDF',
     cell: row => row.fileId ? (
@@ -48,7 +48,8 @@ const columns = [
       >
         View
       </a>
-    ) : "N/A"
+    ) : "N/A",
+    sortable: true, width: '200px', wrap: true
   },
 ];
 

@@ -36,7 +36,7 @@ const columns = [
   },
   { name: 'Certificate Description', selector: row => row.certificateDescription , sortable: true , width: '300px' },
   {
-    name: 'relevance To Program Or Branch', selector: row => (row.relevanceToProgramOrBranch ? (
+    name: 'Relevance To Program Or Branch', selector: row => (row.relevanceToProgramOrBranch ? (
       <p>{row.relevanceToProgramOrBranch}</p>
     ) : "N/A"
     ),

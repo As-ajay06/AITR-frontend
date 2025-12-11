@@ -533,7 +533,7 @@ export const EventGrantColumns = [
   { name: "EVENT NAME", selector: row => row.eventName, sortable: true },
   { name: "TYPE OF THE EVENT", selector: row => row.eventType },
   { name: "AGENCY NAME", selector: row => row.agencyName },
-  { name: "DATE", selector: row => row.date },
+  { name: "DATE", selector: row => new Date(row.date).toLocaleDateString() },
   { name: "DURATION", selector: row => row.duration },
   { name: "DISCRIPTION", selector: row => row.description, wrap: true }, // keeping your spelling
   { name: "FUNDING", selector: row => row.funding },
@@ -553,7 +553,7 @@ export const EventOrganziedColumns = [
   { name: "CATEGORY", selector: row => row.category, sortable: true, width: '200px', wrap: true },
   { name: "NUMBER OF PARTICIPANTS", selector: row => "N/A", sortable: true, width: '300px', wrap: true },
   // row.numberOfParticipants
-  { name: "DATE", selector: row => row.date, sortable: true, width: '200px', wrap: true },
+  { name: "DATE", selector: row => new Date(row.date).toLocaleString() , sortable: true, width: '200px', wrap: true },
   { name: "DURATION", selector: row => row.duration, sortable: true, width: '200px', wrap: true },
   { name: "DISCRIPTION", selector: row => row.discription, sortable: true, width: '200px', wrap: true }, // use description if your data has correct spelling
   { name: "FUNDING", selector: row => row.funding, sortable: true, width: '240px', wrap: true },

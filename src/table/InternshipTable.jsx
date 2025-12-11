@@ -30,9 +30,9 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row._id || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student ID', selector: row => row._id || "N/A" , sortable: true, width: '300px', wrap: true },
   { name: 'Student Name', selector: row => row.studentName || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A" , sortable: true, width: '300px', wrap: true },
   { name: 'Company Name', selector: row => row.companyName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Role', selector: row => row.internshipRole || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Internship Type', selector: row => row.internshipType || "N/A" , sortable: true, width: '200px', wrap: true },
@@ -41,12 +41,12 @@ const columns = [
   { name: 'Department', selector: row => row.department || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Mentor Email', selector: row => row.mentorEmail || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Technologies Used', selector: row => row.technologyUsed || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Technologies Used', selector: row => row.technologyUsed || "N/A" , sortable: true, width: '300px', wrap: true },
   { name: 'Project Name', selector: row => row.projectName || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Project Description', selector: row => row.projectDescription || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Project Description', selector: row => row.projectDescription || "N/A", sortable: true, width: '300px', wrap: true },
   { name: 'Skills Gained', selector: row => row.skillsGained || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Company Location', selector: row => row.companyLocation || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Internship Status', selector: row => row.internshipStatus || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation || "N/A" , sortable: true, width: '300px', wrap: true },
+  { name: 'Internship Status', selector: row => row.internshipStatus || "N/A" , sortable: true, width: '300px', wrap: true },
   { name: 'Start Date', selector: row => new Date(row.startDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'End Date', selector: row => new Date(row.endDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
   {

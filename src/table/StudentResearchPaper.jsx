@@ -27,8 +27,8 @@ const columns = [
   { name: 'doi Or Isbn', selector: row => row.doiOrIsbn || "N/A", sortable: true, width: '300px', wrap: false },
   { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '300px', wrap: false },
   { name: 'Faculty Guide', selector: row => row.facultyGuide || "N/A" , sortable: true, width: '300px', wrap: false },
-  { name: 'indexing', selector: row => row.indexing[0] || "N/A" , sortable: true, width: '200px', wrap: false },
-  { name: 'journal Or Conference Name', selector: row => row.journalOrConferenceName || "N/A", sortable: true, width: '400px', wrap: false },
+  { name: 'Indexing', selector: row => row.indexing[0] || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'Journal Or Conference Name', selector: row => row.journalOrConferenceName || "N/A", sortable: true, width: '400px', wrap: false },
   {
     name: 'Certificate PDF',
     cell: row => row.fileId ? (
@@ -44,7 +44,7 @@ const columns = [
   },
   { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() , sortable: true, width: '400px', wrap: false },
   { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '400px', wrap: false },
-  { name: 'title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '400px', wrap: false },
+  { name: 'Title Of Paper', selector: row => row.titleOfPaper , sortable: true, width: '400px', wrap: false },
 ];
 
 

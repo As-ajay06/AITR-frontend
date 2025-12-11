@@ -24,7 +24,7 @@ const columns = [
     name: 'S.No',
     selector: row => row.id,
     sortable: true,
-    width: '80px',
+    width: '150px',
     cell: (row, index) => index + 1
   },
   {
@@ -55,7 +55,7 @@ const columns = [
   {
     name: 'Highest Qualification',
     selector: row => row.highestQualification || "N/A" ,
-    sortable: true, width: '200px', wrap: true
+    sortable: true, width: '300px', wrap: true
 
   },
   {

@@ -24,7 +24,7 @@ const columns = [
   { name: 'Institute', selector: row => row.instituteName || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'City', selector: row => row.city || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Duration (months)', selector: row => row.programDuration || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Duration (months)', selector: row => row.programDuration || "N/A" , sortable: true, width: '300px', wrap: true },
   { name: 'Admission Year', selector: row => row.admissionYear || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Admission Date', selector: row => new Date(row.admissionDate).toLocaleDateString() || "N/A" , sortable: true, width: '200px', wrap: true },
 ];

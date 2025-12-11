@@ -22,10 +22,10 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Hackathon Name', selector: row => row.hackathonName },
+  { name: 'Hackathon Name', selector: row => row.hackathonName || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Organiser', selector: row => row.organizer },
   {
-    name: 'Team Details', selector: row => row.teamDetails || "N/A"
+    name: 'Team Details', selector: row => row.teamDetails || "N/A" , sortable: true, width: '200px', wrap: true
     // (row.teamDetails.map(
     //   (item, index) =>
     //   (<div
@@ -42,7 +42,7 @@ const columns = [
   { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Venue', selector: row => row.venue || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , sortable: true, width: '300px', wrap: true },
   {
     name: 'Technolgy used', selector: row => row.technologyUsed || "N/A", sortable: true, width: '200px', wrap: true
     // (row.technologyUsed.map(
@@ -56,7 +56,7 @@ const columns = [
     // ), wrap: true
   },
   { name: 'Prize Money', selector: row => row.prizeMoney || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Position Secured', selector: row => row.positionSecured || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A" , sortable: true, width: '300px', wrap: true },
 ];
 
 

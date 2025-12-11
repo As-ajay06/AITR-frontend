@@ -24,7 +24,7 @@ const StudentCertificateForm = ({ handleSubmit, onSubmit, register, reset }) => 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          <InputBox label="ID" name="certificateId" register={register} required />
+          <InputBox label="Certificate ID" name="certificateId" register={register} required />
           <InputBox label="Student Name" name="studentName" register={register} required />
           <InputBox label="Enrollment Number" name="enrollmentNumber" register={register} required />
           <InputBox label="Branch" name="branch" register={register} required />

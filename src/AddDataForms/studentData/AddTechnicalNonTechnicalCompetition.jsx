@@ -406,7 +406,7 @@ export const TechnicalNonTechnicalCompetitionColumn = [
         {row.projectGithubLink}
       </a>
     ),
-    sortable: true,
+    sortable: true, width: "300px"
   },
   {
     name: "Sponsoring Agency",
@@ -416,7 +416,7 @@ export const TechnicalNonTechnicalCompetitionColumn = [
   {
     name: "Team Name",
     selector: row => row.teamName,
-    sortable: true,
+    sortable: true, width:"200px"
 
   },
   {
@@ -441,6 +441,6 @@ export const TechnicalNonTechnicalCompetitionColumn = [
       ) : (
         "N/A"
       ),
-    sortable: true,
+    sortable: true, width:"200px"
   },
 ];

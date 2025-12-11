@@ -54,7 +54,7 @@ const MobileMenu = () => {
       >
         <div className="p-4 border-b border-slate-700">
           <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            AITR CMS
+            AITR CIMS
           </h1>
         </div>
         <nav className="mt-6 px-3">

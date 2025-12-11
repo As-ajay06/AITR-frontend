@@ -259,7 +259,7 @@ export const CapstoneprojectColumns = [
   {
     name: "Team Members",
     selector: row => row.teamMembers?.join(", "),
-    width: '200px', wrap: false
+    width: '300px', wrap: false
   },
   {
     name: "Guide Name",
@@ -278,8 +278,8 @@ export const CapstoneprojectColumns = [
   },
   {
     name: "Project Outcome",
-    selector: row => row.outcome,
-    width: '200px', wrap: false
+    selector: row => row.outcome || "N/A",
+    width: '300px', wrap: false
   },
 ];
 

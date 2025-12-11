@@ -59,11 +59,11 @@ function HomePage() {
 
   return (
     <div className="w-full h-full flex flex-col overflow-x-hidden max-w-full">
-      {/* Header with AITR CMS - Centered and Attractive */}
+      {/* Header with AITR CIMS - Centered and Attractive */}
       <div className="mt-4 mb-6 text-center">
         <div className="inline-block">
           <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-slate-800 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
-            AITR CMS
+            AITR CIMS
           </h1>
           <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-cyan-600 mx-auto rounded-full mb-3"></div>
           <p className="text-sm md:text-base text-slate-600 font-medium">

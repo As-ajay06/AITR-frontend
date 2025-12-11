@@ -22,10 +22,10 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'ID', selector: row => row.placementId || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Student ID', selector: row => row.placementId || "N/A" , sortable: true, width: '200px', wrap: true },
   { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Company Name', selector: row => row.companyName || "N/A", sortable: true, width: '200px', wrap: true },
-  { name: 'Company Location', selector: row => row.companyLocation || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation || "N/A", sortable: true, width: '300px', wrap: true },
 
   { name: 'Job Role', selector: row => row.roleOffered || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: true },

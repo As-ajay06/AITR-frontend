@@ -280,6 +280,28 @@ function PatentGrantedForm() {
           subHeaderComponent={subHeaderComponentMemo}
           selectableRows
           onSelectedRowsChange={handleRowSelected}
+          customStyles={{
+          table: {
+            style: {
+              tableLayout: "fixed",
+            },
+          },
+          headCells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "18px",     // ⬆ Bigger header font
+              fontWeight: "700",
+            },
+          },
+          cells: {
+            style: {
+              whiteSpace: "nowrap",
+              fontSize: "16px",     // ⬆ Bigger row font
+              paddingTop: "12px",
+              paddingBottom: "12px",
+            },
+          },
+        }}
         />
       </div>
     </div>
@@ -292,13 +314,13 @@ export default PatentGrantedForm
 export const patentColumn = [
   {
     name: 'Patent Title',
-    selector: row => row.patentTitle,
+    selector: row => row.patentTitle || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
     wrap: true,
   },
   {
     name: 'Inventors',
-    selector: row => row.inventors,
+    selector: row => row.inventors || "N/A",
     cell: row => {
       if (!row.inventors) return 'N/A';
       if (Array.isArray(row.inventors)) return row.inventors.join(', ');
@@ -309,22 +331,22 @@ export const patentColumn = [
   },
   {
     name: 'Grant Number',
-    selector: row => row.grantNumber,
+    selector: row => row.grantNumber || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Date of Grant',
-    selector: row => (row.dateOfGrant),
+    selector: row => (row.dateOfGrant) || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Country of Grant',
-    selector: row => row.countryOfGrant,
+    selector: row => row.countryOfGrant || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Application Number',
-    selector: row => row.applicationNumber,
+    selector: row => row.applicationNumber || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px'
   }
 ]
