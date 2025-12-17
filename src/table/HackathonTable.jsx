@@ -22,41 +22,54 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Hackathon Name', selector: row => row.hackathonName || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Hackathon Name', selector: row => row.hackathonName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Organiser', selector: row => row.organizer },
   {
-    name: 'Team Details', selector: row => row.teamDetails || "N/A" , sortable: true, width: '200px', wrap: true
-    // (row.teamDetails.map(
-    //   (item, index) =>
-    //   (<div
-    //     key={index}>
-    //     <p>{item.memberName}</p>
-    //     <p>{item.role}</p>
-    //   </div>)
-    // )
-    // ), wrap: true
+    name: 'Team Details',
+    cell: row => {
+      if (!row.teamDetails || row.teamDetails.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.teamDetails.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
+    },
+    sortable: false,
+    width: '250px',
+    wrap: true,
   },
-  { name: 'Result', selector: row => row.result || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A" , width: '200px', wrap: true },
+
+  { name: 'Result', selector: row => row.result || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A", width: '200px', wrap: true },
   { name: 'Team Name', selector: row => row.teamName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '200px', wrap: true },
-  { name: 'Mentor Name', selector: row => row.mentorName || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Venue', selector: row => row.venue || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A" , sortable: true, width: '300px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Venue', selector: row => row.venue || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A", sortable: true, width: '300px', wrap: true },
   {
-    name: 'Technolgy used', selector: row => row.technologyUsed || "N/A", sortable: true, width: '200px', wrap: true
-    // (row.technologyUsed.map(
-    //   (item, index) =>
-    //   (<div
-    //     key={index}>
-    //     <p>{item.memberName}</p>
-    //     <p>{item.role}</p>
-    //   </div>)
-    // )
-    // ), wrap: true
+    name: 'Technolgy used', selector: row => {
+      if (!row.technologyUsed || row.technologyUsed.length === 0) return "N/A";
+
+      const value = row.technologyUsed[0];
+
+      // If it's character-indexed object
+      if (typeof value === 'object') {
+        return Object.values(value).join('');
+      }
+      // If it's already a string
+      return value;
+    }, sortable: true, width: '200px', wrap: true
   },
-  { name: 'Prize Money', selector: row => row.prizeMoney || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Position Secured', selector: row => row.positionSecured || "N/A" , sortable: true, width: '300px', wrap: true },
+  { name: 'Prize Money', selector: row => row.prizeMoney || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A", sortable: true, width: '300px', wrap: true },
 ];
 
 
@@ -113,44 +126,44 @@ export const HackathonTable = ({ data }) => {
         onSelectAll={selectAllColumns}
         onDeselectAll={deselectAllColumns}
       />
-        <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-            <button 
-              onClick={() => setShowColumnSelector(false)}
-              className="text-gray-600 hover:text-gray-900 font-bold text-xl"
-            >
-              ×
-            </button>
-          </div>
-          <div className="flex gap-2 mb-3">
-            <button 
-              onClick={selectAllColumns}
-              className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
-            >
-              Select All
-            </button>
-            <button 
-              onClick={deselectAllColumns}
-              className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
-            >
-              Deselect All
-            </button>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
-            {exportableColumns.map(column => (
-              <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
-                <input
-                  type="checkbox"
-                  checked={selectedColumns.includes(column.key)}
-                  onChange={() => toggleColumnSelection(column.key)}
-                  className="w-4 h-4 cursor-pointer"
-                />
-                <span className="text-sm">{column.label}</span>
-              </label>
-            ))}
-          </div>
+      <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-lg font-semibold">Select Columns to Export</h3>
+          <button
+            onClick={() => setShowColumnSelector(false)}
+            className="text-gray-600 hover:text-gray-900 font-bold text-xl"
+          >
+            ×
+          </button>
         </div>
+        <div className="flex gap-2 mb-3">
+          <button
+            onClick={selectAllColumns}
+            className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
+          >
+            Select All
+          </button>
+          <button
+            onClick={deselectAllColumns}
+            className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
+          >
+            Deselect All
+          </button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-60 overflow-y-auto">
+          {exportableColumns.map(column => (
+            <label key={column.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 p-2 rounded">
+              <input
+                type="checkbox"
+                checked={selectedColumns.includes(column.key)}
+                onChange={() => toggleColumnSelection(column.key)}
+                className="w-4 h-4 cursor-pointer"
+              />
+              <span className="text-sm">{column.label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
 
 
       <DataTable

@@ -14,7 +14,12 @@ function AddStudentData() {
 
   const fetchData = async () => {
     if (loading == true) {
-      const data = await axios.get("http://localhost:3000/api/v1/students/profiles")
+      const token = localStorage.getItem('token');
+      const data = await axios.get("http://localhost:3000/api/v1/students/profiles" , {
+        headers:{
+          Authorization: `${token}`
+        }
+      })
       console.log(data.data.profiles)
       setData(data.data.profiles)
 

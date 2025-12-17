@@ -29,6 +29,8 @@ function AddStudentResearchData() {
   const onSubmit = async (data, e) => {
     e.preventDefault();
 
+    console.log(data)
+
     const formData = new FormData();
     if (data.file && data.file[0]) {
       formData.append("file", data.file[0]);
@@ -41,6 +43,7 @@ function AddStudentResearchData() {
       const url = "http://localhost:3000/api/v1/students/research-paper"
       const response = await axios.post(url
         , {
+          studentId : data.studentId,
           studentName: data.studentName,
           enrollmentNumber: data.enrollmentNumber,
           branch: data.branch,

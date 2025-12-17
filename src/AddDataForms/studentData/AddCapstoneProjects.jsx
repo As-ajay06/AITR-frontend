@@ -46,18 +46,17 @@ function AddCapstoneProjects() {
     e.preventDefault();
 
     console.log(data)
-
     const formData = new FormData();
-    const fileInput = document.querySelector("input[type='file']");
-    if (fileInput?.files[0]) {
-      formData.append("file", fileInput.files[0]);
+    
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
     }
     try {
 
       const res = await axios.post("http://localhost:3000/file", formData)
       console.log(res.data)
       // todo: set the url
-      const url = "http://localhost:3000/api/v1/students/extracurricular"
+      const url = "http://localhost:3000/api/v1/students/project"
       const response = await axios.post(url
         , {
           projectTitle: data.projectTitle,
@@ -257,9 +256,22 @@ export const CapstoneprojectColumns = [
     width: '200px', wrap: false
   },
   {
-    name: "Team Members",
-    selector: row => row.teamMembers?.join(", "),
-    width: '300px', wrap: false
+    name: 'Team Members',
+    cell: row => {
+      if (!row.teamMembers || row.teamMembers.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.teamMembers.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <p>{index+1}.{member.memberName.toUpperCase()}</p>
+            </div>
+          ))}
+        </div>
+      );
+    },width: '300px', wrap: true
   },
   {
     name: "Guide Name",

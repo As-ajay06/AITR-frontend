@@ -28,6 +28,7 @@ function AddPatentData() {
   }, [loading])
   const onSubmit = async (data, e) => {
     e.preventDefault();
+    console.log(data);
 
     const formData = new FormData();
     if (data.file && data.file[0]) {

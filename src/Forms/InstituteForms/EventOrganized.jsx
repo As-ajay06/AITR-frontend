@@ -220,7 +220,7 @@ const EventOrganized = () => {
             <InputBox label="Type of the Event" name="eventType" register={methods.register} required />
             <InputBox label="Agency Name" name="agencyName" register={methods.register} required />
             <InputBox label="Category" name="category" register={methods.register} required />
-            <DynamicUserFields label="Participants" name="numberOfParticipants" register={methods.register} required />
+            <DynamicUserFields label="Participants" name="numberOfParticipants" register={methods.register} fieldName={"Name"} role={"ID"} required />
             <CalenderBox label="Date" name="date" register={methods.register} required type="date" />
             <InputBox label="Duration" name="duration" register={methods.register} required />
             <InputBox label="Description" name="description" register={methods.register} required />
@@ -347,14 +347,23 @@ export const eventOrganisedColumns = [
     },
   },
   {
-    name: "Participants",
-    selector: row => row.numberOfParticipants,
+    name: 'Participants',
     cell: row => {
-      if (!row.numberOfParticipants) return 'N/A';
-      return String(row.numberOfParticipants);
+      if (!row.numberOfParticipants || row.numberOfParticipants.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.numberOfParticipants.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
     },
-    sortable: true,
-    right: true,
   },
   {
     name: "Date",

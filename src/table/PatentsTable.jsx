@@ -31,23 +31,31 @@ const columns = [
   { name: 'Faculty Name', selector: row => row.facultyName || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Department', selector: row => row.department || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Title', selector: row => row.title || "N/A", sortable: true, width: '200px', wrap: true },
-  { name: 'Applicant', selector: row => row.applicant || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Applicant', selector: row => row.applicant || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Application Number', selector: row => row.applicationNumber || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Application Date', selector: row => row.applicationDate || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Status', selector: row => row.status || "N/A", sortable: true, width: '200px', wrap: true },
-  { 
-    name: 'Inventors', 
-    selector: row => row.coInventors || "N/A",
-    sortable: true, width: '200px', wrap: true ,
+  {
+    name: 'Inventors',
     cell: row => {
-      if (!row.coInventors) return 'N/A';
-      if (Array.isArray(row.coInventors)) return row.coInventors.join(', ');
-      if (typeof row.coInventors === 'object') return Object.values(row.coInventors).filter(v => v).join(', ');
-      return String(row.coInventors);
+      if (!row.coInventors || row.coInventors.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.coInventors.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
     },
   },
-  { name: 'Country', selector: row => row.country || "N/A" , sortable: true, width: '200px', wrap: true },
-  { name: 'Category', selector: row => row.category || "N/A" , sortable: true, width: '200px', wrap: true },
+  { name: 'Country', selector: row => row.country || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Category', selector: row => row.category || "N/A", sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate PDF',
     cell: row => (
@@ -66,9 +74,9 @@ const columns = [
   },
   { name: 'Patent Title', selector: row => row.patentTitle || "N/A", sortable: true, width: '200px', wrap: true },
   {
-    name: 'Co-Inventors', 
-    selector: row => row.inventors || "N/A" ,
-    sortable: true, width: '300px', wrap: true , 
+    name: 'Co-Inventors',
+    selector: row => row.inventors || "N/A",
+    sortable: true, width: '300px', wrap: true,
     cell: row => {
       if (!row.inventors) return 'N/A';
       if (Array.isArray(row.inventors)) return row.inventors.join(', ');
@@ -76,7 +84,26 @@ const columns = [
       return String(row.inventors);
     },
   },
-  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A" ,  sortable: true, width: '200px', wrap: true },
+  {
+    name: 'Co-Inventors',
+    cell: row => {
+      if (!row.inventors || row.inventors.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.inventors.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
+    },
+  },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   { name: 'Abstract', selector: row => row.abstract || "N/A", sortable: true, width: '200px', wrap: true },
 
 
@@ -91,7 +118,7 @@ const PatentTable = ({ data }) => {
     selectedRows,
     showColumnSelector,
     selectedColumns,
-    setShowColumnSelector,  
+    setShowColumnSelector,
     handleRowSelected,
     toggleColumnSelection,
     selectAllColumns,

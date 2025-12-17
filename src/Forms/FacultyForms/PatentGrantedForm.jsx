@@ -77,7 +77,6 @@ function PatentGrantedForm() {
 
   const onSubmit = async (data) => {
 
-
     console.log(data)
     console.log(data.file[0])
     setFile(data.file[0])
@@ -214,7 +213,7 @@ function PatentGrantedForm() {
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <InputBox label="patent_Title" name="patentTitle" register={methods.register} required />
-              <DynamicUserFields label="investors" name="inventors" register={methods.register} required />
+              <DynamicUserFields label="investors" name="inventors" register={methods.register} fieldName={"Name"} role={"Id"} required />
               <InputBox label="grant_Number" name="grantNumber" register={methods.register} required />
               <CalenderBox label="date_Of_Grant" name="dateOfGrant" register={methods.register} required />
               <InputBox label="country_Of_Grant" name="countryOfGrant" register={methods.register} required />
@@ -320,14 +319,22 @@ export const patentColumn = [
   },
   {
     name: 'Inventors',
-    selector: row => row.inventors || "N/A",
     cell: row => {
-      if (!row.inventors) return 'N/A';
-      if (Array.isArray(row.inventors)) return row.inventors.join(', ');
-      if (typeof row.inventors === 'object') return Object.values(row.inventors).filter(v => v).join(', ');
-      return String(row.inventors);
-    },
-    sortable: true, width: '200px', wrap: true, width: '200px', 
+      if (!row.inventors || row.inventors.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.inventors.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }, width: "300px" , wrap: true
   },
   {
     name: 'Grant Number',
@@ -336,18 +343,18 @@ export const patentColumn = [
   },
   {
     name: 'Date of Grant',
-    selector: row => (row.dateOfGrant) || "N/A",
+    selector: row => new Date(row.dateOfGrant).toLocaleDateString() || "N/A",
     sortable: true, width: '200px', wrap: true, width: '200px'
   },
   {
     name: 'Country of Grant',
     selector: row => row.countryOfGrant || "N/A",
-    sortable: true, width: '200px', wrap: true, width: '200px'
+    sortable: true, width: '340px', wrap: true, width: '200px'
   },
   {
     name: 'Application Number',
     selector: row => row.applicationNumber || "N/A",
-    sortable: true, width: '200px', wrap: true, width: '200px'
+    sortable: true, width: '340px', wrap: true, width: '200px'
   }
 ]
 

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Accordion from "./Accordian";
 import { GraduationCap, Users, LayoutGrid, Building2, ChevronRight } from "lucide-react";
 
 const AdminTabs = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
+  const navigate = useNavigate();
 
   const tabs = [
     { label: "Student", icon: GraduationCap, color: "from-cyan-500 to-blue-500" },
@@ -14,6 +15,13 @@ const AdminTabs = () => {
     { label: "Institute", icon: Building2, color: "from-emerald-500 to-teal-500" },
   ];
 
+  const handleOnClick = (label) => {
+    setTab(tab === label ? "" : label)
+    console.log(label)
+    // todo : handle routes here. for faculty and student and department
+    
+  }
+
   return (
     <nav className="p-6">
       {/* Top Tabs */}
@@ -21,7 +29,7 @@ const AdminTabs = () => {
         {tabs.map(({ label, icon: Icon, color }) => (
           <button
             key={label}
-            onClick={() => setTab(tab === label ? "" : label)}
+            onClick={() => handleOnClick(label)}
             className="group"
           >
             <div

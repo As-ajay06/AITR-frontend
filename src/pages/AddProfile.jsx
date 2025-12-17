@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../../config/config";
 
 const AddProfile = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    department: "cse",
     role: "admin",
   });
 
@@ -15,11 +17,12 @@ const AddProfile = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(formData)
     e.preventDefault();
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/profile", {
+      const res = await fetch(`${BASE_URL}/api/v1/admin/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -88,6 +91,21 @@ const AddProfile = () => {
             required
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            department
+           </label>
+          <select
+            name="department" 
+            value={formData.department} 
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="cse">CSE</option>
+            <option value="aiml">AIML</option>
+          </select>
         </div>
 
         <div className="mb-6">

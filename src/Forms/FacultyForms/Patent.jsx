@@ -40,12 +40,12 @@ const FacultyPatentForm = ({ register, handleSubmit, reset, onSubmit } ) => {
         <InputBox label="Application Number" register={methods.register} name="applicationNumber" required />
         <CalenderBox label="Application Date" register={methods.register} name="applicationDate" />
         <SelectBox label="Status" options={statusOptions} register={methods.register} name="status" />
-        <DynamicUserFields label="Co-Inventors" register={methods.register} name="coInventors" />
+        <DynamicUserFields label="Co-Inventors" register={methods.register} name="coInventors" fieldName={"Facutly Name"} role={"Faculty ID"} />
         <InputBox label="Country" register={methods.register} name="country" />
         <InputBox label="Category" register={methods.register} name="category" />
         <FileBox label="Certificate PDF" register={methods.register} name="file" />
         <InputBox label="Patent Title" register={methods.register} name="patentTitle" required />
-        <DynamicUserFields label="Inventors" register={methods.register} name="inventors" required />
+        <DynamicUserFields label="Inventors" register={methods.register} name="inventors" fieldName={"Faculty Name"} role={"Faculty ID"}required />
         <CalenderBox label="Publication Date" register={methods.register} name="publicationDate" />
         <InputBox label="Abstract" register={methods.register} name="abstract" multiline />
       </div>

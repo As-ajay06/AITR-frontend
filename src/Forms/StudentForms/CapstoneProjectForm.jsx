@@ -1,7 +1,5 @@
-import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import InputBox from "../../components/InputBox";
-import SelectBox from "../../components/SelectBox";
 import FileBox from "../../components/FileBox";
 import DynamicUserFields from "../../components/DynamicFieldsForm";
 import UploadForm from "../../components/UploadForm";
@@ -33,7 +31,7 @@ const CapstoneProjectForm = ({ onSubmit, register, handleSubmit, reset }) => {
             <InputBox label="Guide Name" name="guideName" register={methods.register} required />
             <InputBox label="Semester" name="semester" register={methods.register} required />
             <InputBox label="Industry Mentor" name="industryMentor" register={methods.register} placeholder="If any" />
-            <FileBox label="Project Report (PDF)" name="projectPdf" register={methods.register} />
+            <FileBox label="Project Report (PDF)" name="file" register={methods.register} />
           </div>
 
           <div className="mt-8">

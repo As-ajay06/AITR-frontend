@@ -36,7 +36,7 @@ const SuperAdminNavbar = () => {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `${token}`
             }
         });
         return res.json();

@@ -16,7 +16,7 @@ function AddHackathonsData() {
     if (loading == true) {
       const data = await axios.get("http://localhost:3000/api/v1/students/hackathons")
       console.log(data.data)
-      setData(data.data.hackathons)
+      setData(data.data.hackathonData)
     }
 
   }

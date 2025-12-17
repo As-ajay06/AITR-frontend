@@ -174,7 +174,7 @@ const Student = () => {
   ];
 
   const fetchDataByTab = async (selectedTab) => {
-    setLoading(true);
+    setLoading(false);
     try {
       let response;
       switch (selectedTab) {
@@ -193,7 +193,7 @@ const Student = () => {
           break;
 
         case 'Technical/ Non-technical Competitions':
-          response = await api.get(`${BASE_URL}/api/v1/students/skills`);
+          response = await api.get(`${BASE_URL}/api/v1/students/technicalNontechnicals`);
           console.log(response.data)
           setData(response.data.technicalData);
           setColumn(studentTechinalNonTechnicalColumn);
@@ -252,7 +252,7 @@ const Student = () => {
         case 'Hackathons / Innvoation Challenges':
           response = await api.get(`${BASE_URL}/api/v1/students/hackathons`);
           console.log(response.data)
-          setData(response.data.hackathons);
+          setData(response.data.hackathonData);
           setColumn(studentHackthonColumns);
           break;
 
@@ -625,28 +625,28 @@ export default Student;
 // columns
 
 export const studentProfileColumns = [
-  { name: 'Student ID', selector: row => row.studentId, sortable: true, width: '200px', wrap: false },
-  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment No.', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
-  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: false },
-  { name: 'Email', selector: row => row.email, sortable: true, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: false },
-  { name: 'Course', selector: row => row.course, sortable: true, width: '200px', wrap: false },
-  { name: 'CGPA', selector: row => row.cgpa, sortable: true, width: '200px', wrap: false },
-  { name: 'Date Of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString(), sortable: true, width: '200px', wrap: false },
-  { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: false },
-  { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: false },
-  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, sortable: true, width: '300px', wrap: false },
-  { name: 'Status', selector: row => row.status || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Github Link', selector: row => row.githubLink ? (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>) : "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'LinkedIn Profile Link', selector: row => row.linkedinProfileLink ? (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>) : "N/A", sortable: true, width: '300px', wrap: false },
+  { name: 'Student ID', selector: row => row.studentId, sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment No.', selector: row => row.enrollmentNumber, sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: true },
+  { name: 'Email', selector: row => row.email, sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: true },
+  { name: 'Course', selector: row => row.course, sortable: true, width: '200px', wrap: true },
+  { name: 'CGPA', selector: row => row.cgpa, sortable: true, width: '200px', wrap: true },
+  { name: 'Date Of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString(), sortable: true, width: '200px', wrap: true },
+  { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: true },
+  { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: true },
+  { name: 'Year Of Admission', selector: row => row.yearOfAdmission, sortable: true, width: '300px', wrap: true },
+  { name: 'Status', selector: row => row.status || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Github Link', selector: row => row.githubLink ? (<a href={row.githubLink} target='_blank'>{row.githubLink}</a>) : "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'LinkedIn Profile Link', selector: row => row.linkedinProfileLink ? (<a href={row.linkedinProfileLink} target='_blank'>{row.linkinProfileLink}</a>) : "N/A", sortable: true, width: '300px', wrap: true },
   {
     name: 'Guardian Contact Number', selector: row => row.guardianContactNumber
-    , sortable: true, width: '300px', wrap: false
+    , sortable: true, width: '300px', wrap: true
   },
-  { name: 'Guardian Name', selector: row => row.guardianName, sortable: true, width: '200px', wrap: false },
-  { name: 'Address', selector: row => row.address, sortable: true, width: '200px', wrap: false },
+  { name: 'Guardian Name', selector: row => row.guardianName, sortable: true, width: '200px', wrap: true },
+  { name: 'Address', selector: row => row.address, sortable: true, width: '200px', wrap: true },
   {
     name: 'Certificate',
     cell: row => row.fileId ? (
@@ -659,35 +659,53 @@ export const studentProfileColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
-export const studentTechinalNonTechnicalColumn = [
-  { name: 'Student ID', selector: row => row.id, sortable: true, width: '70px' },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true },
-  { name: 'Enrollment No.', selector: row => row.enrollmentNumber },
-  { name: 'Branch', selector: row => row.branch },
-  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: false },
-  { name: 'Email', selector: row => row.email ,sortable: true, width: '300px', wrap: false},
-  { name: 'Year', selector: row => row.year },
-  { name: 'Competition Name', selector: row => row.competitionName, sortable: true, width: '200px', wrap: false },
-  { name: 'Date', selector: row => new Date(row.date).toLocaleDateString(), sortable: true, width: '200px', wrap: false },
-  { name: 'Team Name', selector: row => row.teamName, sortable: true, width: '200px', wrap: false },
-  { name: 'Team Size', selector: row => row.teamSize, sortable: true, width: '200px', wrap: false },
-  { name: 'Mentor Name', selector: row => row.mentorName, sortable: true, width: '200px', wrap: false },
-  { name: 'Level', selector: row => row.level, sortable: true, width: '200px', wrap: false },
-  { name: 'Organiser', selector: row => row.organiser, sortable: true, width: '200px', wrap: false },
-  { name: 'Venue', selector: row => row.venue, sortable: true, width: '200px', wrap: false },
-  { name: 'Problem Statement', selector: row => row.problemStatement, sortable: true, width: '200px', wrap: false },
-  { name: 'Technology Used', selector: row => row.technologyUsed, sortable: true, width: '200px', wrap: false },
-  { name: 'Price Money', selector: row => row.priceMoney, sortable: true, width: '200px', wrap: false },
-  { name: 'Sponsoring Agency', selector: row => row.sponsoringAgency, sortable: true, width: '200px', wrap: false },
-  { name: 'Position Secured', selector: row => row.positionSecured, sortable: true, width: '200px', wrap: false },
-  { name: 'Project Git-hub Link', selector: row => (<a href={row.projectGithubLink}>Link</a>), sortable: true, width: '200px', wrap: false },
-  { name: 'Project Description', selector: row => (<a href={row.projectDescription}>Link</a>), sortable: true, width: '200px', wrap: false },
-  { name: 'Event Mode', selector: row => row.eventMode, sortable: true, width: '200px', wrap: false },
-  { name: 'Achievement', selector: row => row.achiecvement, sortable: true, width: '200px', wrap: false },
+const studentTechinalNonTechnicalColumn = [
+  { name: 'Student ID', selector: row => row.id || "N/A", sortable: true, width: '250px' },
+  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '250px' },
+  { name: 'Enrollment No.', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '250px' },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '250px' },
+  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Email', selector: row => row.email || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Year', selector: row => row.year || "N/A", sortable: true, width: '250px' },
+  { name: 'Competition Name', selector: row => row.competitionName || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Date', selector: row => new Date(row.date).toLocaleDateString() || "N/A", sortable: true, width: '250px', wrap: true },
+  { name: 'Team Name', selector: row => row.teamName || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: 'Level', selector: row => row.level || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Organiser', selector: row => row.organiser || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: 'Venue', selector: row => row.venue || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A", sortable: true, width: '300px', wrap: true },
+  {
+    name: 'Technology Used',
+    selector: row => {
+      if (!row.technologyUsed || row.technologyUsed.length === 0) return "N/A";
+
+      const value = row.technologyUsed[0];
+
+      // If it's character-indexed object
+      if (typeof value == 'object') {
+        return Object.values(value).join('');
+      }
+
+      return value;
+
+    },
+    sortable: true,
+    width: '300px',
+    wrap: true,
+  },
+  { name: 'Price Money', selector: row => row.priceMoney || "N/A", sortable: true, width: '250px', wrap: true },
+  { name: 'Sponsoring Agency', selector: row => row.sponsoringAgency || "N/A", sortable: true, width: '330px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A", sortable: true, width: '330px', wrap: true },
+  { name: 'Project Github Link', selector: row => (<a href={row.projectGithubLink}>Link</a>) || "N/A", sortable: true, width: '400px', wrap: true },
+  { name: 'Project Description', selector: row => (<a href={row.projectDescription}>Link</a>) || "N/A", sortable: true, width: '400px', wrap: true },
+  { name: 'Event Mode', selector: row => row.eventMode || "N/A", sortable: true, width: '240px', wrap: true },
+  { name: 'Achievement', selector: row => row.achiecvement || "N/A", sortable: true, width: '200px', wrap: true },
 
   {
     name: 'Certificate',
@@ -700,7 +718,7 @@ export const studentTechinalNonTechnicalColumn = [
       >
         View
       </a>
-    ) : "N/A" ,
+    ) : "N/A",
   },
 ];
 
@@ -708,22 +726,22 @@ export const studentTechinalNonTechnicalColumn = [
 
 
 export const certificateColumns = [
-  { name: 'Student ID', selector: row => row.studentId || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '300px', wrap: false },
-  { name: 'Certificate Name', selector: row => row.courseName || "N/A", sortable: true, width: '300px', wrap: false },
-  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Course', selector: row => row.courseName || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Issuing Organization', selector: row => row.issuingOrganization || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Issue Date', selector: row => new Date(row.issueDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Validity Period', selector: row => row.validityPeriod || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Graded Of Score', selector: row => row.gradeOrScore || "N/A", sortable: true, width: '250px', wrap: false },
-  { name: 'Mode Of Learning', selector: row => row.modeOfLearning || "N/A", sortable: true, width: '280px', wrap: false },
-  { name: 'Course Duration', selector: row => row.courseDuration || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Rank Or Position', selector: row => row.rankOrPosition || "N/A", sortable: true, width: '200px', wrap: false },
-{
+  { name: 'Student ID', selector: row => row.studentId || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.studentName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Certificate Name', selector: row => row.courseName || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Branch', selector: row => row.branch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Course', selector: row => row.courseName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Issuing Organization', selector: row => row.issuingOrganization || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Issue Date', selector: row => new Date(row.issueDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Validity Period', selector: row => row.validityPeriod || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Graded Of Score', selector: row => row.gradeOrScore || "N/A", sortable: true, width: '250px', wrap: true },
+  { name: 'Mode Of Learning', selector: row => row.modeOfLearning || "N/A", sortable: true, width: '280px', wrap: true },
+  { name: 'Course Duration', selector: row => row.courseDuration || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Rank Or Position', selector: row => row.rankOrPosition || "N/A", sortable: true, width: '200px', wrap: true },
+  {
     name: 'Certificate',
     cell: row => row.fileId ? (
       <a
@@ -735,7 +753,7 @@ export const certificateColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -743,17 +761,17 @@ export const certificateColumns = [
 
 export const studentPlacementColumns = [
   { name: 'Student ID', selector: row => row.placementId, sortable: true, width: '200px' },
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: false },
-  { name: 'Company Name', selector: row => row.companyName, sortable: true, width: '200px', wrap: false },
-  { name: 'Company Location', selector: row => row.companyLocation, sortable: true, width: '250px', wrap: false },
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '200px', wrap: true },
+  { name: 'Company Name', selector: row => row.companyName, sortable: true, width: '200px', wrap: true },
+  { name: 'Company Location', selector: row => row.companyLocation, sortable: true, width: '250px', wrap: true },
 
-  { name: 'Job Role', selector: row => row.roleOffered, sortable: true, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: false },
+  { name: 'Job Role', selector: row => row.roleOffered, sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: true },
 
-  { name: 'Placement Type', selector: row => row.placementType, sortable: true, width: '200px', wrap: false },
-  { name: 'Package', selector: row => row.package, sortable: true, width: '200px', wrap: false },
-  { name: 'Joining Date', selector: row => new Date(row.joiningDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Placement Type', selector: row => row.placementType, sortable: true, width: '200px', wrap: true },
+  { name: 'Package', selector: row => row.package, sortable: true, width: '200px', wrap: true },
+  { name: 'Joining Date', selector: row => new Date(row.joiningDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
   {
     name: 'Offer letter',
     cell: row => row.fileId ? (
@@ -766,33 +784,33 @@ export const studentPlacementColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
 export const studentInternshipColumn = [
-  { name: 'Student ID', selector: row => row._id, sortable: true, width: '200px', wrap: false },
-  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '250px', wrap: false },
-  { name: 'Course', selector: row => row.course, sortable: true, width: '200px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
-  { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: false },
-  { name: 'CGPA', selector: row => row.cgpa, sortable: true, width: '200px', wrap: false },
-  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: false },
-  { name: 'Email', selector: row => row.email, sortable: true, width: '200px', wrap: false },
-  { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: false },
-  { name: 'Date of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Status', selector: row => row.status, sortable: true, width: '200px', wrap: false },
-  { name: 'Address', selector: row => row.address, sortable: true, width: '200px', wrap: false },
-  { name: 'Guardian Name', selector: row => row.guardianName, sortable: true, width: '200px', wrap: false },
-  { name: 'Guardian Contact', selector: row => row.guardianContactNumber, sortable: true, width: '250px', wrap: false },
+  { name: 'Student ID', selector: row => row._id, sortable: true, width: '200px', wrap: true },
+  { name: 'Student Name', selector: row => row.name, sortable: true, width: '200px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '250px', wrap: true },
+  { name: 'Course', selector: row => row.course, sortable: true, width: '200px', wrap: true },
+  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: true },
+  { name: 'Category', selector: row => row.category, sortable: true, width: '200px', wrap: true },
+  { name: 'CGPA', selector: row => row.cgpa, sortable: true, width: '200px', wrap: true },
+  { name: 'Year', selector: row => row.year, sortable: true, width: '200px', wrap: true },
+  { name: 'Email', selector: row => row.email, sortable: true, width: '200px', wrap: true },
+  { name: 'Gender', selector: row => row.gender, sortable: true, width: '200px', wrap: true },
+  { name: 'Date of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Status', selector: row => row.status, sortable: true, width: '200px', wrap: true },
+  { name: 'Address', selector: row => row.address, sortable: true, width: '200px', wrap: true },
+  { name: 'Guardian Name', selector: row => row.guardianName, sortable: true, width: '200px', wrap: true },
+  { name: 'Guardian Contact', selector: row => row.guardianContactNumber, sortable: true, width: '250px', wrap: true },
   {
     name: 'GitHub',
     cell: row => (
       <a href={row.githubLink} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
         GitHub
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ), sortable: true, width: '200px', wrap: true
   },
   {
     name: 'LinkedIn',
@@ -800,44 +818,44 @@ export const studentInternshipColumn = [
       <a href={row.linkedinProfileLink} target="_blank" rel="noreferrer" className="text-blue-600 underline text-sm">
         LinkedIn
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ), sortable: true, width: '200px', wrap: true
   },
 ];
 
 export const researchPaperColumns = [
-  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '300px', wrap: false },
-  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: false },
-  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: false },
-  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: false },
-  { name: 'DOI/ISBN', selector: row => row.doiOrIsbn, sortable: true, width: '300px', wrap: false },
-  { name: 'Title of Paper', selector: row => row.titleOfPaper, sortable: true, width: '300px', wrap: false },
-  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A", sortable: true, width: '300px', wrap: false },
-  { name: 'Journal/Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '300px', wrap: false },
-  { 
-    name: 'Co-Author', 
+  { name: 'Student Name', selector: row => row.studentName, sortable: true, width: '300px', wrap: true },
+  { name: 'Enrollment Number', selector: row => row.enrollmentNumber, sortable: true, width: '300px', wrap: true },
+  { name: 'Branch', selector: row => row.branch, sortable: true, width: '200px', wrap: true },
+  { name: 'Batch', selector: row => row.batch, sortable: true, width: '200px', wrap: true },
+  { name: 'DOI/ISBN', selector: row => row.doiOrIsbn, sortable: true, width: '300px', wrap: true },
+  { name: 'Title of Paper', selector: row => row.titleOfPaper, sortable: true, width: '300px', wrap: true },
+  { name: 'Publication Date', selector: row => new Date(row.publicationDate).toLocaleDateString() || "N/A", sortable: true, width: '300px', wrap: true },
+  { name: 'Journal/Conference Name', selector: row => row.journalOrConferenceName, sortable: true, width: '300px', wrap: true },
+  {
+    name: 'Co-Author',
     selector: row => {
       if (!row.coAuthors) return "N/A";
       if (Array.isArray(row.coAuthors)) {
         return row.coAuthors.map(author => author?.memberName || author).filter(Boolean).join(', ') || "N/A";
       }
       return row.coAuthors || "N/A";
-    }, 
-    sortable: true, 
-    width: '300px', 
-    wrap: false 
+    },
+    sortable: true,
+    width: '300px',
+    wrap: true
   },
-  { 
-    name: 'Indexing (SCOPUS, SCI, etc)', 
+  {
+    name: 'Indexing (SCOPUS, SCI, etc)',
     selector: row => {
       if (!row.indexing) return "N/A";
       if (Array.isArray(row.indexing)) {
         return row.indexing.join(', ') || "N/A";
       }
       return row.indexing || "N/A";
-    }, 
-    sortable: true, 
-    width: '400px', 
-    wrap: false 
+    },
+    sortable: true,
+    width: '400px',
+    wrap: true
   },
   {
     name: 'Certificate',
@@ -851,20 +869,20 @@ export const researchPaperColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
-  { 
-    name: 'Faculty Guide', 
+  {
+    name: 'Faculty Guide',
     selector: row => {
       if (!row.facultyGuide) return "N/A";
       if (Array.isArray(row.facultyGuide)) {
         return row.facultyGuide.map(guide => guide?.memberName || guide).filter(Boolean).join(', ') || "N/A";
       }
       return row.facultyGuide || "N/A";
-    }, 
-    sortable: true, 
-    width: '300px', 
-    wrap: false 
+    },
+    sortable: true,
+    width: '300px',
+    wrap: true
   },
 ];
 
@@ -873,39 +891,39 @@ export const publicationColumns = [
   {
     name: 'Student ID',
     selector: row => row.facultyId,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
     center: true
   },
   {
     name: 'Faculty Name',
     selector: row => row.facultyName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Title of Paper',
     selector: row => row.titleOfPaper,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Publication Date',
     selector: row => row.publicationDate,
     format: row => new Date(row.publicationDate).toLocaleDateString(),
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Journal/Conference Name',
     selector: row => row.journalOrConferenceName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Co-Author',
     selector: row => row.coAuthors,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Indexing',
     selector: row => row.indexing,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Paper PDF',
@@ -919,12 +937,12 @@ export const publicationColumns = [
       >
         View PDF
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ), sortable: true, width: '200px', wrap: true
   },
   {
     name: 'ISSN Number',
     selector: row => row.issnNumber,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'DOI Link',
@@ -938,24 +956,24 @@ export const publicationColumns = [
       >
         DOI
       </a>
-    ), sortable: true, width: '200px', wrap: false
+    ), sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Authors',
     selector: row => row.authors,
     cell: row =>
       Array.isArray(row.authors) ? row.authors.join(', ') : row.authors,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'ISSN/ISBN',
     selector: row => row.issnOrIsbn,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Department',
     selector: row => row.department,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -963,62 +981,62 @@ export const studentSportsEventColumns = [
   {
     name: "ID",
     selector: row => row.sportsEventId,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Student Name",
     selector: row => row.studentName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Enrollment Number",
     selector: row => row.enrollmentNumber,
-    sortable: true, width: '250px', wrap: false
+    sortable: true, width: '250px', wrap: true
   },
   {
     name: "Branch",
     selector: row => row.branch,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Batch",
     selector: row => row.batch,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Year",
     selector: row => row.year,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Sports Name",
     selector: row => row.sportsName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Date",
     selector: row => new Date(row.eventDate).toLocaleDateString(),
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Name",
     selector: row => row.eventName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Level",
     selector: row => row.eventLevel,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Location",
     selector: row => row.eventLocation,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Position",
     selector: row => row.position,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Certificate',
@@ -1032,17 +1050,17 @@ export const studentSportsEventColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Coach Name",
     selector: row => row.coachName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Organizer",
     selector: row => row.organizer,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -1050,57 +1068,57 @@ export const studentExtraCurricularColumns = [
   {
     name: "ID",
     selector: row => row.eventParticipationId,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Student Name",
     selector: row => row.studentName,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Enrollment Number",
     selector: row => row.enrollmentNumber,
-    sortable: true, width: '250px', wrap: false
+    sortable: true, width: '250px', wrap: true
   },
   {
     name: "Branch",
     selector: row => row.branch,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Batch",
     selector: row => row.batch,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Year",
     selector: row => row.year,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Name",
     selector: row => row.eventName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Date",
     selector: row => new Date(row.eventDate).toLocaleDateString(),
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Level",
     selector: row => row.eventLevel,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Event Location",
     selector: row => row.eventLocation,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Position",
     selector: row => row.position,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Certificate',
@@ -1114,17 +1132,17 @@ export const studentExtraCurricularColumns = [
         View
       </a>
     ) : "N/A",
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Organizer",
     selector: row => row.organizer,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Coach Name",
     selector: row => row.coachName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 ];
 
@@ -1132,7 +1150,7 @@ export const CapstoneprojectColumns = [
   {
     name: "Project Title",
     selector: row => row.projectTitle,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Team Members",
@@ -1143,17 +1161,17 @@ export const CapstoneprojectColumns = [
       }
       return row.teamMembers || "N/A";
     },
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Guide Name",
     selector: row => row.guideName,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Semester",
     selector: row => row.semester,
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: "Industry Mentor",
@@ -1164,7 +1182,7 @@ export const CapstoneprojectColumns = [
       }
       return row.industryMentor || "N/A";
     },
-    sortable: true, width: '200px', wrap: false
+    sortable: true, width: '200px', wrap: true
   },
 
 ];
@@ -1173,22 +1191,22 @@ export const startupColumns = [
   {
     name: "Startup Name",
     selector: row => row.startupName,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Domain",
     selector: row => row.domain,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Incubation Support",
     selector: row => row.incubationSupport || "None",
-    sortable: true, width: '250px', wrap: false,
+    sortable: true, width: '250px', wrap: true,
   },
   {
     name: "Current Status",
     selector: row => row.currentStatus,
-    sortable: true, width: '200px', wrap: false,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: "Website/Link",
@@ -1205,60 +1223,92 @@ export const startupColumns = [
         </a>
       ) : (
         "N/A"
-      ), sortable: true, width: '200px', wrap: false
+      ), sortable: true, width: '200px', wrap: true
   },
 ];
 
 export const studentHackthonColumns = [
-  { name: 'Hackathon Name', selector: row => row.hackathonName, sortable: true, width: '250px', wrap: false },
-  { name: 'Organiser', selector: row => row.organizer, sortable: true, width: '200px', wrap: false },
-  { name: 'Team Details', selector: row => row.teamDetails, sortable: true, width: '200px', wrap: false },
-  { name: 'Result', selector: row => row.result, sortable: true, width: '200px', wrap: false },
-  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
-  { name: 'Team Name', selector: row => row.teamName, sortable: true, width: '200px', wrap: false },
-  { name: 'Team Size', selector: row => row.teamSize, sortable: true, width: '200px', wrap: false },
-  { name: 'Mentor Name', selector: row => row.mentorName, sortable: true, width: '200px', wrap: false },
-  { name: 'Venue', selector: row => row.venue, sortable: true, width: '200px', wrap: false },
+  { name: 'Hackathon Name', selector: row => row.hackathonName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Organiser', selector: row => row.organizer },
   {
-    name: 'Problem Statement', selector: row => <p
-      className='w-fit'>{row.problemStatement}</p>, sortable: true, width: '250px', wrap: false
+    name: 'Team Details',
+    cell: row => {
+      if (!row.teamDetails || row.teamDetails.length === 0) {
+        return "N/A";
+      }
+
+      return (
+        <div>
+          {row.teamDetails.map((member, index) => (
+            <div key={index} style={{ marginBottom: '6px' }}>
+              <strong>{member.memberName}</strong>
+              <div>{member.role}</div>
+            </div>
+          ))}
+        </div>
+      );
+    },
+    sortable: false,
+    width: '250px',
+    wrap: true,
   },
-  { name: 'Technology Used', selector: row => row.technologyUsed, sortable: true, width: '250px', wrap: false },
-  { name: 'Prize Money', selector: row => row.prizeMoney, sortable: true, width: '200px', wrap: false },
-  { name: 'Position Secured', selector: row => row.positionSecured, sortable: true, width: '300px', wrap: false },
+
+  { name: 'Result', selector: row => row.result || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Event Date', selector: row => new Date(row.eventDate).toLocaleDateString() || "N/A", width: '200px', wrap: true },
+  { name: 'Team Name', selector: row => row.teamName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Team Size', selector: row => row.teamSize || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Mentor Name', selector: row => row.mentorName || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Venue', selector: row => row.venue || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Problem Statement', selector: row => row.problemStatement || "N/A", sortable: true, width: '300px', wrap: true },
+  {
+    name: 'Technolgy used', selector: row => {
+      if (!row.technologyUsed || row.technologyUsed.length === 0) return "N/A";
+
+      const value = row.technologyUsed[0];
+
+      // If it's character-indexed object
+      if (typeof value === 'object') {
+        return Object.values(value).join('');
+      }
+      // If it's already a string
+      return value;
+    }, sortable: true, width: '200px', wrap: true
+  },
+  { name: 'Prize Money', selector: row => row.prizeMoney || "N/A", sortable: true, width: '200px', wrap: true },
+  { name: 'Position Secured', selector: row => row.positionSecured || "N/A", sortable: true, width: '300px', wrap: true },
 ];
 
 export const studentHigherStudies = [
-  { name: 'Course Name', selector: row => row.courseName, sortable: true, width: '200px', wrap: false },
-  { name: 'Scholarship', selector: row => row.scholarship || 'N/A', sortable: true, width: '200px', wrap: false },
-  { name: 'Institute', selector: row => row.instituteName, sortable: true, width: '200px', wrap: false },
-  { name: 'City', selector: row => row.city, sortable: true, width: '200px', wrap: false },
-  { name: 'Country', selector: row => row.country, sortable: true, width: '200px', wrap: false },
-  { name: 'Duration (in years)', selector: row => row.programDuration, sortable: true, width: '300px', wrap: false },
-  { name: 'Admission Year', selector: row => row.admissionYear, sortable: true, width: '200px', wrap: false },
-  { name: 'Admission Date', selector: row => new Date(row.admissionDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: false },
+  { name: 'Course Name', selector: row => row.courseName, sortable: true, width: '200px', wrap: true },
+  { name: 'Scholarship', selector: row => row.scholarship || 'N/A', sortable: true, width: '200px', wrap: true },
+  { name: 'Institute', selector: row => row.instituteName, sortable: true, width: '200px', wrap: true },
+  { name: 'City', selector: row => row.city, sortable: true, width: '200px', wrap: true },
+  { name: 'Country', selector: row => row.country, sortable: true, width: '200px', wrap: true },
+  { name: 'Duration (in years)', selector: row => row.programDuration, sortable: true, width: '300px', wrap: true },
+  { name: 'Admission Year', selector: row => row.admissionYear, sortable: true, width: '200px', wrap: true },
+  { name: 'Admission Date', selector: row => new Date(row.admissionDate).toLocaleDateString() || "N/A", sortable: true, width: '200px', wrap: true },
 ];
 
 export const membershipColumns = [
   {
     name: "Organization Name",
     selector: row => row.organizationName,
-    sortable: true, width: '250px', wrap: false,
+    sortable: true, width: '250px', wrap: true,
   },
   {
     name: "Membership ID",
     selector: row => row.membershipId,
-    sortable: true, width: '250px', wrap: false,
+    sortable: true, width: '250px', wrap: true,
   },
   {
     name: "Date of Joining",
     selector: row => new Date(row.dateOfJoining).toLocaleDateString(),
-    sortable: true, width: '250px', wrap: false,
+    sortable: true, width: '250px', wrap: true,
   },
   {
     name: "Membership Status",
     selector: row => row.membershipStatus,
-    sortable: true, width: '250px', wrap: false,
+    sortable: true, width: '250px', wrap: true,
   },
 ];
 
