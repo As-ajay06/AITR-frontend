@@ -24,6 +24,52 @@ const exportableColumns = [
   { key: 'completionDate', label: 'Completion Date' },
 ];
 
+export const phdSupervisionColumns = [
+  {
+    name: 'Faculty Name',
+    selector: row => row.facultyName,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
+    wrap: true,
+  },
+  {
+    name: 'PhD Scholar Name',
+    selector: row => row.phdScholarName,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
+    wrap: true,
+  },
+  {
+    name: 'University Affiliation',
+    selector: row => row.universityAffiliation,
+    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
+    wrap: true,
+  },
+  {
+    name: 'Status',
+    selector: row => row.status,
+    sortable: true, width: '200px', width: '200px', wrap: true,
+    cell: row => (
+      <span className={`px-2 py-1 rounded-full text-white text-xs ${row.status === 'Completed' ? 'bg-green-600' : 'bg-yellow-500'
+        }`}>
+        {row.status}
+      </span>
+    )
+  },
+  {
+    name: 'Research Topic',
+    selector: row => row.researchTopic,
+    wrap: true,
+  },
+  {
+    name: 'Date of Registration/Completion',
+    selector: row => row.status === 'Completed' ? row.completionDate : row.registrationDate,
+    format: row => {
+      const date = row.status === 'Completed' ? row.completionDate : row.registrationDate;
+      return date ? new Date(date).toLocaleDateString() : 'N/A';
+    },
+  },
+];
+
+
 function PhDSupervision() {
 
   const { register, handleSubmit, reset } = useForm()
@@ -31,7 +77,7 @@ function PhDSupervision() {
   const [loading, setLoading] = useState(true)
 
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -46,6 +92,9 @@ function PhDSupervision() {
         setFilterText('');
       }
     };
+
+
+
 
     return (
       <DataFilterComponent placeholder={"Filter by Department Name"} onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
@@ -136,7 +185,7 @@ function PhDSupervision() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -165,14 +214,14 @@ function PhDSupervision() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -234,7 +283,7 @@ function PhDSupervision() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -242,13 +291,13 @@ function PhDSupervision() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -270,7 +319,7 @@ function PhDSupervision() {
             </div>
           </div>
         )}
-        
+
         <DataTable
           title={"Faculty PhD Supervision Data"}
           columns={phdSupervisionColumns}
@@ -291,47 +340,3 @@ function PhDSupervision() {
 export default PhDSupervision
 
 
-export const phdSupervisionColumns = [
-  {
-    name: 'Faculty Name',
-    selector: row => row.facultyName,
-    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
-    wrap: true,
-  },
-  {
-    name: 'PhD Scholar Name',
-    selector: row => row.phdScholarName,
-    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
-    wrap: true,
-  },
-  {
-    name: 'University Affiliation',
-    selector: row => row.universityAffiliation,
-    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
-    wrap: true,
-  },
-  {
-    name: 'Status',
-    selector: row => row.status,
-    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
-    cell: row => (
-      <span className={`px-2 py-1 rounded-full text-white text-xs ${row.status === 'Completed' ? 'bg-green-600' : 'bg-yellow-500'
-        }`}>
-        {row.status}
-      </span>
-    )
-  },
-  {
-    name: 'Research Topic',
-    selector: row => row.researchTopic,
-    wrap: true,
-  },
-  {
-    name: 'Date of Registration/Completion',
-    selector: row => row.status === 'Completed' ? row.completionDate : row.registrationDate,
-    format: row => {
-      const date = row.status === 'Completed' ? row.completionDate : row.registrationDate;
-      return date ? new Date(date).toLocaleDateString() : 'N/A';
-    },
-  },
-];

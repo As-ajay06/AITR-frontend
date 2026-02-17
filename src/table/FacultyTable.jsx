@@ -54,7 +54,7 @@ const columns = [
   },
   {
     name: 'Highest Qualification',
-    selector: row => row.highestQualification || "N/A" ,
+    selector: row => row.qualification || "N/A",
     sortable: true, width: '300px', wrap: true
 
   },

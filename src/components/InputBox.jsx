@@ -1,5 +1,5 @@
-const InputBox = ({ label, register, required, name, type = "text", className = "" }) => {
-  const formattedLabel = label.split("_").map(word => 
+const InputBox = ({ label, register, required, name, type = "text", className = "", placeholder }) => {
+  const formattedLabel = label.split("_").map(word =>
     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   ).join(" ");
 
@@ -10,6 +10,7 @@ const InputBox = ({ label, register, required, name, type = "text", className = 
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       <input
+        placeholder={placeholder}
         type={type}
         {...register(name, { required })}
         className="input-field"

@@ -103,6 +103,8 @@ import FacultyProfile from "./components/FacultyProfile";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import PublicRoute from "./routes/PublicRoutes";
 import StudentProfile from "./components/StudentProfile";
+import SuperAdminProtectedRoute from "./components/SuperadminProtectedRoute";
+import Dashboard from "./components/dashboardUI/Dashboard";
 
 
 
@@ -115,102 +117,114 @@ function AppContent() {
       <div className="min-h-screen bg-slate-50">
         {!hideNavbar && <SuperAdminNavbar />}
         <div className={hideNavbar ? "" : "p-4 lg:p-6"}>
-              <Routes>
-          <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
-          <Route path={`student/profile/:id`} element={<StudentProfile />} />
-          {/* super admin Routes */}
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          } />
-          <Route path="/update_profile" element={<UpdateProfile />} />
+          <Routes>
+            <Route path={`faculty/profile/:id`} element={<FacultyProfile />} />
+            <Route path={`student/profile/:id`} element={<StudentProfile />} />
+            {/* super admin Routes */}
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            } />
+            <Route path="/update_profile" element={<UpdateProfile />} />
 
-          <Route path="/add_profile" element={<AddProfile />} /> 
+            <Route path="/add_profile" element={<AddProfile />} />
 
-          {/* super admin routes */}
-          <Route path="/user/:id" element={<ProfilePage />} />
+            {/* super admin routes */}
+            <Route path="/user/:id" element={<ProfilePage />} />
 
-          <Route path="/super_admin" element={<SuperAdmin />} >
-          </Route>
+            <Route path="/super_admin" element={<SuperAdmin />} >
+            </Route>
 
-          <Route path="/*" element={
-            <ProtectedRoute>
-              <Routes>
-                <Route index element={<HomePage />} />
-                <Route path="/faculty" element={<Faculty />} />
-                <Route path="/student" element={<Student />} />
-                <Route path="/institute" element={<Institute />} />
-                <Route path="/department" element={<Department />} />
+            <Route path="/*" element={
+              <ProtectedRoute>
+                <Dashboard>
+                  <Routes>
+                    <Route index element={<HomePage />} />
+                    <Route path="/faculty" element={<Faculty />} />
+                    <Route path="/student" element={<Student />} />
+                    <Route path="/institute" element={<Institute />} />
+                    <Route path="/department" element={<Department />} />
 
 
-                <Route path="/admin" element={<Admin />} >
-                  {/* faculty Routes */}
-                  <Route path="faculty-addfaculty" element={<AddFaculty />} />
-                  <Route path="faculty-addawards" element={<AddAwards />} />
-                  <Route path="faculty-addconferences" element={<AddConferenceData />} />
-                  <Route path="faculty-adddevlopmentprograms" element={<AddDevelopmentProgramData />} />
-                  <Route path="faculty-addpatents" element={<AddPatentData />} />
-                  <Route path="faculty-patentsgranted" element={<PatentGrantedForm />} />
-                  <Route path="faculty-professional-certificate" element={<ProfessionalCertificationsEarned />} />
-                  <Route path="faculty-phD-supervision" element={<PhDSupervision />} />
+                    <Route path="/admin" element={<Admin />} >
+                      {/* faculty Routes */}
+                      <Route path="faculty-addfaculty" element={
+                        <SuperAdminProtectedRoute>
+                          <AddFaculty />
+                        </SuperAdminProtectedRoute>
+                      }
+                      />
+                      <Route path="faculty-addawards" element={<AddAwards />} />
+                      <Route path="faculty-addconferences" element={<AddConferenceData />} />
+                      <Route path="faculty-adddevlopmentprograms" element={<AddDevelopmentProgramData />} />
+                      <Route path="faculty-addpatents" element={<AddPatentData />} />
+                      <Route path="faculty-patentsgranted" element={<PatentGrantedForm />} />
+                      <Route path="faculty-professional-certificate" element={<ProfessionalCertificationsEarned />} />
+                      <Route path="faculty-phD-supervision" element={<PhDSupervision />} />
 
                 // problem with this form
-                  <Route path="faculty-research-projects-guided" element={<ResearchProjectsGuidedForm />} />
+                      <Route path="faculty-research-projects-guided" element={<ResearchProjectsGuidedForm />} />
 
 
-                  <Route path="faculty-books-chapterd-authored" element={<BooksChapteresAuthored />} />
-                  <Route path="faculty-invited-talks" element={<InvitedTalksForm />} />
-                  <Route path="faculty-academic-qualification-discipline" element={<AcademicQualificationForm />} />
-                  <Route path="faculty-membership-professional-bodies" element={<MembershipProfessionalBodies />} />
-                  <Route path="faculty-research-paper-publication" element={<ResearchPaper />} />
+                      <Route path="faculty-books-chapterd-authored" element={<BooksChapteresAuthored />} />
+                      <Route path="faculty-invited-talks" element={<InvitedTalksForm />} />
+                      <Route path="faculty-academic-qualification-discipline" element={<AcademicQualificationForm />} />
+                      <Route path="faculty-membership-professional-bodies" element={<MembershipProfessionalBodies />} />
+                      <Route path="faculty-research-paper-publication" element={<ResearchPaper />} />
 
-                  <Route path="addfacultyresearch" element={<AddFacultyResearchData />} />
-
-
-                  {/* student Routes */}
-                  <Route path="/admin/addstudents" element={<AddStudentData />} />
-                  <Route path="/admin/addstudentcertificates" element={<AddStudentCertificateData />} />
-                  <Route path="/admin/addhackathons" element={<AddHackathonsData />} />
-                  <Route path="/admin/addplacements" element={<AddPlacementData />} />
-                  <Route path="/admin/addinternships" element={<AddInternshipData />} />
-                  <Route path="/admin/addstudentresearchs" element={<AddStudentResearchData />} />
-                  <Route path="/admin/addsports" element={<AddSportsData />} />
-                  <Route path="/admin/extracurricular" element={<ExtraCurricular />} />
-                  <Route path="/admin/capstone-projects" element={<CapstoneProjects />} />
-                  <Route path="/admin/technical-nontechnical" element={<AddTechnicalNonTechnicalCompetition />} />
-                  <Route path="/admin/startups" element={<Startups />} />
-                  <Route path="/admin/hackathon-challenges" element={<HackathonsData />} />
-                  <Route path="/admin/higher-studies" element={<HigherStudies />} />
-                  <Route path="/admin/professional-membership" element={<AddProfessionalMembership />} />
+                      <Route path="addfacultyresearch" element={<AddFacultyResearchData />} />
 
 
-                  {/* Institute Routes */}
-                  <Route path="/admin/addinstitue-mous" element={<MouForm />} />
-                  <Route path="/admin/addinstitute-counsultancy" element={<Counsultancy />} />
-                  <Route path="/admin/addinstitute-eventgrant" element={<EventGrant />} />
-                  <Route path="/admin/addinstitute-documents" element={<InstituteDocumentForm />} />
-                  <Route path="/admin/addinstitute-r&dforms" element={<RnDForms />} />
-                  <Route path="/admin/addinstitute-eventorganized" element={<EventOrganized />} />
+                      {/* student Routes */}
 
-                  {/* Department Routes */}
-                  <Route path='/admin/addmou' element={<MOU />} />
-                  <Route path="/admin/addconsultancy-project" element={<ConsultancyProject />} />
-                  <Route path="/admin/addrd-inititatives" element={<RDInititatives />} />
-                  <Route path="/admin/addevent-grant-received" element={<EventGrantReceived />} />
-                </Route>
-        </Routes>
-        </ProtectedRoute>
-        }
-        />
+                      <Route path="/admin/addstudents" element={
+                        <SuperAdminProtectedRoute>
+                          <AddStudentData />
+                        </SuperAdminProtectedRoute>
+                      } />
+                      <Route path="/admin/addstudentcertificates" element={<AddStudentCertificateData />} />
+                      <Route path="/admin/addhackathons" element={<AddHackathonsData />} />
+                      <Route path="/admin/addplacements" element={<AddPlacementData />} />
+                      <Route path="/admin/addinternships" element={<AddInternshipData />} />
+                      <Route path="/admin/addstudentresearchs" element={<AddStudentResearchData />} />
+                      <Route path="/admin/addsports" element={<AddSportsData />} />
+                      <Route path="/admin/extracurricular" element={<ExtraCurricular />} />
+                      <Route path="/admin/capstone-projects" element={<CapstoneProjects />} />
+                      <Route path="/admin/technical-nontechnical" element={<AddTechnicalNonTechnicalCompetition />} />
+                      <Route path="/admin/startups" element={<Startups />} />
+                      <Route path="/admin/hackathon-challenges" element={<HackathonsData />} />
+                      <Route path="/admin/higher-studies" element={<HigherStudies />} />
+                      <Route path="/admin/professional-membership" element={<AddProfessionalMembership />} />
 
 
-        <Route path='*' element={<NotFound404 />} />
-              </Routes>
-            </div>
-          </div>
-        </Layout>
+                      {/* Institute Routes */}
+                      <Route path="/admin/addinstitue-mous" element={<MouForm />} />
+                      <Route path="/admin/addinstitute-counsultancy" element={<Counsultancy />} />
+                      <Route path="/admin/addinstitute-eventgrant" element={<EventGrant />} />
+                      <Route path="/admin/addinstitute-documents" element={<InstituteDocumentForm />} />
+                      <Route path="/admin/addinstitute-r&dforms" element={<RnDForms />} />
+                      <Route path="/admin/addinstitute-eventorganized" element={<EventOrganized />} />
+
+                      {/* Department Routes */}
+                      <Route path='/admin/addmou' element={<MOU />} />
+                      <Route path="/admin/addconsultancy-project" element={<ConsultancyProject />} />
+                      <Route path="/admin/addrd-inititatives" element={<RDInititatives />} />
+                      <Route path="/admin/addevent-grant-received" element={<EventGrantReceived />} />
+                    </Route>
+                  </Routes>
+                </Dashboard>
+              </ProtectedRoute>
+            }
+            />
+
+
+            <Route path='*' element={<NotFound404 />} />
+          </Routes>
+        </div>
+      </div>
+    </Layout>
   );
 }
 

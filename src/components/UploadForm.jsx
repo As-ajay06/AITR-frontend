@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
+import { BASE_URL } from "../../config/config";
+
 export default function UploadForm({ url }) {
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -26,13 +28,13 @@ export default function UploadForm({ url }) {
 
     try {
       setIsUploading(true);
-      const res = await axios.post(`http://localhost:3000/${url}`, formData, {
+      const res = await axios.post(`${BASE_URL}/${url}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       // Instead of 'insertedCount', log/display the JSON data
-      console.log("JSON Data:", res.data.data);
       alert("File converted successfully! Check console for JSON data.");
+      console.log("JSON Data:", res.data.data);
 
     } catch (err) {
       console.error(err);
@@ -69,8 +71,8 @@ export default function UploadForm({ url }) {
         <button
           type="submit"
           className={`px-6 py-2 rounded-lg text-white font-semibold transition duration-200 ${isUploading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-green-600 hover:bg-green-700"
             }`}
           disabled={isUploading}
         >

@@ -8,9 +8,41 @@ import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
 
 function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
 
-  const departments = ["Computer Science", "Mechanical", "Electrical", "Civil"];
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // Institute departments can be updated later
+  const departments = [
+        "Computer Science & Engg. (Core)",
+        "Computer Science & Information Technology(CSIT)",
+        "Information Technology(IT)",
+        "Civil Engineering (CE)",
+        "Electronics & Communication Engg.(EC)",
+        "Mechanical Engineering",
+        "Computer Science & Engg. In Data Science",
+        "Computer Science & Engg. In Internet of Things",
+        "Computer Science & Engg. In Cyber Security",
+        "Computer Science & Engineering in Artificial Intelligence & Machine Learning",
+        "Electronics Engineering(Advanced Communication Technology)",
+        "Electronics Engineering(VLSI Design And Technology)",
+  ];
+
+  const category = [
+        "General",
+        "OBC",
+        "SC",
+        "ST",
+        "EWS",
+  ]
   const experienceYears = ["0-1", "2-4", "5-7", "8+"];
-  const designations = ["Assistant Professor", "Associate Professor", "Professor"];
+
+  const designations = [
+        "Assistant Professor",
+        "Associate Professor",
+        "Professor",
+        "Lecturer",
+        "Head of Department (HOD)",
+        "Dean",
+  ];
 
 
   return (
@@ -29,13 +61,13 @@ function FacultyForm({ register, handleSubmit, reset, onSubmit }) {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <InputBox label="facultyId" name="facultyId" register={register} required />
+          <InputBox label="Faculty_Id" name="facultyId" register={register} required />
           <InputBox label="name" name="name" register={register} required />
           <InputBox label="email" name="email" register={register} required type="email" />
-          <InputBox label="Highest qualification" name="highestQualification" register={register} required />
+          <InputBox label="Highest_qualification" name="highestQualification" register={register} required />
           <SelectBox label="department" name={"department"} options={departments} register={register} />
-          <InputBox label="mobile_Number" name={"mobileNumber"} register={register} required type="tel" />
-          <InputBox label="category" name={"category"} register={register} required />
+          <InputBox type="tel" placeholder="e.g. 8789975443" label="mobile_Number" name={"mobileNumber"} register={register} required />
+          <SelectBox placeholder="e.g OBC, GENERAL" label="category" name={"category"} options={category} register={register} required />
           <SelectBox label="teaching_Experience" name={"teachingExperience"} options={experienceYears} register={register} />
           <SelectBox label="designation" name={"designation"} options={designations} register={register} />
         </div>

@@ -5,6 +5,7 @@ import { DataFilterComponent } from '../components/DataFilterComponent';
 import { useTableExport } from '../hooks/useTableExport';
 import TableExportControls from '../components/TableExportControls';
 import ColumnSelectorModal from '../components/ColumnSelectorModal';
+import { BASE_URL } from '../../config/config';
 
 // Define available columns for export with their keys
 const exportableColumns = [
@@ -30,7 +31,7 @@ const exportableColumns = [
 ];
 
 const columns = [
-  { name: 'Student ID', selector: row => row.studentId || "N/A" , sortable: true, width: '200px', wrap: false },
+  { name: 'Student ID', selector: row => row.studentId || "N/A", sortable: true, width: '200px', wrap: false },
   { name: 'Student Name', selector: row => row.name || "N/A", sortable: true, width: '200px', wrap: false },
   { name: 'Enrollment No.', selector: row => row.enrollmentNumber || "N/A", width: '200px', wrap: false },
   { name: 'Branch', selector: row => row.branch || "N/A", width: '200px', wrap: false },
@@ -39,7 +40,7 @@ const columns = [
   { name: 'Year', selector: row => row.year || "N/A", width: '200px', wrap: false },
   { name: 'Course', selector: row => row.course || "N/A", width: '200px', wrap: false },
   { name: 'CGPA', selector: row => row.cgpa || "N/A", width: '200px', wrap: false },
-  { name: 'Date Of Birth', selector: row => row.dateOfBirth || "N/A", width: '200px', wrap: false },
+  { name: 'Date Of Birth', selector: row => new Date(row.dateOfBirth).toLocaleDateString() || "N/A", width: '200px', wrap: false },
   { name: 'Gender', selector: row => row.gender || "N/A", width: '200px', wrap: false },
   { name: 'Category', selector: row => row.category || "N/A", width: '200px', wrap: false },
   { name: 'Year Of Admission', selector: row => row.yearOfAdmission || "N/A", width: '200px', wrap: false },
@@ -51,11 +52,11 @@ const columns = [
     wrap: false,
     cell: row => (
       row.githubLink ? (
-      <a href={row.githubLink} target='_blank' rel="noopener noreferrer">
-        {row.githubLink}
-      </a>
-    ) : "N/A"
-  )
+        <a href={row.githubLink} target='_blank' rel="noopener noreferrer">
+          {row.githubLink}
+        </a>
+      ) : "N/A"
+    )
   },
   {
     name: 'LinkedIn Profile Link',
@@ -70,7 +71,7 @@ const columns = [
       ) : "N/A"
     )
   },
-  { name: 'Guardian Contact Number' , selector: row => row.guardianContactNumber || "N/A", width: '340px', wrap: false },
+  { name: 'Guardian Contact Number', selector: row => row.guardianContactNumber || "N/A", width: '340px', wrap: false },
   { name: 'Guardian Name', selector: row => row.guardianName || "N/A", width: '200px', wrap: false },
   { name: 'Address', selector: row => row.address || "N/A", width: '300px', wrap: false },
 
@@ -81,7 +82,7 @@ const columns = [
     cell: row =>
       row.fileId ? (
         <a
-          href={`http://localhost:3000/file/${row.fileId}`}
+          href={`${BASE_URL}/file/${row.fileId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-500 underline"
@@ -98,16 +99,41 @@ const columns = [
 
 
 
-const StudentTable = ({ data }) => {
+const StudentTable = ({ data, onDelete, onDeleteSelected, onEdit, selectedRows = [], onRowSelected, toggleCleared }) => {
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, filteredData } = useFilter(data);
+
+  // Add action columns dynamically
+  const allColumns = React.useMemo(() => [
+    ...columns,
+    {
+      name: 'Actions',
+      width: '220px',
+      cell: row => (
+        <div className="flex gap-2">
+          <button
+            onClick={() => onEdit(row)}
+            className="px-3 py-1.5 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 transition"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(row._id)}
+            className="px-3 py-1.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 transition"
+          >
+            Remove
+          </button>
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+    }
+  ], [onDelete, onEdit]);
 
   // Use the reusable export hook
   const {
-    selectedRows,
     showColumnSelector,
     selectedColumns,
     setShowColumnSelector,
-    handleRowSelected,
     toggleColumnSelection,
     selectAllColumns,
     deselectAllColumns,
@@ -155,21 +181,27 @@ const StudentTable = ({ data }) => {
         <h2 className="text-xl font-semibold mb-2">Students</h2>
         <div className="flex justify-between items-center mb-2">
           {actionsMemo}
+          {selectedRows.length > 0 && (
+            <button
+              onClick={onDeleteSelected}
+              className="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded-md shadow hover:bg-red-700 transition flex items-center gap-2"
+            >
+              🗑️ Remove Selected ({selectedRows.length})
+            </button>
+          )}
         </div>
         {subHeaderComponentMemo}
       </div>
 
       <DataTable
-        // title="Students"
-        columns={columns}
+        columns={allColumns}
         data={filteredData}
         pagination
         paginationResetDefaultPage={resetPaginationToggle}
         subHeader
-        // subHeaderComponent={subHeaderComponentMemo}
-        // actions={actionsMemo}
         selectableRows
-        onSelectedRowsChange={handleRowSelected}
+        onSelectedRowsChange={onRowSelected}
+        clearSelectedRows={toggleCleared}
         customStyles={{
           table: {
             style: {
@@ -179,14 +211,14 @@ const StudentTable = ({ data }) => {
           headCells: {
             style: {
               whiteSpace: "nowrap",
-              fontSize: "18px",     // ⬆ Bigger header font
+              fontSize: "18px",
               fontWeight: "700",
             },
           },
           cells: {
             style: {
               whiteSpace: "nowrap",
-              fontSize: "16px",     // ⬆ Bigger row font
+              fontSize: "16px",
               paddingTop: "12px",
               paddingBottom: "12px",
             },

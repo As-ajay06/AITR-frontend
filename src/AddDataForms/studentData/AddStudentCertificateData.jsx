@@ -2,14 +2,13 @@ import StudentCertificateForm from '../../Forms/StudentForms/Certificate';
 import StudentCertificatesTable from '../../table/CertificateTable';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../components/dashboardUI/Dashboard';
 
 function AddStudentCertificateData() {
   const { register, handleSubmit, reset } = useForm()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [file, setFile] = useState();
-
 
   const fetchData = async () => {
     if (loading == true) {
@@ -21,9 +20,12 @@ function AddStudentCertificateData() {
   }
 
   useEffect(() => {
+
+    
     console.log("fetching data")
     fetchData()
     console.log(data)
+    
   }, [loading])
 
  const onSubmit = async (data) => {

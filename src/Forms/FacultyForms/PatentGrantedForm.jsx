@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component'
 import { useEffect, useState } from 'react'
 import UploadForm from '../../components/UploadForm'
-import { API_FACULTY_FILE_UPLOAD } from '../../../config/config'
+import { API_FACULTY_FILE_UPLOAD, BASE_URL } from '../../../config/config'
 
 import axios from 'axios'
 import DynamicUserFields from '../../components/DynamicFieldsForm'
@@ -33,7 +33,7 @@ function PatentGrantedForm() {
   const [file, setFile] = useState(null)
 
   const { filterText, setFilterText, resetPaginationToggle, setResetPaginationToggle, handleClear, filteredData } = useFilter(data);
-  
+
   // State for selected rows and columns
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [showColumnSelector, setShowColumnSelector] = React.useState(false);
@@ -56,7 +56,7 @@ function PatentGrantedForm() {
 
   const fetchData = async () => {
     if (loading == true) {
-      const data = await axios.get("http://localhost:3000/api/v1/faculty/patents-granted")
+      const data = await axios.get(`${BASE_URL}/api/v1/faculty/patents-granted`)
       console.log(data.data.patents)
       setData(data.data.patents)
     }
@@ -154,7 +154,7 @@ function PatentGrantedForm() {
 
   const downloadCSV = React.useCallback((array) => {
     let dataToExport = array;
-    
+
     if (selectedRows.length > 0) {
       dataToExport = selectedRows;
     }
@@ -183,14 +183,14 @@ function PatentGrantedForm() {
 
   const Export = ({ onExport }) => (
     <div className="flex gap-2 items-center">
-      <button 
-        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-green-500 hover:bg-green-700 shadow-sm rounded-md text-white duration-150'
         onClick={() => setShowColumnSelector(!showColumnSelector)}
       >
         Select Columns ({selectedColumns.length})
       </button>
-      <button 
-        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150' 
+      <button
+        className='px-4 py-1 bg-blue-500 hover:bg-blue-700 shadow-sm rounded-md text-white duration-150'
         onClick={e => onExport(e.target.value)}
       >
         Export Data {selectedRows.length > 0 ? `(${selectedRows.length} rows)` : '(All)'}
@@ -231,7 +231,7 @@ function PatentGrantedForm() {
           <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-300">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">Select Columns to Export</h3>
-              <button 
+              <button
                 onClick={() => setShowColumnSelector(false)}
                 className="text-gray-600 hover:text-gray-900 font-bold text-xl"
               >
@@ -239,13 +239,13 @@ function PatentGrantedForm() {
               </button>
             </div>
             <div className="flex gap-2 mb-3">
-              <button 
+              <button
                 onClick={selectAllColumns}
                 className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded"
               >
                 Select All
               </button>
-              <button 
+              <button
                 onClick={deselectAllColumns}
                 className="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
               >
@@ -267,7 +267,7 @@ function PatentGrantedForm() {
             </div>
           </div>
         )}
-        
+
         <DataTable
           title={"Patent Granted Data"}
           columns={patentColumn}
@@ -280,27 +280,27 @@ function PatentGrantedForm() {
           selectableRows
           onSelectedRowsChange={handleRowSelected}
           customStyles={{
-          table: {
-            style: {
-              tableLayout: "fixed",
+            table: {
+              style: {
+                tableLayout: "fixed",
+              },
             },
-          },
-          headCells: {
-            style: {
-              whiteSpace: "nowrap",
-              fontSize: "18px",     // ⬆ Bigger header font
-              fontWeight: "700",
+            headCells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "18px",     // ⬆ Bigger header font
+                fontWeight: "700",
+              },
             },
-          },
-          cells: {
-            style: {
-              whiteSpace: "nowrap",
-              fontSize: "16px",     // ⬆ Bigger row font
-              paddingTop: "12px",
-              paddingBottom: "12px",
+            cells: {
+              style: {
+                whiteSpace: "nowrap",
+                fontSize: "16px",     // ⬆ Bigger row font
+                paddingTop: "12px",
+                paddingBottom: "12px",
+              },
             },
-          },
-        }}
+          }}
         />
       </div>
     </div>
@@ -314,8 +314,7 @@ export const patentColumn = [
   {
     name: 'Patent Title',
     selector: row => row.patentTitle || "N/A",
-    sortable: true, width: '200px', wrap: true, width: '200px', wrap: true,
-    wrap: true,
+    sortable: true, width: '200px', wrap: true,
   },
   {
     name: 'Inventors',
@@ -334,27 +333,27 @@ export const patentColumn = [
           ))}
         </div>
       );
-    }, width: "300px" , wrap: true
+    }, width: "300px", wrap: true
   },
   {
     name: 'Grant Number',
     selector: row => row.grantNumber || "N/A",
-    sortable: true, width: '200px', wrap: true, width: '200px'
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Date of Grant',
     selector: row => new Date(row.dateOfGrant).toLocaleDateString() || "N/A",
-    sortable: true, width: '200px', wrap: true, width: '200px'
+    sortable: true, width: '200px', wrap: true
   },
   {
     name: 'Country of Grant',
     selector: row => row.countryOfGrant || "N/A",
-    sortable: true, width: '340px', wrap: true, width: '200px'
+    sortable: true, width: '340px', wrap: true
   },
   {
     name: 'Application Number',
     selector: row => row.applicationNumber || "N/A",
-    sortable: true, width: '340px', wrap: true, width: '200px'
+    sortable: true, width: '340px', wrap: true
   }
 ]
 
